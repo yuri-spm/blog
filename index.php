@@ -5,4 +5,15 @@ include_once "Helpers.php";
 
 
 
-echo contarTempo('2024-02-07 23:30:34');
+// if(validarEmail('teste@gmailcom')){
+//     echo "Endereço de e-mail Valido";
+// }else{
+//     echo "E-mail invalido";
+// }
+
+
+if(validarUrl('TESTE')){
+    echo "Endereço valido";
+}else{
+    echo "Endereço invalido";
+}
