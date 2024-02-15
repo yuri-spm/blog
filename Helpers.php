@@ -1,6 +1,21 @@
 <?php
 
 
+function slug(string $string): string
+{
+
+    $mapa['a'] = 'ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜüÝÞßàáâãäåæçèéêëìíîïðñòóôõöøùúûýýþÿRr"!@#$%&*()_-+={[}]/?;:.,\\\'<>°ºª   ';
+    $mapa['b'] = 'aaaaaaaceeeeiiiidnoooooouuuuuybsaaaaaaaceeeeiiiidnoooooouuuyybyRr                                 ';
+    
+    $slug = strtr(mb_convert_encoding($string, 'ISO-8859-1', 'UTF-8'), mb_convert_encoding($mapa['a'], 'ISO-8859-1', 'UTF-8'), $mapa['b']);
+    $slug = strip_tags(trim($slug));
+    $slug = str_replace(' ', '-', $slug);
+    $slug = str_replace(['-----','----','---','--','-'], '-', $slug);
+    $slug = strtolower(mb_convert_encoding($slug, 'ISO-8859-1', 'UTF-8'));
+
+    return $slug;
+}
+
 function dataAtual(): string
 {
     $mes = date('d');
