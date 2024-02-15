@@ -1,6 +1,23 @@
 <?php
 
 
+function dataAtual(): string
+{
+    $mes = date('d');
+    $diaSemana = date('w');
+    $mes = date('n') - 1;
+    $ano = date('Y');
+
+    $nomesDiasDaSemana = ['domingo', 'segunda-feira','terça-feira','quarta-feira','quinta-feira','sexta-feira', 'sabado'];
+
+    $nomeDosMeses = [
+        'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
+    ];
+
+    $dataFormatada = $nomesDiasDaSemana[$diaSemana] .', '. $diaSemana .' de ' . $nomeDosMeses[$mes] .' de '. $ano;
+    return $dataFormatada;
+}
+
 function url(string $url): string
 {
     $servidor = $servidor = filter_input(INPUT_SERVER, 'SERVER_NAME');
