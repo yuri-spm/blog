@@ -1,16 +1,48 @@
 <?php
 
 
+function validaCPF(string $cpf): bool {
+    $cpf = filter_var($cpf, FILTER_SANITIZE_NUMBER_INT);
+
+    if (strlen($cpf) !== 11) {
+        return false;
+    }
+
+    $digitoA = 0;
+    $digitoB = 0;
+
+    for ($i = 0, $x = 10; $i <= 8; $i++, $x--) {
+        $digitoA += $cpf[$i] * $x;
+    }
+
+    for ($i = 0, $x = 11; $i <= 9; $i++, $x--) {
+        if (str_repeat($i, 11) === $cpf) {
+            return false;
+        }
+        $digitoB += $cpf[$i] * $x;
+    }
+
+    $somaA = (($digitoA % 11) < 2) ? 0 : 11 - ($digitoA % 11);
+    $somaB = (($digitoB % 11) < 2) ? 0 : 11 - ($digitoB % 11);
+
+    if ($somaA != $cpf[9] || $somaB != $cpf[10]) {
+        return false;
+    } else {
+        return true;
+    }
+}
+
+
 function slug(string $string): string
 {
 
     $mapa['a'] = 'ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜüÝÞßàáâãäåæçèéêëìíîïðñòóôõöøùúûýýþÿRr"!@#$%&*()_-+={[}]/?;:.,\\\'<>°ºª   ';
     $mapa['b'] = 'aaaaaaaceeeeiiiidnoooooouuuuuybsaaaaaaaceeeeiiiidnoooooouuuyybyRr                                 ';
-    
+
     $slug = strtr(mb_convert_encoding($string, 'ISO-8859-1', 'UTF-8'), mb_convert_encoding($mapa['a'], 'ISO-8859-1', 'UTF-8'), $mapa['b']);
     $slug = strip_tags(trim($slug));
     $slug = str_replace(' ', '-', $slug);
-    $slug = str_replace(['-----','----','---','--','-'], '-', $slug);
+    $slug = str_replace(['-----', '----', '---', '--', '-'], '-', $slug);
     $slug = strtolower(mb_convert_encoding($slug, 'ISO-8859-1', 'UTF-8'));
 
     return $slug;
@@ -23,13 +55,13 @@ function dataAtual(): string
     $mes = date('n') - 1;
     $ano = date('Y');
 
-    $nomesDiasDaSemana = ['domingo', 'segunda-feira','terça-feira','quarta-feira','quinta-feira','sexta-feira', 'sabado'];
+    $nomesDiasDaSemana = ['domingo', 'segunda-feira', 'terça-feira', 'quarta-feira', 'quinta-feira', 'sexta-feira', 'sabado'];
 
     $nomeDosMeses = [
         'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
     ];
 
-    $dataFormatada = $nomesDiasDaSemana[$diaSemana] .', '. $diaSemana .' de ' . $nomeDosMeses[$mes] .' de '. $ano;
+    $dataFormatada = $nomesDiasDaSemana[$diaSemana] . ', ' . $diaSemana . ' de ' . $nomeDosMeses[$mes] . ' de ' . $ano;
     return $dataFormatada;
 }
 
@@ -38,17 +70,16 @@ function url(string $url): string
     $servidor = $servidor = filter_input(INPUT_SERVER, 'SERVER_NAME');
     $ambiente = ($servidor == 'localhost' ? URL_DESENVOLVIMENTO : URL_PRODUCAO);
 
-    if(str_starts_with($url, '/'))
-    {
-        return $ambiente.$url;
+    if (str_starts_with($url, '/')) {
+        return $ambiente . $url;
     }
 
-    return $ambiente.'/'.$url;
+    return $ambiente . '/' . $url;
 }
 function localhost(): bool
 {
     $servidor = filter_input(INPUT_SERVER, 'SERVER_NAME');
-    if($servidor == 'localhost'){
+    if ($servidor == 'localhost') {
         return true;
     }
     return false;
@@ -56,15 +87,13 @@ function localhost(): bool
 
 function validarUrl(string $url): bool
 {
-   if(mb_strlen($url) < 10){
-    return false;
-   }
-   if(!str_contains($url, '.'))
-   {
-    return false;
-   }
-   if(str_contains($url, 'http://') or str_contains($url, 'https://'))
-    {
+    if (mb_strlen($url) < 10) {
+        return false;
+    }
+    if (!str_contains($url, '.')) {
+        return false;
+    }
+    if (str_contains($url, 'http://') or str_contains($url, 'https://')) {
         return true;
     }
     return false;
@@ -139,12 +168,11 @@ function formatarNumero(int $numero = null)
 function saudacao(): string
 {
     $hora = date('H');
-    $saudacao = match(true){
-        $hora >= 0 && $hora <= 5 =>'Boa madrugada',
-        $hora >= 6 && $hora <= 12 =>'Bom dia',
-        $hora >= 13 && $hora <= 18 =>'Boa tarde',
+    $saudacao = match (true) {
+        $hora >= 0 && $hora <= 5 => 'Boa madrugada',
+        $hora >= 6 && $hora <= 12 => 'Bom dia',
+        $hora >= 13 && $hora <= 18 => 'Boa tarde',
         default => 'Boa noite'
-
     };
     return $saudacao;
 }
