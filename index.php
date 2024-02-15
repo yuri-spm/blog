@@ -4,4 +4,7 @@ require_once "sistema/configuracao.php";
 include_once "Helpers.php";
 
 
-echo SITE_DESCRICAO;
+// var_dump($_SERVER);
+
+var_dump(localhost());
+echo url('admin');

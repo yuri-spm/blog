@@ -1,6 +1,27 @@
 <?php
 
 
+function url(string $url): string
+{
+    $servidor = $servidor = filter_input(INPUT_SERVER, 'SERVER_NAME');
+    $ambiente = ($servidor == 'localhost' ? URL_DESENVOLVIMENTO : URL_PRODUCAO);
+
+    if(str_starts_with($url, '/'))
+    {
+        return $ambiente.$url;
+    }
+
+    return $ambiente.'/'.$url;
+}
+function localhost(): bool
+{
+    $servidor = filter_input(INPUT_SERVER, 'SERVER_NAME');
+    if($servidor == 'localhost'){
+        return true;
+    }
+    return false;
+}
+
 function validarUrl(string $url): bool
 {
    if(mb_strlen($url) < 10){
