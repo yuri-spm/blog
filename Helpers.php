@@ -1,6 +1,11 @@
 <?php
 
 
+function limparNumero(string $numero): string
+{
+    return preg_replace('/[^0-9]/','',$numero);
+}
+
 function validaCPF(string $cpf): bool {
     $cpf = filter_var($cpf, FILTER_SANITIZE_NUMBER_INT);
 

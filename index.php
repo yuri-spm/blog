@@ -19,4 +19,4 @@ for($i=1; $i<=$numero; $i++){
 
 echo'<hr>';
 
-var_dump(validaCPF(15994140719));
+var_dump(validaCPF(14594140718));
