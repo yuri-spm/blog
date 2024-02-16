@@ -7,6 +7,8 @@ include './sistema/Core/Message.php';
 
 $msg = new Message();
 
+$msg->render();
+
 
 
 
