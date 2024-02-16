@@ -1,36 +1,48 @@
 <?php
 
 
-function limparNumero(string $numero): string
+/**
+ * clearNumber
+ *
+ * @param  mixed $numero
+ * @return string
+ */
+function clearNumber(string $numero): string
 {
     return preg_replace('/[^0-9]/','',$numero);
 }
 
-function validaCPF(string $cpf): bool {
+/**
+ * validateCPF
+ *
+ * @param  mixed $cpf
+ * @return bool
+ */
+function validateCPF(string $cpf): bool {
     $cpf = filter_var($cpf, FILTER_SANITIZE_NUMBER_INT);
 
     if (strlen($cpf) !== 11) {
         return false;
     }
 
-    $digitoA = 0;
-    $digitoB = 0;
+    $typeA = 0;
+    $typeB = 0;
 
     for ($i = 0, $x = 10; $i <= 8; $i++, $x--) {
-        $digitoA += $cpf[$i] * $x;
+        $typeA += $cpf[$i] * $x;
     }
 
     for ($i = 0, $x = 11; $i <= 9; $i++, $x--) {
         if (str_repeat($i, 11) === $cpf) {
             return false;
         }
-        $digitoB += $cpf[$i] * $x;
+        $typeB += $cpf[$i] * $x;
     }
 
-    $somaA = (($digitoA % 11) < 2) ? 0 : 11 - ($digitoA % 11);
-    $somaB = (($digitoB % 11) < 2) ? 0 : 11 - ($digitoB % 11);
+    $sumA = (($typeA % 11) < 2) ? 0 : 11 - ($typeA % 11);
+    $sumB = (($typeB % 11) < 2) ? 0 : 11 - ($typeB % 11);
 
-    if ($somaA != $cpf[9] || $somaB != $cpf[10]) {
+    if ($sumA != $cpf[9] || $sumB != $cpf[10]) {
         return false;
     } else {
         return true;
@@ -38,13 +50,19 @@ function validaCPF(string $cpf): bool {
 }
 
 
+/**
+ * slug
+ *
+ * @param  mixed $string
+ * @return string
+ */
 function slug(string $string): string
 {
 
-    $mapa['a'] = 'ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜüÝÞßàáâãäåæçèéêëìíîïðñòóôõöøùúûýýþÿRr"!@#$%&*()_-+={[}]/?;:.,\\\'<>°ºª   ';
-    $mapa['b'] = 'aaaaaaaceeeeiiiidnoooooouuuuuybsaaaaaaaceeeeiiiidnoooooouuuyybyRr                                 ';
+    $map['a'] = 'ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜüÝÞßàáâãäåæçèéêëìíîïðñòóôõöøùúûýýþÿRr"!@#$%&*()_-+={[}]/?;:.,\\\'<>°ºª   ';
+    $map['b'] = 'aaaaaaaceeeeiiiidnoooooouuuuuybsaaaaaaaceeeeiiiidnoooooouuuyybyRr                                 ';
 
-    $slug = strtr(mb_convert_encoding($string, 'ISO-8859-1', 'UTF-8'), mb_convert_encoding($mapa['a'], 'ISO-8859-1', 'UTF-8'), $mapa['b']);
+    $slug = strtr(mb_convert_encoding($string, 'ISO-8859-1', 'UTF-8'), mb_convert_encoding($map['a'], 'ISO-8859-1', 'UTF-8'), $map['b']);
     $slug = strip_tags(trim($slug));
     $slug = str_replace(' ', '-', $slug);
     $slug = str_replace(['-----', '----', '---', '--', '-'], '-', $slug);
@@ -53,44 +71,66 @@ function slug(string $string): string
     return $slug;
 }
 
-function dataAtual(): string
+/**
+ * currentDate
+ *
+ * @return string
+ */
+function currentDate(): string
 {
-    $mes = date('d');
-    $diaSemana = date('w');
-    $mes = date('n') - 1;
-    $ano = date('Y');
+    $day = date('d');
+    $dayWee = date('w');
+    $month = date('n') - 1;
+    $year = date('Y');
 
-    $nomesDiasDaSemana = ['domingo', 'segunda-feira', 'terça-feira', 'quarta-feira', 'quinta-feira', 'sexta-feira', 'sabado'];
+    $namesDaysofWeek = ['domingo', 'segunda-feira', 'terça-feira', 'quarta-feira', 'quinta-feira', 'sexta-feira', 'sabado'];
 
-    $nomeDosMeses = [
+    $nameofMonths = [
         'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
     ];
 
-    $dataFormatada = $nomesDiasDaSemana[$diaSemana] . ', ' . $diaSemana . ' de ' . $nomeDosMeses[$mes] . ' de ' . $ano;
+    $dataFormatada = $namesDaysofWeek[$dayWee] . ', ' . $day . ' de ' . $nameofMonths[$month] . ' de ' . $year;
     return $dataFormatada;
 }
 
+/**
+ * url
+ *
+ * @param  mixed $url
+ * @return string
+ */
 function url(string $url): string
 {
-    $servidor = $servidor = filter_input(INPUT_SERVER, 'SERVER_NAME');
-    $ambiente = ($servidor == 'localhost' ? URL_DESENVOLVIMENTO : URL_PRODUCAO);
+    $server = $server = filter_input(INPUT_SERVER, 'SERVER_NAME');
+    $environment = ($server == 'localhost' ? URL_DESENVOLVIMENTO : URL_PRODUCAO);
 
     if (str_starts_with($url, '/')) {
-        return $ambiente . $url;
+        return $environment . $url;
     }
 
-    return $ambiente . '/' . $url;
+    return $environment . '/' . $url;
 }
+/**
+ * localhost
+ *
+ * @return bool
+ */
 function localhost(): bool
 {
-    $servidor = filter_input(INPUT_SERVER, 'SERVER_NAME');
-    if ($servidor == 'localhost') {
+    $server = filter_input(INPUT_SERVER, 'SERVER_NAME');
+    if ($server == 'localhost') {
         return true;
     }
     return false;
 }
 
-function validarUrl(string $url): bool
+/**
+ * validateUrl
+ *
+ * @param  mixed $url
+ * @return bool
+ */
+function validateUrl(string $url): bool
 {
     if (mb_strlen($url) < 10) {
         return false;
@@ -111,12 +151,12 @@ function validarUrl(string $url): bool
  * @param  mixed $url
  * @return bool
  */
-function validarUrlFiltro(string $url): bool
+function validateUrlFilter(string $url): bool
 {
     return filter_var($url, FILTER_VALIDATE_URL);
 }
 
-function validarEmail(string $email): bool
+function validateEmail(string $email): bool
 {
     return filter_var($email, FILTER_VALIDATE_EMAIL);
 }
@@ -129,57 +169,74 @@ function validarEmail(string $email): bool
  * @param  mixed $data
  * @return void
  */
-function contarTempo(string $data)
+function countTime(string $data)
 {
-    $agora =  strtotime(date('Y-m-d H:i:s'));
-    $tempo = strtotime($data);
-    $diferenca = $agora - $tempo;
+    $now =  strtotime(date('Y-m-d H:i:s'));
+    $time= strtotime($data);
+    $difference = $now - $time;
 
-    $segundo = $diferenca;
-    $minutos = round($diferenca / 60);
-    $horas = round($diferenca / 3600);
-    $dias = round($diferenca / 86400);
-    $semanas = round($diferenca / 604800);
-    $meses = round($diferenca / 2419200);
-    $anos = round($diferenca / 29030400);
+    $second = $difference;
+    $minutes = round($difference / 60);
+    $hours = round($difference / 3600);
+    $days = round($difference / 86400);
+    $weeks = round($difference / 604800);
+    $months = round($difference / 2419200);
+    $years = round($difference / 29030400);
 
-    if ($segundo <= 60) {
+    if ($second <= 60) {
         return 'agora';
-    } elseif ($segundo <= 60) {
-        return $minutos == 1 ? "há 1 minuto" : 'há ' . $minutos . ' minutos';
-    } elseif ($horas <= 24) {
-        return $horas == 1 ? "há 1 hora" : 'há ' . $horas . ' horas';
-    } elseif ($dias <= 7) {
-        return $dias == 1 ? "há 1 dia" : 'há ' . $dias . ' dias';
-    } elseif ($semanas <= 4) {
-        return $semanas == 1 ? "há 1 semana" : 'há ' . $semanas . ' semanas';
-    } elseif ($meses <= 12) {
-        return $meses == 1 ? "há 1 mês" : 'há ' . $meses . ' meses';
-    } elseif ($anos <= 1) {
-        return $anos == 1 ? "há 1 ano" : 'há ' . $anos . ' anos';
+    } elseif ($second <= 60) {
+        return $minutes == 1 ? "há 1 minuto" : 'há ' . $minutes . ' minutos';
+    } elseif ($hours <= 24) {
+        return $hours == 1 ? "há 1 hora" : 'há ' . $hours . ' horas';
+    } elseif ($days <= 7) {
+        return $days == 1 ? "há 1 dia" : 'há ' . $days . ' dias';
+    } elseif ($weeks <= 4) {
+        return $weeks == 1 ? "há 1 semana" : 'há ' . $weeks . ' semanas';
+    } elseif ($months <= 12) {
+        return $months == 1 ? "há 1 mês" : 'há ' . $months . ' meses';
+    } elseif ($years <= 1) {
+        return $years == 1 ? "há 1 ano" : 'há ' . $years . ' anos';
     }
 }
 
 
-function formaterValor(string $valor = null)
+/**
+ * formaterValue
+ *
+ * @param  mixed $valor
+ * @return void
+ */
+function formaterValue(string $valor = null)
 {
     return number_format(($valor ? $valor : 0), 2, ',', '.');
 }
 
-function formatarNumero(int $numero = null)
+/**
+ * formaterNumber
+ *
+ * @param  mixed $numero
+ * @return void
+ */
+function formaterNumber(int $numero = null)
 {
     return number_format($numero ? $numero : 0, 0, '.', '.');
 }
-function saudacao(): string
+/**
+ * greetings
+ *
+ * @return string
+ */
+function greetings(): string
 {
-    $hora = date('H');
-    $saudacao = match (true) {
-        $hora >= 0 && $hora <= 5 => 'Boa madrugada',
-        $hora >= 6 && $hora <= 12 => 'Bom dia',
-        $hora >= 13 && $hora <= 18 => 'Boa tarde',
+    $hours = date('H');
+    $greetings = match (true) {
+        $hours >= 0 && $hours <= 5 => 'Boa madrugada',
+        $hours >= 6 && $hours <= 12 => 'Bom dia',
+        $hours >= 13 && $hours <= 18 => 'Boa tarde',
         default => 'Boa noite'
     };
-    return $saudacao;
+    return $greetings;
 }
 
 /**
@@ -191,13 +248,13 @@ function saudacao(): string
  * @return string0
  */
 
-function resumirTexto(string $texto, int $limite, $continue = "..."): string
+function summarizeText(string $texto, int $limit, $continue = "..."): string
 {
-    $textLimpo = trim(strip_tags($texto));
-    if (mb_strlen($textLimpo) <= $limite) {
-        return $textLimpo;
+    $cleanText = trim(strip_tags($texto));
+    if (mb_strlen($cleanText) <= $limit) {
+        return $cleanText;
     }
 
-    $resumirTexto = mb_substr($textLimpo, 0, mb_strrpos(mb_substr($textLimpo, 0, $limite), ''));
-    return $resumirTexto . $continue;
+    $summarizeText = mb_substr($cleanText, 0, mb_strrpos(mb_substr($cleanText, 0, $limit), ''));
+    return $summarizeText . $continue;
 }

@@ -1,22 +1,13 @@
 <?php
 
-require_once "sistema/configuracao.php";
+require_once "sistema/config.php";
 include_once "Helpers.php";
+include './sistema/Core/Message.php';
+
+
+$msg = new Message();
 
 
 
-$numero = 5;
 
-while($numero < 10){
-    echo $numero++;
-}
-
-echo'<hr>';
-
-for($i=1; $i<=$numero; $i++){
-    echo $i;
-}
-
-echo'<hr>';
-
-var_dump(validaCPF(14594140718));
+var_dump($msg);
