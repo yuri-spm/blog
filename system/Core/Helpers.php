@@ -103,17 +103,20 @@ class Helpers
      * @param  mixed $url
      * @return string
      */
-    public static function url(string $url): string
+    public static function url(?string $url = null): string
     {
-        $server = $server = filter_input(INPUT_SERVER, 'SERVER_NAME');
+        $server = filter_input(INPUT_SERVER, 'SERVER_NAME');
         $environment = ($server == 'localhost' ? URL_DESENVOLVIMENTO : URL_PRODUCAO);
-
-        if (str_starts_with($url, '/')) {
-            return $environment . $url;
+    
+        $url = $url ?? '';
+    
+        if ($url !== '' && $url[0] === '/') {
+            $url = substr($url, 1);
         }
-
+    
         return $environment . '/' . $url;
     }
+    
     /**
      * localhost
      *
