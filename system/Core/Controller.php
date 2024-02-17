@@ -1,16 +1,21 @@
 <?php
 
 namespace system\Core;
+
+use system\Support\Template;
+
 class Controller
-{    
-    /**
-     * __construct
-     *
-     * @param  mixed $tema
-     * @return void
-     */
-    public function __construct(string $tema = null)
-    {
-      echo $tema;      
-    }
+{
+  protected Template $template;
+
+  /**
+   * __construct
+   *
+   * @param  mixed $directory
+   * @return void
+   */
+  public function __construct(string $directory)
+  {
+    $this->template = new Template($directory);
+  }
 }
