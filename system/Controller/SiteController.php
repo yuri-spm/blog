@@ -19,6 +19,6 @@ class SiteController extends Controller
 
     public function about(): void
     {
-        echo $this->template->render('index.html', ['title' => 'Sobre nós']);
+        echo $this->template->render('about.html', ['title' => 'Sobre nós']);
     }
 }
