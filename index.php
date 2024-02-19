@@ -1,16 +1,8 @@
 <?php
 
-use system\Core\Helpers;
-use system\Core\Controller;
-use system\Core\Message;
-
+//Arquivo index responsável pela inicialização do sistema
 require 'vendor/autoload.php';
+
 require 'routers.php';
-
-
-
-
-
-
 
 

@@ -14,11 +14,17 @@ class SiteController extends Controller
 
     public function index(): void
     {
-        echo $this->template->render('index.html', ['title' => 'teste de titulo']);
+        echo $this->template->render('index.html', [
+           
+            'subtitulo' => 'teste de subtitulo'
+        ]);
     }
 
     public function about(): void
     {
-        echo $this->template->render('about.html', ['title' => 'Sobre nós']);
+        echo $this->template->render('about.html', [
+            'titulo' => 'Sobre'
+        ]);
     }
+
 }
