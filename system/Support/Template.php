@@ -18,8 +18,8 @@ class Template
 
     public function __construct(string $diretorio)
     {
-        $loader = new \Twig\Loader\FilesystemLoader($diretorio);
-        $this->twig = new \Twig\Environment($loader);
+        $loader = new FilesystemLoader($diretorio);
+        $this->twig = new Environment($loader);
 
         $lexer = new Lexer($this->twig, array(
             $this->helpers()
@@ -46,17 +46,17 @@ class Template
     {
         array(
             $this->twig->addFunction(
-                    new \Twig\TwigFunction('url', function (string $url = null) {
+                    new TwigFunction('url', function (string $url = null) {
                                 return Helpers::url($url);
                             })
             ),
             $this->twig->addFunction(
-                    new \Twig\TwigFunction('saudacao', function () {
+                    new TwigFunction('saudacao', function () {
                                 return Helpers::greetings();
                             })
             ),
             $this->twig->addFunction(
-                    new \Twig\TwigFunction('resumirTexto', function (string $texto, int $limite) {
+                    new TwigFunction('resumirTexto', function (string $texto, int $limite) {
                                 return Helpers::summarizeText($texto, $limite);
                             })
             ),
