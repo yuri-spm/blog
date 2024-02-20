@@ -26,4 +26,11 @@ class SiteController extends Controller
         ]);
     }
 
+    public function error404(): void
+    {
+        echo $this->template->render('404.html', [
+            'title' => 'Pagina não encontrada'
+        ]);
+    }
+
 }

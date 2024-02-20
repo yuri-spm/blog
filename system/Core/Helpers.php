@@ -1,8 +1,19 @@
 <?php
 
 namespace system\Core;
+
+use Exception;
+
 class Helpers
 {
+
+    public static function redirect(string $url = null)
+    {
+        header('HTTP/1.1 302 Found');
+        $local = ($url ?self::url($url) : self::url() );
+        header("Location: {$local}");
+        exit();
+    }
 
     /**
      * clearNumber
@@ -23,34 +34,21 @@ class Helpers
      */
     public static function validateCPF(string $cpf): bool
     {
-        $cpf = filter_var($cpf, FILTER_SANITIZE_NUMBER_INT);
+       $cpf = self::clearNumber($cpf);
 
-        if (strlen($cpf) !== 11) {
-            return false;
+    if (mb_strlen($cpf) != 11 or preg_match('/(\d)\1{10}/', $cpf)) {
+        throw new Exception('O CPF precisa ter 11 digitos');
+    }
+    for ($t = 9; $t < 11; $t++) {
+        for ($d = 0, $c = 0; $c < $t; $c++) {
+            $d += $cpf[$c] * (($t + 1) - $c);
         }
-
-        $typeA = 0;
-        $typeB = 0;
-
-        for ($i = 0, $x = 10; $i <= 8; $i++, $x--) {
-            $typeA += $cpf[$i] * $x;
+        $d = ((10 * $d) % 11) % 10;
+        if ($cpf[$c] != $d) {
+            throw new Exception('CPF Inválido');
         }
-
-        for ($i = 0, $x = 11; $i <= 9; $i++, $x--) {
-            if (str_repeat($i, 11) === $cpf) {
-                return false;
-            }
-            $typeB += $cpf[$i] * $x;
-        }
-
-        $sumA = (($typeA % 11) < 2) ? 0 : 11 - ($typeA % 11);
-        $sumB = (($typeB % 11) < 2) ? 0 : 11 - ($typeB % 11);
-
-        if ($sumA != $cpf[9] || $sumB != $cpf[10]) {
-            return false;
-        } else {
-            return true;
-        }
+    }
+    return true;
     }
 
 
