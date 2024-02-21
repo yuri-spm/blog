@@ -14,3 +14,8 @@ define('URL_DESENVOLVIMENTO', 'http://localhost/blog');
 
 define('URL_SITE', 'blog/');
 
+
+define("CONF_DB_HOST", "localhost");
+define("CONF_DB_USER", "root");
+define("CONF_DB_PASS", "");
+define("CONF_DB_NAME", "blog");

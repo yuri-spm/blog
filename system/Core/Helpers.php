@@ -6,7 +6,13 @@ use Exception;
 
 class Helpers
 {
-
+    
+    /**
+     * redirect
+     *
+     * @param  mixed $url
+     * @return void
+     */
     public static function redirect(string $url = null)
     {
         header('HTTP/1.1 302 Found');
