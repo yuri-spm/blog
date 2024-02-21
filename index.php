@@ -9,8 +9,9 @@ require 'vendor/autoload.php';
 
 // require 'routers.php';
 
-$posts = (new PostModel())->read();
+$posts = (new PostModel())->find(2);
 
 foreach($posts as $post){
-    echo $post->title.'<br>';
+    var_dump($post);
 }
+
