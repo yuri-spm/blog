@@ -7,17 +7,36 @@ use system\Core\Connect;
 class PostModel
 {
 
+    protected $query;
 
+    /** @var string */
+    protected $params;
 
-    public function find($id = null, $columns = '*'): array
+    /** @var string */
+    protected $order;
+
+    /** @var int */
+    protected $limit;
+
+    /** @var int */
+    protected $offset;
+
+    public function find($columns = '*'): array
     {   
-       $where = ($id ? "WHERE id = {$id}" : '');
-
-
-       $query = "SELECT * FROM posts {$where}";
+       $query = "SELECT {$columns} FROM posts";
        $stmt = Connect::getInstance()->query($query);
        $result = $stmt->fetchAll();
 
         return $result;
     }
+
+    public function findByID(int $id, $columns = '*'): bool|object
+    {   
+       $query = "SELECT {$columns} FROM posts WHERE id = {$id}";
+       $stmt = Connect::getInstance()->query($query);
+       $result = $stmt->fetch();
+       return $result;
+    }
+
+
 }

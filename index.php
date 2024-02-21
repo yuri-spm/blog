@@ -7,11 +7,11 @@ use system\Model\PostModel;
 
 require 'vendor/autoload.php';
 
-// require 'routers.php';
+require 'routers.php';
 
-$posts = (new PostModel())->find(2);
+// $posts = (new PostModel())->find(2);
 
-foreach($posts as $post){
-    var_dump($post);
-}
+// foreach($posts as $post){
+//     var_dump($post);
+// }
 

@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+{% block content %}
+
+    <div class="container my-5">
+        <div class='row'>
+            {% for post in posts %}
+                <div class="col-md-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <a href='{{url('post/'~post.id)}}'>
+                                <h5 class="card-title">
+                                    {{ post.title }}
+                                </h5>
+                                <p class="card-text">
+                                    {{summarizeText(post.text,3) }}
+                                </p>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+{% endblock %}

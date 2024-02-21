@@ -51,12 +51,12 @@ class Template
                             })
             ),
             $this->twig->addFunction(
-                    new TwigFunction('saudacao', function () {
+                    new TwigFunction('greetings', function () {
                                 return Helpers::greetings();
                             })
             ),
             $this->twig->addFunction(
-                    new TwigFunction('resumirTexto', function (string $texto, int $limite) {
+                    new TwigFunction('summarizeText', function (string $texto, int $limite) {
                                 return Helpers::summarizeText($texto, $limite);
                             })
             ),
