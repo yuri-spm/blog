@@ -5,6 +5,7 @@ namespace system\Controller;
 use system\Core\Controller;
 use system\Core\Helpers;
 use system\Model\PostModel;
+use system\Model\CategoryModel;
 
 class SiteController extends Controller
 {
@@ -16,10 +17,15 @@ class SiteController extends Controller
 
     public function index(): void
     {
+        $category = (new CategoryModel())->find();
+       
         $posts = (new PostModel())->find();
+        // var_dump($category, $posts);
+        // die();
         echo $this->template->render('index.html.twig', [
             'title' => 'Posts',
-            'posts' => $posts
+            'posts' => $posts,
+            'categories' => $this->category(),
         ]);
     }
 
@@ -42,6 +48,11 @@ class SiteController extends Controller
             'post' => $post
         ]);
         
+    }
+
+    public function category(): array
+    {
+        return (new CategoryModel())->find();
     }
 
     public function error404(): void

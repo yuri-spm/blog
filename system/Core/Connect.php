@@ -29,8 +29,9 @@ class Connect
             } catch (\PDOException $e){
                 die("Erro de conexão:: " .$e->getMessage());
             }
-            return self::$instance;
+            // return self::$instance;
         }
+        return self::$instance;
     }
 
     final private function __construct()
