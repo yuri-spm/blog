@@ -7,12 +7,13 @@
                 <div class="col-md-3">
                     <div class="card">
                         <div class="card-body">
-                            <a href='{{url('post/'~post.id)}}'>
-                                <h5 class="card-title">
+                        <h5 class="card-title">
                                     {{ post.title }}
                                 </h5>
+                            <a href='{{url('post/'~post.id)}}'>
+                                
                                 <p class="card-text">
-                                    {{summarizeText(post.text,3) }}
+                                    {{summarizeText(post.text,150) }}
                                 </p>
                             </a>
                         </div>
