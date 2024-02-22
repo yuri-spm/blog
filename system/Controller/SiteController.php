@@ -25,34 +25,45 @@ class SiteController extends Controller
         echo $this->template->render('index.html.twig', [
             'title' => 'Posts',
             'posts' => $posts,
-            'categories' => $this->category(),
+            'categories' => $this->categories(),
         ]);
     }
 
     public function about(): void
     {
         echo $this->template->render('about.html.twig', [
-            'title' => 'Sobre'
+            'title' => 'Sobre',
+            'categories' => $this->categories(),
         ]);
     }
 
     public function post(int $id): void
     {
-        $post = (new PostModel())->findByID($id);
+        $posts = (new PostModel())->findByID($id);
 
-        if(!$post){
+        if(!$posts){
             Helpers::redirect('404');
         }
         echo $this->template->render('post.html.twig', [
-            'title' => $post->title,
-            'post' => $post
+            'title' => $posts->title,
+            'post' => $posts,
+            'categories' => $this->categories()
         ]);
         
     }
 
-    public function category(): array
+    public function categories(): array
     {
         return (new CategoryModel())->find();
+    }
+
+    public function category(int $id): void
+    {
+        $posts = (new CategoryModel())->posts($id);
+        echo $this->template->render('category.html.twig', [
+            'posts' => $posts,
+            'categories' => $this->categories(),
+        ]);
     }
 
     public function error404(): void

@@ -23,7 +23,7 @@ class CategoryModel
 
     public function find($columns = '*'): array
     {   
-       $query = "SELECT {$columns} FROM category";
+       $query = "SELECT {$columns} FROM category WHERE status = 1";
        $stmt = Connect::getInstance()->query($query);
        $result = $stmt->fetchAll();
 
@@ -35,6 +35,14 @@ class CategoryModel
        $query = "SELECT {$columns} FROM category WHERE id = {$id}";
        $stmt = Connect::getInstance()->query($query);
        $result = $stmt->fetch();
+       return $result;
+    }
+
+    public function posts(int $id, $columns = '*')
+    {   
+       $query = "SELECT {$columns} FROM posts WHERE category_id = {$id} AND status = 1";
+       $stmt = Connect::getInstance()->query($query);
+       $result = $stmt->fetchAll();
        return $result;
     }
 

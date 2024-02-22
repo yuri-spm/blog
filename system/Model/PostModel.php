@@ -23,7 +23,7 @@ class PostModel
 
     public function find($columns = '*'): array
     {   
-       $query = "SELECT {$columns} FROM posts";
+       $query = "SELECT {$columns} FROM posts WHERE status =1 ";
        $stmt = Connect::getInstance()->query($query);
        $result = $stmt->fetchAll();
 

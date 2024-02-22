@@ -11,7 +11,7 @@
                                     <h5 class="card-title">
                                         {{ post.title }}
                                     </h5>
-                                    <a href='{{ url(' post/'~post.id) }}'>
+                                    <a href='{{url('post/'~post.id)}}'>
                                         <p class="card-text">
                                             {{ summarizeText(post.text,150) }}
                                         </p>
