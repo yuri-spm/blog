@@ -20,6 +20,7 @@
     "require": {
         "php": ">=8.0",
         "pecee/simple-router": "dev-master",
-        "twig/twig": "3.x-dev"
+        "twig/twig": "3.x-dev",
+        "dompdf/dompdf": "dev-master"
     }
 }

@@ -38,5 +38,14 @@ class PostModel
        return $result;
     }
 
+    public function search($search, $columns = '*'): array
+    {   
+       $query = "SELECT {$columns} FROM posts WHERE status = 1 AND title LIKE '%{$search}%'";
+       $stmt = Connect::getInstance()->query($query);
+       $result = $stmt->fetchAll();
+
+        return $result;
+    }
+
 
 }

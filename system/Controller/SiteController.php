@@ -29,6 +29,19 @@ class SiteController extends Controller
         ]);
     }
 
+    public function search(): void
+    {
+        $search = filter_input_array(INPUT_POST, FILTER_DEFAULT);
+        if(isset($search)){
+            $posts = (new PostModel())->search($search['search']);
+            echo $this->template->render('search.html.twig', [
+                'posts' => $posts,
+                'categories' => $this->categories(),
+            ]);
+        }
+       
+    }
+
     public function about(): void
     {
         echo $this->template->render('about.html.twig', [
