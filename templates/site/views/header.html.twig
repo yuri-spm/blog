@@ -30,11 +30,12 @@
             </li>
             </ul>
 
-            <form action="{{url('search')}}" method="post" class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
-                <input type="search" name="search" class="form-control form-control-dark text-bg-dark" placeholder="Buscar..."
+            <form data-url-search="{{url('search')}}" method="post" class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
+                <input type="search" name="search" id="search" class="form-control form-control-dark text-bg-dark" placeholder="Buscar..."
                     aria-label="Search">
-                <input type="submit">
             </form>
+
+        <div id="request"></div>
 
             <div class="text-end">
                 <a href="" class="btn btn-outline-light me-2" tooltip="tooltip" title="Faça login">

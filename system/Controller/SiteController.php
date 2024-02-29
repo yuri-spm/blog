@@ -31,13 +31,13 @@ class SiteController extends Controller
 
     public function search(): void
     {
-        $search = filter_input_array(INPUT_POST, FILTER_DEFAULT);
+        $search = filter_input(INPUT_POST,'search', FILTER_DEFAULT);
         if(isset($search)){
-            $posts = (new PostModel())->search($search['search']);
-            echo $this->template->render('search.html.twig', [
-                'posts' => $posts,
-                'categories' => $this->categories(),
-            ]);
+            $posts = (new PostModel())->search($search);
+            
+            foreach ($posts as $post){
+                echo "<li class='list-group-item fw-bold'><a href=".Helpers::url('post/').$post->id.">$post->title</a></li>";
+            }
         }
        
     }

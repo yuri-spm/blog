@@ -1,6 +1,7 @@
 $(document).ready(function(){
     $("#search").keyup(function(){
         var search = $(this).val();
+        console.log(search);
         if(search !== ""){
             $.ajax({
                 url: $('form').attr('data-url-search'),
@@ -8,7 +9,7 @@ $(document).ready(function(){
                 data: {
                     search: search
                 },
-                sucess: function(data){
+                success: function(data){
                     $('#request').html(data);
                 }
             });
