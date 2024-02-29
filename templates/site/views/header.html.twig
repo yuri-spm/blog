@@ -30,12 +30,9 @@
             </li>
             </ul>
 
-            <form data-url-search="{{url('search')}}" method="post" class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
-                <input type="search" name="search" id="search" class="form-control form-control-dark text-bg-dark" placeholder="Buscar..."
-                    aria-label="Search">
-            </form>
-
-        <div id="request"></div>
+            <form data-url-busca="{{ url('search') }}" class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
+                <input type="search" name="search" id="search" class="form-control form-control-dark text-bg-dark" placeholder="Buscar..." aria-label="Search">
+            </form>            
 
             <div class="text-end">
                 <a href="" class="btn btn-outline-light me-2" tooltip="tooltip" title="Faça login">
@@ -46,5 +43,8 @@
                 </a>
             </div>
         </div>
+        
+        <div class="my-3" id="request"></div>
+        
     </div>
 </header>

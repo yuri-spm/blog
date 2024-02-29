@@ -1,20 +1,24 @@
-$(document).ready(function(){
-    $("#search").keyup(function(){
+$(document).ready(function () {
+    $("#search").keyup(function () {
         var search = $(this).val();
-        console.log(search);
-        if(search !== ""){
+        if (search.length > 0) {
             $.ajax({
                 url: $('form').attr('data-url-search'),
                 method: 'POST',
                 data: {
                     search: search
                 },
-                success: function(data){
-                    $('#request').html(data);
+                success: function (resultado) {
+                    if (resultado) {
+                        $('#request').html("<div class='card'><div class='card-body'><ul class='list-group list-group-flush'>"+resultado+"</ul></div></div>");
+                    } else {
+                        $('#request').html('<div class="alert alert-warning">Nenhum resultado encontrado!</div>');
+                    }
                 }
             });
-        }else{
-            $('#request').css('display', 'none')
+            $('#request').show();
+        } else {
+            $('#request').hide();
         }
     });
 });
