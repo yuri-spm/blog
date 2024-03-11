@@ -1,5 +1,6 @@
-a { color: inherit; } 
-
-li {
-    list-style-type: none;
-  }
+a {
+    color: #222
+}
+a:hover {
+   color: #666
+}

@@ -1,0 +1,23 @@
+{% extends "base.html.twig" %}
+{% block corpo %}
+
+{% include 'menu.html.twig' %}
+
+<div class="conteudo">
+    {% include 'header.html.twig' %}
+    <main>
+        {% block conteudo %}  
+        <div class="card border-0 shadow-sm">
+            <div class="card-header bg-white border-0">
+                <h5 class="card-title">Dashboard</h5>
+            </div>
+            <div class="card-body">
+                Conteúdo em desenvolvimento
+            </div>
+        </div>
+        {% endblock %}
+    </main>
+    {% include 'footer.html.twig' %}
+</div>
+
+{% endblock %}
