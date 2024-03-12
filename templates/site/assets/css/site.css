@@ -4,3 +4,7 @@ a {
 a:hover {
    color: #666
 }
+
+li{
+    list-style-type: none;
+}

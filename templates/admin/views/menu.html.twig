@@ -3,7 +3,7 @@
     <div class="sidebarLogo">
         <a href="{{url('admin/dashboard')}}" data-bs-toggle="tooltip" title="Página Inicial">
             <div class="logo">
-                <img src="../templates/admin/assets/img/php-logo.svg" alt=" {{constant('SITE_NOME')}}"/>
+                <img src="{{url('templates/admin/assets/img/php-logo.svg')}}" alt=" {{constant('SITE_NOME')}}"/>
             </div>
         </a>
     </div>
@@ -20,7 +20,7 @@
                 </a>
             </li>  
             <li>
-                <a href="{{url('admin/categories/lists')}}" tooltip="tooltip" title="Administração de Categorias">
+                <a href="{{url('admin/categories/categories')}}" tooltip="tooltip" title="Administração de Categorias">
                     <i class="fa-solid fa-list"></i>
                     <span>Categorias</span>
                 </a>

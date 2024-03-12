@@ -15,11 +15,20 @@ try {
     SimpleRouter::get(URL_SITE.'category/{id}', 'SiteController@category');
     SimpleRouter::get(URL_SITE.'404', 'SiteController@error404');
 
-    //admin
 
+    //admin
     SimpleRouter::group(['namespace' => 'Admin'], function(){
+
+        //Dashboard
         SimpleRouter::get(URL_ADMIN.'dashboard', 'AdminDashboard@dashboard');
+
+        //Posts
         SimpleRouter::get(URL_ADMIN.'posts/lists', 'AdminPosts@lists');
+        SimpleRouter::match(['get','post'], URL_ADMIN.'posts/register', 'AdminPosts@register');
+
+        //Category
+        SimpleRouter::get(URL_ADMIN.'categories/categories', 'AdminCategories@categories');
+        SimpleRouter::match(['get','post'], URL_ADMIN.'categories/register', 'AdminCategories@register');
     });
 
     SimpleRouter::start();

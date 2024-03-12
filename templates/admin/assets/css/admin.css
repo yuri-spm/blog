@@ -1,3 +1,24 @@
+:root {
+    --cor1: #0a0d12;
+    --cor2: #202736;
+    --cor3: #2b3448;
+    --cor4: #36415a;
+    --cor5: #4c5b7e;
+    --cor6: #6275a2;
+    --cor7: #6d82b5;
+    --cor8: #7b8ebc;
+    --cor9: #8a9bc3;
+    --cor10: #98a7cb;
+    --cor11: #a7b4d2;
+    --cor12: #b6c0da;
+    --cor13: #c4cde1;
+    --cor14: #d3d9e8;
+    --cor15: #f0f2f7;
+    --corTexto: #2b3448;
+    --corLink: #414e6c;
+}
+
+
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap');
 
 body {

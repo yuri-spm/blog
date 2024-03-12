@@ -7,6 +7,7 @@ use Twig\Environment;
 use Twig\TwigFunction;
 use Twig\Loader\FilesystemLoader;
 use system\Core\Helpers;
+use system\Core\Message;
 
 /**
  * Classe Template
@@ -60,6 +61,12 @@ class Template
                                 return Helpers::summarizeText($texto, $limite);
                             })
             ),
+
+            $this->twig->addFunction(
+                new TwigFunction('sucess', function (string $mensage) {
+                            return Message::success($mensage);
+                        })
+        ),
         );
     }
 
