@@ -16,9 +16,7 @@ class SiteController extends Controller
     }
 
     public function index(): void
-    {
-        $category = (new CategoryModel())->find();
-       
+    {      
         $posts = (new PostModel())->find();
         // var_dump($category, $posts);
         // die();

@@ -9,59 +9,89 @@ use system\Core\Message;
 class CategoryModel
 {
 
-    protected $query;
+   protected $query;
 
-    /** @var string */
-    protected $params;
+   /** @var string */
+   protected $params;
 
-    /** @var string */
-    protected $order;
+   /** @var string */
+   protected $order;
 
-    /** @var int */
-    protected $limit;
+   /** @var int */
+   protected $limit;
 
-    /** @var int */
-    protected $offset;
+   /** @var int */
+   protected $offset;
 
-    public function find($columns = '*'): array
-    {   
-       $query = "SELECT {$columns} FROM category WHERE status = 1";
-       $stmt = Connect::getInstance()->query($query);
-       $result = $stmt->fetchAll();
+   public function find(): array
+   {
+      $query = "SELECT * FROM category WHERE status = 1";
+      $stmt = Connect::getInstance()->query($query);
+      $result = $stmt->fetchAll();
 
-        return $result;
-    }
+      return $result;
+   }
+   
+   /**
+    * findByID
+    *
+    * @param  mixed $id
+    * @param  mixed $columns
+    * @return bool
+    */
+   public function findByID(int $id): bool|object
+   {
+      $query = "SELECT * FROM category WHERE id = {$id}";
+      $stmt = Connect::getInstance()->query($query);
+      $result = $stmt->fetch();
+      return $result;
+   }
 
-    public function findByID(int $id, $columns = '*'): bool|object
-    {   
-       $query = "SELECT {$columns} FROM category WHERE id = {$id}";
-       $stmt = Connect::getInstance()->query($query);
-       $result = $stmt->fetch();
-       return $result;
-    }
+   public function all(): array
+   {
+      $query = "SELECT * FROM category";
+      $stmt = Connect::getInstance()->query($query);
+      $result = $stmt->fetchAll();
 
-    public function posts(int $id, $columns = '*')
-    {   
-       $query = "SELECT {$columns} FROM posts WHERE category_id = {$id} AND status = 1";
-       $stmt = Connect::getInstance()->query($query);
-       $result = $stmt->fetchAll();
-       return $result;
-    }
+      return $result;
+   }
+   
+   /**
+    * posts
+    *
+    * @param  mixed $id
+    * @param  mixed $columns
+    * @return void
+    */
+   public function posts(int $id)
+   {
+      $query = "SELECT * FROM posts WHERE category_id = {$id} AND status = 1";
+      $stmt = Connect::getInstance()->query($query);
+      $result = $stmt->fetchAll();
+      return $result;
+   }
+   
+   /**
+    * register
+    *
+    * @param  mixed $data
+    * @return void
+    */
+   public function register($data = [])
+   {
 
-    public function register($data=[])
-    {
-      
-      try{
-         $stmt = Connect::getInstance()->prepare('INSERT INTO categories(title, text, status) values (?,?,?)');
-         $stmt->bindValue(1, $data['titulo']);
-         $stmt->bindValue(2, $data['text']);
-         $stmt->bindValue(3, $data['status']);
-         $stmt->execute();
+      try {
 
-      }catch(PDOException $e){
-        (new Message())->error($e);
+         $query = 'INSERT INTO categories(`title`, `text`, `status`) VALUES (?,?,?)';
+         $stmt = Connect::getInstance()->prepare($query);
+         $stmt->execute(
+            [
+               $data[ 'titulo'],
+               $data['text'],
+               $data['status']
+            ]);
+      } catch (PDOException $e) {
+         echo (new Message())->error($e);
       }
-    }
-
-
+   }
 }

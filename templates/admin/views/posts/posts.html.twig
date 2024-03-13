@@ -19,13 +19,13 @@
     </div>
     <div class="card-body">
         <div class="table-responsive">
-            <table class="table">
+            <table class="table table-hover">
                 <thead>
                     <tr>
-                        <th scope="col">id</th>
-                        <th scope="col">Título</th>
-                        <th scope="col">Status</th>
-                        <th scope="col">Ação</th>
+                        <th>id</th>
+                        <th>Título</th>
+                        <th class="text-center">Status</th>
+                        <th  class="text-center">Ação</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -33,20 +33,24 @@
                     <tr>
                         <th>{{post.id}}</th>
                         <td>{{post.title}}</td>
-                        <td>
+                        <td class="text-center">
                             {% if post.status == 1 %}
-                                <i class="fa-solid fa-circle text-success" tooltip="tooltip" title="Ativo"></i>
+                            <i class="fa-solid fa-circle text-success" tooltip="tooltip" title="Ativo"></i>
                             {% else %}
-                                <i class="fa-solid fa-circle text-danger" tooltip="tooltip" title="Inativo"></i>
+                            <i class="fa-solid fa-circle text-danger" tooltip="tooltip" title="Inativo"></i>
                             {% endif %}
+                        </td>
+                        <td class="text-center">
+                            <a href="{{ url('admin/posts/update/'~post.id)}}"><button type="button" class="btn btn-success">Editar</button></a>
+                            <a href="{{ url('admin/posts/delete/'~post.id)}}"><button type="button" class="btn btn-danger">Excluir</button></a>
                         </td>
                     </tr>
                     {%endfor%}
                 </tbody>
             </table>
         </div>     
-        
-        
+
+
     </div>
 </div>
 {% endblock %}

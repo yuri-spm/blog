@@ -23,12 +23,16 @@ try {
         SimpleRouter::get(URL_ADMIN.'dashboard', 'AdminDashboard@dashboard');
 
         //Posts
-        SimpleRouter::get(URL_ADMIN.'posts/lists', 'AdminPosts@lists');
+        SimpleRouter::get(URL_ADMIN.'posts/posts', 'AdminPosts@lists');
         SimpleRouter::match(['get','post'], URL_ADMIN.'posts/register', 'AdminPosts@register');
+        SimpleRouter::match(['get','post'], URL_ADMIN.'posts/update/{id}', 'AdminPosts@update');
+        SimpleRouter::match(['get','post'], URL_ADMIN.'posts/delete/{id}', 'AdminPosts@delete');
 
         //Category
         SimpleRouter::get(URL_ADMIN.'categories/categories', 'AdminCategories@categories');
         SimpleRouter::match(['get','post'], URL_ADMIN.'categories/register', 'AdminCategories@register');
+        SimpleRouter::match(['get','post'], URL_ADMIN.'categories/update/{id}', 'AdminCategories@update');
+        SimpleRouter::match(['get','post'], URL_ADMIN.'categories/delete/{id}', 'AdminCategories@delete');
     });
 
     SimpleRouter::start();

@@ -5,10 +5,12 @@
             <li class="breadcrumb-item">
                 <a href="{{ url('admin/dashboard') }}">
                     Home              
+                                    
                 </a>
             </li>
             <li class="breadcrumb-item active" aria-current="page">
                 Categorias                
+                            
             </li>
         </ol>
     </nav>
@@ -16,8 +18,9 @@
         <div class="card-body">
             <form action="{{ url('admin/categories/register') }}" method="post">
                 <div class="mb-3">
-                    <label for="titulo" class="form-label">
+                    <label for="title" class="form-label" name="titulo">
                         Título                     
+                                            
                     </label>
                     <input type="text" class="form-control" id="titulo" name="titulo"></div>
                     <div class="mb-3">
@@ -25,19 +28,23 @@
                         <textarea name='text' class="form-control" id="text" rows="3"></textarea>
                     </div>
                     <div class="mb-3">
+                        <label for='text' name="status" class='form-label'>
+                            Status
+                                            
+                        </label>
                         <select class="form-select" name="status">
                             <option value="1">
                                 Ativo                              
+                                                            
                             </option>
                             <option value="0">
                                 Inativo                    
+                                                            
                             </option>
                         </select>
                     </div>
-                    <input type="submit" class="btn btn-primary" value="Cadastrar">
-
-                </form>
+                    <input type="submit" class="btn btn-primary" value="Cadastrar"></form>
+                </div>
             </div>
-        </div>
-    {% endblock %}
-    
+        {% endblock %}
+        
