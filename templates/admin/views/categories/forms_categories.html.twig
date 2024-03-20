@@ -15,7 +15,7 @@
 </nav>
 <div class="card border-0 shadow-sm">
     <div class="card-body">
-<form action="{% if categories.id %}{{url('admin/categories/update/'~category.id)}}{% else %}{{url('admin/category/register')}}{% endif %}" method="post">
+<form action="{% if categories.id %}{{url('admin/categories/edit/'~category.id)}}{% else %}{{url('admin/category/register')}}{% endif %}" method="post">
             <div class="mb-3">
                 <label for="titulo" class="form-label">Título</label>
                 <input type="text" name="titulo" id="titulo" value="{{categories.title}}" class="form-control">

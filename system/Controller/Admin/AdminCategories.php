@@ -29,7 +29,7 @@ class AdminCategories extends AdminController
         echo $this->template->render('categories/forms_categories.html.twig', []);
     }
 
-    public function update($id)
+    public function edit($id)
     {
         $category = (new CategoryModel())->findByID($id);
 

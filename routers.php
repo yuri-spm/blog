@@ -31,6 +31,7 @@ try {
         //Category
         SimpleRouter::get(URL_ADMIN.'categories/categories', 'AdminCategories@categories_list');
         SimpleRouter::match(['get','post'], URL_ADMIN.'categories/register', 'AdminCategories@register');
+        SimpleRouter::match(['get','post'], URL_ADMIN.'categories/edit/{id}', 'AdminCategories@edit');
         SimpleRouter::match(['get','post'], URL_ADMIN.'categories/update/{id}', 'AdminCategories@update');
         SimpleRouter::match(['get','post'], URL_ADMIN.'categories/delete/{id}', 'AdminCategories@delete');
     });
