@@ -38,13 +38,14 @@ class AdminPosts extends AdminController
 
     public function update($id)
     {
-        $post = (new PostModel())->findByID($id);        
+        $post = (new PostModel())->findByID($id); 
+        $categories = (new CategoryModel())->all();               
         if (isset($post)) {
             echo $this->template->render(
                 'posts/forms_posts.html.twig',
                 [
-                    'categories'    => (new CategoryModel())->find(),
-                    'post'          => $post,                    
+                    'categories'    => $categories,
+                    'post'          => $post                  
                 ]
             );
         }else{

@@ -50,14 +50,14 @@
                             <div class="mb-3">
                                 <label for="status" class="form-label">Status</label>
                                 <select class="form-select" name="status">
-                                   <option value="1" {% if category.status == '1' %}selected{%endif%}>Ativo</option>
-                        <option value="0" {% if category.status == '0' %}selected{%endif%}>Inativo</option>
+                                   <option value="1" {% if post.status == '1' %}selected{% endif %}>Ativo</option>
+                        <option value="0" {% if post.status == '0' %}selected{% endif %}>Inativo</option>
                                 </select>
                             </div>
                         </div>
                     </div>
         
-                <input type="submit" class="btn btn-primary" value="{% if category.id %}Atualizar {% else %} Cadastrar{% endif %}">
+                <input type="submit" class="btn btn-primary" value="{% if post.id %} Atualizar {% else %} Cadastrar{% endif %}">
                 </form>
             </div>    
         </div>
