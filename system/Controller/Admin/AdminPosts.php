@@ -36,7 +36,7 @@ class AdminPosts extends AdminController
         );
     }
 
-    public function update($id)
+    public function edit($id)
     {
         $post = (new PostModel())->findByID($id); 
         $categories = (new CategoryModel())->all();               

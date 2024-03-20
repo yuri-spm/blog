@@ -25,6 +25,7 @@ try {
         //Posts
         SimpleRouter::get(URL_ADMIN.'posts/posts', 'AdminPosts@lists');
         SimpleRouter::match(['get','post'], URL_ADMIN.'posts/register', 'AdminPosts@register');
+        SimpleRouter::match(['get','post'], URL_ADMIN.'posts/edit/{id}', 'AdminPosts@edit');
         SimpleRouter::match(['get','post'], URL_ADMIN.'posts/update/{id}', 'AdminPosts@update');
         SimpleRouter::match(['get','post'], URL_ADMIN.'posts/delete/{id}', 'AdminPosts@delete');
 
