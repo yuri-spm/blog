@@ -1,50 +1,40 @@
 {% extends "dashboard.html.twig" %}
+
 {% block content %}
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item">
-                <a href="{{ url('admin/dashboard') }}">
-                    Home              
-                                    
-                </a>
-            </li>
-            <li class="breadcrumb-item active" aria-current="page">
-                Categorias                
-                            
-            </li>
-        </ol>
-    </nav>
-    <div class="card border-1 shadow-sm">
-        <div class="card-body">
-            <form action="{{ url('admin/categories/register') }}" method="post">
-                <div class="mb-3">
-                    <label for="title" class="form-label" name="titulo">
-                        Título                     
-                                            
-                    </label>
-                    <input type="text" class="form-control" id="titulo" name="titulo"></div>
-                    <div class="mb-3">
-                        <label class="form-label"></label>
-                        <textarea name='text' class="form-control" id="text" rows="3"></textarea>
-                    </div>
-                    <div class="mb-3">
-                        <label for='text' name="status" class='form-label'>
-                            Status
-                                            
-                        </label>
-                        <select class="form-select" name="status">
-                            <option value="1">
-                                Ativo                              
-                                                            
-                            </option>
-                            <option value="0">
-                                Inativo                    
-                                                            
-                            </option>
-                        </select>
-                    </div>
-                    <input type="submit" class="btn btn-primary" value="Cadastrar"></form>
-                </div>
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="{{url('admin/dashboard')}}">
+                Home
+            </a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">
+            Categorias
+        </li>
+    </ol>
+</nav>
+<div class="card border-0 shadow-sm">
+    <div class="card-body">
+<form action="{% if categories.id %}{{url('admin/categories/update/'~category.id)}}{% else %}{{url('admin/category/register')}}{% endif %}" method="post">
+            <div class="mb-3">
+                <label for="titulo" class="form-label">Título</label>
+                <input type="text" name="titulo" id="titulo" value="{{categories.title}}" class="form-control">
             </div>
-        {% endblock %}
-        
+            <div class="mb-3">
+                <label for="texto" class="form-label">Texto</label>
+                <textarea name="texto" id="texto" class="form-control" rows="3">{{categories.text}}</textarea>
+            </div>
+
+            <div class="mb-3">
+                <select class="form-select" name="status">
+                <option value="1" {% if category.status == '1' %}selected{%endif%}>Ativo</option>
+                <option value="0" {% if category.status == '0' %}selected{%endif%}>Inativo</option>
+            </select>
+            </div>
+            
+            <input type="submit" class="btn btn-primary" value="{% if categories.id %}Atualizar{%else%}Cadastrar{%endif%}">
+        </form>
+    </div>    
+</div>
+</div>
+{% endblock %}

@@ -8,7 +8,7 @@ use system\Model\CategoryModel;
 
 class AdminCategories extends AdminController
 {
-    public function categories()
+    public function categories_list()
     {
         echo $this->template->render(
             'categories/categories.html.twig',
