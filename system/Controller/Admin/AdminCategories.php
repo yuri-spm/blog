@@ -34,7 +34,7 @@ class AdminCategories extends AdminController
         $category = (new CategoryModel())->findByID($id);
 
         echo $this->template->render(
-            'posts/forms_posts.html.twig',
+            'categories/forms_categories.html.twig',
             [
                 'categories'    => $category
 
