@@ -4,20 +4,12 @@
         <ol class="breadcrumb">
             <li class="breadcrumb-item">
                 <a href="{{ url('admin/dashboard') }}">
-                    Home              
-                                                                                                                    
-                                                                                                
-                                                                            
-                                                        
+                    Home                           
                                     
                 </a>
             </li>
             <li class="breadcrumb-item active" aria-current="page">
-                Posts             
-                                                                                            
-                                                                            
-                                                            
-                                            
+                Posts                
                             
             </li>
         </ol>
@@ -28,6 +20,7 @@
                 <div class="mb-3">
                     <label for="titulo" class="form-label">
                         Título             
+                                                                    
                                             
                     </label>
                     <input type="text" class="form-control" id="titulo" name="titulo" value="{{ post.title }}"></div>
@@ -42,6 +35,7 @@
                             <div class="mb-3">
                                 <label for='categoria_id' , class='form-label'>
                                     Categoria
+                                                                                                        
                                                                     
                                 </label>
                                 <select class="form-select" name="categoria_id">
@@ -53,36 +47,19 @@
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label for='text' class='form-label'>
-                                        Status
-                                                                        
-                                    </label>
-                                    <select class="form-select" name="status">
-                                        <option value="1">
-                                            Ativo                                                
-                                                                                                                        
-                                                                                
-                                        </option>
-                                        <option value="0">
-                                            Inativo                                                
-                                                                                                                        
-                                                                                
-                                        </option>
-                                    </select>
-                                </div>
+                            <div class="mb-3">
+                                <label for="status" class="form-label">Status</label>
+                                <select class="form-select" name="status">
+                                   <option value="1" {% if category.status == '1' %}selected{%endif%}>Ativo</option>
+                        <option value="0" {% if category.status == '0' %}selected{%endif%}>Inativo</option>
+                                </select>
                             </div>
                         </div>
-                        {% if post.id is empty %}
-                            <input type="submit" class="btn btn-primary" value="Cadastrar">
-                        {% else %}
-                             <input type="submit" class="btn btn-primary" value="Editar">
-                             <input type="submit" class="btn btn-danger" value="Excluir">
-                        {% endif %}
-                            
-
-            </form>
+                    </div>
+        
+                <input type="submit" class="btn btn-primary" value="{% if category.id %}Atualizar {% else %} Cadastrar{% endif %}">
+                </form>
+            </div>    
         </div>
-    </div>
-{% endblock %}
-                
+        </div>
+        {% endblock %}

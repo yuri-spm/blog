@@ -14,7 +14,7 @@ class AdminPosts extends AdminController
         echo $this->template->render(
             'posts/posts.html.twig',
             [
-                'posts' => (new PostModel())->find()
+                'posts' => (new PostModel())->all()
             ]
         );
     }
