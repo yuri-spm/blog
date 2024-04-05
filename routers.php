@@ -11,8 +11,9 @@ try {
     SimpleRouter::get(URL_SITE, 'SiteController@index');
     SimpleRouter::get(URL_SITE.'sobre', 'SiteController@about');
     SimpleRouter::get(URL_SITE.'post/{id}', 'SiteController@post');
-    SimpleRouter::post(URL_SITE.'search', 'SiteController@search');
     SimpleRouter::get(URL_SITE.'category/{id}', 'SiteController@category');
+    SimpleRouter::post(URL_SITE.'search', 'SiteController@search');
+
     SimpleRouter::get(URL_SITE.'404', 'SiteController@error404');
 
 
@@ -26,15 +27,11 @@ try {
         SimpleRouter::get(URL_ADMIN.'posts/posts', 'AdminPosts@lists');
         SimpleRouter::match(['get','post'], URL_ADMIN.'posts/register', 'AdminPosts@register');
         SimpleRouter::match(['get','post'], URL_ADMIN.'posts/edit/{id}', 'AdminPosts@edit');
-        SimpleRouter::match(['get','post'], URL_ADMIN.'posts/update/{id}', 'AdminPosts@update');
-        SimpleRouter::match(['get','post'], URL_ADMIN.'posts/delete/{id}', 'AdminPosts@delete');
-
+        
         //Category
         SimpleRouter::get(URL_ADMIN.'categories/categories', 'AdminCategories@categories_list');
         SimpleRouter::match(['get','post'], URL_ADMIN.'categories/register', 'AdminCategories@register');
-        SimpleRouter::match(['get','post'], URL_ADMIN.'categories/edit/{id}', 'AdminCategories@edit');
-        SimpleRouter::match(['get','post'], URL_ADMIN.'categories/update/{id}', 'AdminCategories@update');
-        SimpleRouter::match(['get','post'], URL_ADMIN.'categories/delete/{id}', 'AdminCategories@delete');
+        SimpleRouter::match(['get','post'], URL_ADMIN.'categories/edit{id}', 'AdminCategories@edit');
     });
 
     SimpleRouter::start();
