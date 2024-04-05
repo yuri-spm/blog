@@ -77,16 +77,14 @@ class CategoryModel
     * @param  mixed $data
     * @return void
     */
-   public function register($data = [])
+   public function register(array $data)
    {
-
       try {
-
-         $query = 'INSERT INTO categories(`title`, `text`, `status`) VALUES (?,?,?)';
+         $query = 'INSERT INTO category(`title`, `text`, `status`) VALUES (?,?,?)';
          $stmt = Connect::getInstance()->prepare($query);
          $stmt->execute(
             [
-               $data[ 'titulo'],
+               $data['title'],
                $data['text'],
                $data['status']
             ]);
@@ -94,4 +92,24 @@ class CategoryModel
          echo (new Message())->error($e);
       }
    }
+
+   public function update(array $data, int $id):void
+   {
+
+      var_dump($data);
+       try {
+          $query = "UPDATE category SET  title = ?, text = ?, status = ? WHERE id = {$id}";
+          
+          $stmt = Connect::getInstance()->prepare($query);
+          $stmt->execute(
+            [
+               $data['title'],
+               $data['text'],
+               $data['status']
+            ]
+          );
+       } catch (PDOException $e) {
+          echo (new Message())->error($e);
+       }
+    }
 }
