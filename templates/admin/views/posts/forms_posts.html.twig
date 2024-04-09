@@ -16,14 +16,14 @@
     </nav>
     <div class="card border-1 shadow-sm">
         <div class="card-body">
-            <form action="{{ url('admin/posts/register') }}" method="post">
+<form action="{% if categories.id %}{{ url('admin/posts/edit/'~post.id) }}{% else %} {{ url('admin/posts/register') }}{% endif %}" method="post">
                 <div class="mb-3">
                     <label for="titulo" class="form-label">
                         Título             
                                                                     
                                             
                     </label>
-                    <input type="text" class="form-control" id="titulo" name="titulo" value="{{ post.title }}"></div>
+                    <input type="text" class="form-control" id="title" name="title" value="{{ post.title }}"></div>
                     <div class="mb-3">
                         <label class="form-label"></label>
                         <textarea name='text' class="form-control" id="text" rows="5">
@@ -34,7 +34,7 @@
                 <div class="col-md-6">
                     <div class="mb-3">
                         <label for="category_id" class="form-label">Categoria</label>
-                        <select class="form-select" name="categoria_id" id="categoria_id">
+                        <select class="form-select" name="category_id" id="category_id">
                             {% for category in categories %}
                             <option value="{{category.id}}" {% if post.category_id == category.id %}selected{%endif%}>{{category.title}}</option>
                             {%endfor%}
