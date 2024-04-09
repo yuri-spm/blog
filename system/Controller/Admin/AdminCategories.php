@@ -30,26 +30,6 @@ class AdminCategories extends AdminController
         echo $this->template->render('categories/forms_categories.html.twig', []);
     }
 
-    // public function edit(int $id):void
-    // {
-       
-    //     $category = (new CategoryModel())->findByID($id);
-    //     var_dump($category);
-    //     die();
-    //     $data = filter_input_array(INPUT_POST, FILTER_DEFAULT);
-      
-    //     if(isset($data)){
-    //         var_dump($data);
-    //         die();
-    //          (new CategoryModel())->update($data, $id);
-    //          Helpers::redirect('admin/categories/forms_categories.html.twig');
-    //     }
-        
-    //     echo $this->template->render('categories/forms_categories.html.twig', [
-    //         'categories' => $category
-    //     ]);
-    // }
-
     public function edit($id)
     {
         $category = (new CategoryModel())->findByID($id); 
@@ -67,6 +47,12 @@ class AdminCategories extends AdminController
                     'categories'    => $category            
                 ]
             );
+    }
+
+    public function delete($id)
+    {
+        (new CategoryModel())->delete($id);
+        Helpers::redirect('admin/categories/categories');
     }
 }
 
