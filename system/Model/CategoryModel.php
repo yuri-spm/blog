@@ -117,4 +117,15 @@ class CategoryModel
       $stmt = Connect::getInstance()->query($query);
       $stmt->execute();
    }
+
+   public function count(?string $term = null):int
+   {
+      $term = ($term ? "WHERE {$term}" : '');
+      
+      $query = "SELECT * FROM category {$term} ";
+      $stmt = Connect::getInstance()->query($query);
+      $stmt->execute();
+
+      return $stmt->rowCount();
+   }
 }
