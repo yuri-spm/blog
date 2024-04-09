@@ -23,9 +23,10 @@ class PostModel
    /** @var int */
    protected $offset;
 
-   public function find(): array
+   public function find(?string $term = null): array
    {
-      $query = "SELECT * FROM posts WHERE status = 1 ";
+      $term = ($term ? "WHERE {$term}" : '');
+      $query = "SELECT * FROM posts {$term} ";
       $stmt = Connect::getInstance()->query($query);
       $result = $stmt->fetchAll();
 
@@ -98,5 +99,16 @@ class PostModel
       $query = "DELETE FROM posts WHERE `posts`.`id` = {$id}";
       $stmt = Connect::getInstance()->query($query);
       $stmt->execute();
+   }
+
+   public function count(?string $term = null):int
+   {
+      $term = ($term ? "WHERE {$term}" : '');
+      
+      $query = "SELECT * FROM posts {$term} ";
+      $stmt = Connect::getInstance()->query($query);
+      $stmt->execute();
+
+      return $stmt->rowCount();
    }
 }
