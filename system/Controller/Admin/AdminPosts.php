@@ -11,10 +11,16 @@ class AdminPosts extends AdminController
 {
     public function lists()
     {
+        $post = new PostModel();
         echo $this->template->render(
             'posts/posts.html.twig',
             [
-                'posts' => (new PostModel())->all()
+                'posts' => $post->all(),
+                'total' => [
+                    'total'   => $post->count(),
+                    'ativo'   => $post->count('status = 1'),
+                    'inativo' => $post->count('status = 0'),
+                ]
             ]
         );
     }
