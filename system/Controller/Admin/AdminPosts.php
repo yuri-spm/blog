@@ -39,17 +39,21 @@ class AdminPosts extends AdminController
     public function edit($id)
     {
         $post = (new PostModel())->findByID($id); 
-        $categories = (new CategoryModel())->all();               
-        if (isset($post)) {
-            echo $this->template->render(
+
+        $data = filter_input_array(INPUT_POST, FILTER_DEFAULT);
+       
+        if(isset($data)){
+            var_dump($data);
+            die();
+            (new PostModel())->update($data, $id); 
+            Helpers::redirect('admin/posts/posts'); 
+        }
+        echo $this->template->render(
                 'posts/forms_posts.html.twig',
                 [
-                    'categories'    => $categories,
-                    'post'          => $post                  
+                    'post'          => $post,  
+                    'categories'    => (new CategoryModel())->find(),                
                 ]
             );
-        }else{
-            Helpers::redirect('admin/posts/posts');
-        }
     }
 }
