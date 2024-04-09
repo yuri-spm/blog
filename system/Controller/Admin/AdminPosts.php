@@ -43,8 +43,6 @@ class AdminPosts extends AdminController
         $data = filter_input_array(INPUT_POST, FILTER_DEFAULT);
        
         if(isset($data)){
-            var_dump($data);
-            die();
             (new PostModel())->update($data, $id); 
             Helpers::redirect('admin/posts/posts'); 
         }
@@ -55,5 +53,11 @@ class AdminPosts extends AdminController
                     'categories'    => (new CategoryModel())->find(),                
                 ]
             );
+    }
+
+    public function delete($id)
+    {
+        (new PostModel())->delete($id);
+        Helpers::redirect('admin/posts/posts');
     }
 }
