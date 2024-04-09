@@ -58,7 +58,7 @@ class PostModel
         return $result;
     }
 
-    public function register($data = [])
+    public function register(array $data)
     {
        try {
  
@@ -66,8 +66,8 @@ class PostModel
           $stmt = Connect::getInstance()->prepare($query);
           $stmt->execute(
              [
-                $data[ 'categoria_id'],
-                $data[ 'titulo'],
+                $data[ 'category_id'],
+                $data[ 'title'],
                 $data['text'],
                 $data['status']
              ]);
@@ -75,6 +75,25 @@ class PostModel
           echo (new Message())->error($e);
        }
     }
+
+    public function update(array $data, int $id):void
+   {
+      var_dump($data);
+      die();
+       try {
+          $query = "UPDATE posts SET category_id = :category_id, title = :title, text = :text, status = :status WHERE id = {$id}";
+          $stmt = Connect::getInstance()->prepare($query);
+          $stmt->execute( [
+            $data[ 'category_id'],
+            $data[ 'title'],
+            $data['text'],
+            $data['status']
+         ]);
+       } catch (PDOException $e) {
+          echo (new Message())->error($e);
+       }
+    }
+
 
 
 }
