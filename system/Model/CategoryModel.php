@@ -95,8 +95,6 @@ class CategoryModel
 
    public function update(array $data, int $id):void
    {
-
-      var_dump($data);
        try {
           $query = "UPDATE category SET  title = ?, text = ?, status = ? WHERE id = {$id}";
           
@@ -111,5 +109,12 @@ class CategoryModel
        } catch (PDOException $e) {
           echo (new Message())->error($e);
        }
-    }
+   }
+
+   public function delete(int $id)
+   {
+      $query = "DELETE FROM category WHERE `category`.`id` = {$id}";
+      $stmt = Connect::getInstance()->query($query);
+      $stmt->execute();
+   }
 }
