@@ -10,10 +10,17 @@ class AdminCategories extends AdminController
 {
     public function categories_list()
     {
+        $categories = new CategoryModel();
+
         echo $this->template->render(
             'categories/categories.html.twig',
             [
-                'categories' => (new CategoryModel())->all()
+                'categories' => $categories->all(),
+                'total'      => [
+                    'total'  => $categories->count(),
+                    'ativo'  => $categories->count('status = 1'),
+                    'inativo'  => $categories->count('status = 0')
+                ]    
             ]
         );
     }
