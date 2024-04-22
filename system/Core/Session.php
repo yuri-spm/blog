@@ -11,28 +11,31 @@ class Session
         }   
     }
 
-    public function create()
+    public function create(string $key, mixed $value): Session
     {
-        
+       $_SESSION[$key] = (is_array($value) ? (object) $value: $value);
+       return $this;
     }
 
-    public function clean()
+    public function load(): ?object
     {
-        
+        return (object) $_SESSION;
     }
 
-    public function load()
+    public function check(string $key): bool
     {
-        
+        return isset($_SESSION[$key]);
     }
 
-    public function check()
+    public function clean(string $key): Session
     {
-        
+        unset($_SESSION[$key]);
+        return $this;
     }
 
-    public function deleted()
+    public function deleted(): Session
     {
-        
+        session_destroy();
+        return $this;
     }
 }
