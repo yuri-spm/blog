@@ -67,6 +67,12 @@ class Template
                             return Message::success($mensage);
                         })
         ),
+            $this->twig->addFunction(
+                new TwigFunction('flash', function () {
+                        return Helpers::flash();
+                    })
+    ),
+
         );
     }
 
