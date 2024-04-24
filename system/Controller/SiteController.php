@@ -18,8 +18,6 @@ class SiteController extends Controller
     public function index(): void
     {      
         $posts = (new PostModel())->find();
-        // var_dump($category, $posts);
-        // die();
         echo $this->template->render('index.html.twig', [
             'title' => 'Posts',
             'posts' => $posts,
