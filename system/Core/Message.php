@@ -83,4 +83,9 @@ class Message
     {
         return filter_var($message, FILTER_SANITIZE_SPECIAL_CHARS);
     }
+
+    public function flash(): void
+    {
+        (new Session())->create('flash', $this);
+    }
 }
