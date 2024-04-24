@@ -1,12 +1,21 @@
 <?php
 
 namespace system\Core;
-
+use system\Core\Session;
 use Exception;
 
 class Helpers
 {
     
+    public static function flash(): ?string
+    {
+        $session = new Session();
+        if($flash = $session->flash()){
+            echo $flash;
+        }
+        return null;
+    }
+
     /**
      * redirect
      *
