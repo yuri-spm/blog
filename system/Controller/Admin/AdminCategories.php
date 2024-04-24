@@ -31,6 +31,7 @@ class AdminCategories extends AdminController
         $data = filter_input_array(INPUT_POST, FILTER_DEFAULT);
         if (isset($data)) {
             (new CategoryModel())->register($data);
+            $this->message->success('Categoria cadastrada com sucesso')->flash();
             Helpers::redirect('admin/categories/categories');
         }
 
@@ -45,6 +46,7 @@ class AdminCategories extends AdminController
        
         if(isset($data)){
             (new CategoryModel())->update($data, $id);
+            $this->message->success('Categoria editada com sucesso')->flash();
             Helpers::redirect('admin/categories/categories'); 
         }
         echo $this->template->render(
