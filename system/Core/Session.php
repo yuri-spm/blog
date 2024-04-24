@@ -38,4 +38,21 @@ class Session
         session_destroy();
         return $this;
     }
+
+    public function __get($name)
+    {
+        if(!empty($_SESSION[$name])){
+            return $_SESSION[$name];
+        }
+    }
+
+    public function flash(): ?Message
+    {
+        if($this->check('flash')){
+            $flash = $this->flash;
+            $this->clean('flash');
+            return $flash;
+        }
+        return null;
+    }
 }
