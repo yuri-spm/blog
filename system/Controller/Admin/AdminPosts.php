@@ -20,7 +20,7 @@ class AdminPosts extends AdminController
         echo $this->template->render(
             'posts/posts.html.twig',
             [
-                'posts' => $post->all(),
+                'posts' => $post->find()->order('id DESC')->result(true),
                 'total' => [
                     'total'   => $post->count(),
                     'ativo'   => $post->count('status = 1'),
