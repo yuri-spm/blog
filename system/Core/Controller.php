@@ -9,6 +9,7 @@ class Controller
   protected Template $template;
   protected Message $message;
 
+  
   /**
    * __construct
    *

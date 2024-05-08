@@ -61,6 +61,8 @@ class AdminCategories extends AdminController
     public function delete($id)
     {
         (new CategoryModel())->delete($id);
+        $this->message->success('Categoria deletada com sucesso')->flash();
+        Helpers::redirect('admin/posts/posts'); 
         Helpers::redirect('admin/categories/categories');
     }
 }

@@ -11,7 +11,12 @@ class Message
     private $css;
 
     
-
+    
+    /**
+     * __toString
+     *
+     * @return void
+     */
     public function __toString()
     {
         return $this->render();

@@ -16,7 +16,13 @@ class Template
 {
 
     private \Twig\Environment $twig;
-
+    
+    /**
+     * __construct
+     *
+     * @param  mixed $diretorio
+     * @return void
+     */
     public function __construct(string $diretorio)
     {
         $loader = new FilesystemLoader($diretorio);
@@ -61,17 +67,11 @@ class Template
                                 return Helpers::summarizeText($texto, $limite);
                             })
             ),
-
-            $this->twig->addFunction(
-                new TwigFunction('sucess', function (string $mensage) {
-                            return Message::success($mensage);
-                        })
-        ),
             $this->twig->addFunction(
                 new TwigFunction('flash', function () {
                         return Helpers::flash();
                     })
-    ),
+            ),
 
         );
     }

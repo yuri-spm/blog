@@ -6,7 +6,12 @@ use Exception;
 
 class Helpers
 {
-    
+        
+    /**
+     * flash
+     *
+     * @return string
+     */
     public static function flash(): ?string
     {
         $session = new Session();

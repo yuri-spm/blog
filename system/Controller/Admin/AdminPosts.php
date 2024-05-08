@@ -8,7 +8,12 @@ use system\Model\CategoryModel;
 use system\Model\PostModel;
 
 class AdminPosts extends AdminController
-{
+{    
+    /**
+     * lists
+     *
+     * @return void
+     */
     public function lists()
     {
         $post = new PostModel();
@@ -24,7 +29,12 @@ class AdminPosts extends AdminController
             ]
         );
     }
-
+    
+    /**
+     * register
+     *
+     * @return void
+     */
     public function register()
     {
         $data = filter_input_array(INPUT_POST, FILTER_DEFAULT);
@@ -42,7 +52,13 @@ class AdminPosts extends AdminController
             ]
         );
     }
-
+    
+    /**
+     * edit
+     *
+     * @param  mixed $id
+     * @return void
+     */
     public function edit($id)
     {
         $post = (new PostModel())->findByID($id); 
@@ -51,6 +67,7 @@ class AdminPosts extends AdminController
        
         if(isset($data)){
             (new PostModel())->update($data, $id); 
+            $this->message->success('Post editada com sucesso')->flash();
             Helpers::redirect('admin/posts/posts'); 
         }
         echo $this->template->render(
@@ -61,10 +78,18 @@ class AdminPosts extends AdminController
                 ]
             );
     }
-
+    
+    /**
+     * delete
+     *
+     * @param  mixed $id
+     * @return void
+     */
     public function delete($id)
     {
         (new PostModel())->delete($id);
+        $this->message->success('Post deletado com sucesso')->flash();
+        Helpers::redirect('admin/posts/posts'); 
         Helpers::redirect('admin/posts/posts');
     }
 }
