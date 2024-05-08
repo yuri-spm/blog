@@ -3,39 +3,23 @@
 namespace system\Model;
 
 use PDOException;
+use system\Controller\Model as ControllerModel;
 use system\Core\Connect;
 use system\Core\Message;
-
-class PostModel
+use system\Core\Model;
+class PostModel extends Model
 {
 
-   protected $query;
+  const TABLE = 'posts';
 
-   /** @var string */
-   protected $params;
-
-   /** @var string */
-   protected $order;
-
-   /** @var int */
-   protected $limit;
-
-   /** @var int */
-   protected $offset;
-
-   public function find(?string $term = null): array
-   {
-      $term = ($term ? "WHERE {$term}" : '');
-      $query = "SELECT * FROM posts {$term} ";
-      $stmt = Connect::getInstance()->query($query);
-      $result = $stmt->fetchAll();
-
-      return $result;
-   }
-
+  public function __construct()
+  {
+      parent:: __construct('posts');
+  }
+   
    public function findByID(int $id): bool|object
    {
-      $query = "SELECT * FROM posts WHERE id = {$id}";
+      $query = "SELECT * FROM ".self::TABLE." WHERE id = {$id}";
       $stmt = Connect::getInstance()->query($query);
       $result = $stmt->fetch();
       return $result;
@@ -52,7 +36,7 @@ class PostModel
 
    public function search($search): array
    {
-      $query = "SELECT* FROM posts WHERE status = 1 AND title LIKE '%{$search}%'";
+      $query = "SELECT* FROM ".self::TABLE." WHERE status = 1 AND title LIKE '%{$search}%'";
       $stmt = Connect::getInstance()->query($query);
       $result = $stmt->fetchAll();
 
@@ -96,7 +80,7 @@ class PostModel
 
    public function delete(int $id)
    {
-      $query = "DELETE FROM posts WHERE `posts`.`id` = {$id}";
+      $query = "DELETE FROM ".self::TABLE." WHERE `posts`.`id` = {$id}";
       $stmt = Connect::getInstance()->query($query);
       $stmt->execute();
    }
