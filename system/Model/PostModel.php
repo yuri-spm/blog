@@ -81,7 +81,7 @@ class PostModel
    public function update(array $data, int $id): void
    {
       try {
-         $query = "UPDATE posts SET category_id = :category_id, title = :title, text = :text, status = :status WHERE id = {$id}";
+         $query = "UPDATE posts SET category_id = ?, title = ?, text = ?, status = ? WHERE id = {$id}";
          $stmt = Connect::getInstance()->prepare($query);
          $stmt->execute([
             $data['category_id'],
