@@ -35,14 +35,22 @@ class AdminPosts extends AdminController
      *
      * @return void
      */
-    public function register()
+    public function register(): void
     {
-        $data = filter_input_array(INPUT_POST, FILTER_DEFAULT);
+        $dados = filter_input_array(INPUT_POST, FILTER_DEFAULT);
+        if (isset($dados)) {
 
-        if (isset($data)) {
-            (new PostModel())->register($data);
-            $this->message->success('Post cadastrado com sucesso')->flash();
-            Helpers::redirect('admin/posts/posts');
+            $post = new PostModel();
+
+            $post->title = $dados['title'];
+            $post->category_id = $dados['category_id'];
+            $post->text = $dados['text'];
+            $post->status = $dados['status'];
+
+            if ($post->save()) {
+                $this->message->success('Post cadastrado com sucesso')->flash();
+                Helpers::redirect('admin/posts/posts');
+            }
         }
 
         echo $this->template->render(
@@ -52,31 +60,34 @@ class AdminPosts extends AdminController
             ]
         );
     }
-    
-    /**
-     * edit
-     *
-     * @param  mixed $id
-     * @return void
-     */
-    public function edit($id)
-    {
-        $post = (new PostModel())->findByID($id); 
 
-        $data = filter_input_array(INPUT_POST, FILTER_DEFAULT);
-       
-        if(isset($data)){
-            (new PostModel())->update($data, $id); 
-            $this->message->success('Post editada com sucesso')->flash();
-            Helpers::redirect('admin/posts/posts'); 
+    public function edit(int $id): void
+    {
+        $post = (new PostModel())->findByID($id);
+
+        $dados = filter_input_array(INPUT_POST, FILTER_DEFAULT);
+        if (isset($dados)) {
+            
+            $post = (new PostModel())->findByID($id);
+
+            $post->title = $dados['title'];
+            $post->category_id = $dados['category_id'];
+            $post->text = $dados['text'];
+            $post->status = $dados['status'];
+
+            if ($post->save()) {
+                $this->message->success('Post atualizado com sucesso')->flash();
+                Helpers::redirect('admin/posts/posts');
+            }
         }
+
         echo $this->template->render(
-                'posts/forms_posts.html.twig',
-                [
-                    'post'          => $post,  
-                    'categories'    => (new CategoryModel())->find(),                
-                ]
-            );
+            'posts/forms_posts.html.twig',
+            [
+                'post'          => $post,  
+                'categories'    => (new CategoryModel())->find(),                
+            ]
+        );
     }
     
     /**

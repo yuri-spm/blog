@@ -17,13 +17,13 @@ class PostModel extends Model
       parent:: __construct('posts');
   }
    
-   public function findByID(int $id): bool|object
-   {
-      $query = "SELECT * FROM ".self::TABLE." WHERE id = {$id}";
-      $stmt = Connect::getInstance()->query($query);
-      $result = $stmt->fetch();
-      return $result;
-   }
+   // public function findByID(int $id): bool|object
+   // {
+   //    $query = "SELECT * FROM ".self::TABLE." WHERE id = {$id}";
+   //    $stmt = Connect::getInstance()->query($query);
+   //    $result = $stmt->fetch();
+   //    return $result;
+   // }
 
    public function all(): array
    {
@@ -43,40 +43,40 @@ class PostModel extends Model
       return $result;
    }
 
-   public function register(array $data)
-   {
-      try {
+   // public function register(array $data)
+   // {
+   //    try {
 
-         $query = 'INSERT INTO posts(`category_id`,`title`, `text`, `status`) VALUES (?,?,?,?)';
-         $stmt = Connect::getInstance()->prepare($query);
-         $stmt->execute(
-            [
-               $data['category_id'],
-               $data['title'],
-               $data['text'],
-               $data['status']
-            ]
-         );
-      } catch (PDOException $e) {
-         echo (new Message())->error($e);
-      }
-   }
+   //       $query = 'INSERT INTO posts(`category_id`,`title`, `text`, `status`) VALUES (?,?,?,?)';
+   //       $stmt = Connect::getInstance()->prepare($query);
+   //       $stmt->execute(
+   //          [
+   //             $data['category_id'],
+   //             $data['title'],
+   //             $data['text'],
+   //             $data['status']
+   //          ]
+   //       );
+   //    } catch (PDOException $e) {
+   //       echo (new Message())->error($e);
+   //    }
+   // }
 
-   public function update(array $data, int $id): void
-   {
-      try {
-         $query = "UPDATE posts SET category_id = ?, title = ?, text = ?, status = ? WHERE id = {$id}";
-         $stmt = Connect::getInstance()->prepare($query);
-         $stmt->execute([
-            $data['category_id'],
-            $data['title'],
-            $data['text'],
-            $data['status']
-         ]);
-      } catch (PDOException $e) {
-         echo (new Message())->error($e);
-      }
-   }
+   // public function update(array $data, int $id): void
+   // {
+   //    try {
+   //       $query = "UPDATE posts SET category_id = ?, title = ?, text = ?, status = ? WHERE id = {$id}";
+   //       $stmt = Connect::getInstance()->prepare($query);
+   //       $stmt->execute([
+   //          $data['category_id'],
+   //          $data['title'],
+   //          $data['text'],
+   //          $data['status']
+   //       ]);
+   //    } catch (PDOException $e) {
+   //       echo (new Message())->error($e);
+   //    }
+   // }
 
    public function delete(int $id)
    {
@@ -95,4 +95,6 @@ class PostModel extends Model
 
       return $stmt->rowCount();
    }
+
+  
 }

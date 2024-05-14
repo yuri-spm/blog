@@ -43,7 +43,7 @@ class AdminCategories extends AdminController
         $category = (new CategoryModel())->findByID($id); 
 
         $data = filter_input_array(INPUT_POST, FILTER_DEFAULT);
-       
+        
         if(isset($data)){
             (new CategoryModel())->update($data, $id);
             $this->message->success('Categoria editada com sucesso')->flash();
