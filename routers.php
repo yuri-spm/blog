@@ -23,6 +23,9 @@ try {
         //Dashboard
         SimpleRouter::get(URL_ADMIN.'dashboard', 'AdminDashboard@dashboard');
 
+       //Login
+       SimpleRouter::match(['get','post'], URL_ADMIN.'login', 'AdminLogin@login');
+
         //Posts
         SimpleRouter::get(URL_ADMIN.'posts/posts', 'AdminPosts@lists');
         SimpleRouter::match(['get','post'], URL_ADMIN.'posts/register', 'AdminPosts@register');
