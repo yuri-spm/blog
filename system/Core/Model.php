@@ -204,4 +204,28 @@ class Model
         return true;
     }
 
+    public function delete(string $terms)
+    {
+        try {
+            $query = "DELETE FROM ".$this->table." WHERE {$terms}";            
+            $stmt = Connect::getInstance()->prepare($query);
+            $stmt->execute();
+            
+            return true;
+            
+        } catch (\PDOException $ex) {
+            echo $this->error = $ex;
+            return null;
+        }
+    }
+
+    public function count():int
+    {
+       $stmt = Connect::getInstance()->prepare($this->query);
+       $stmt->execute();
+ 
+       return $stmt->rowCount();
+    }
+ 
+
 }

@@ -96,11 +96,24 @@ class AdminPosts extends AdminController
      * @param  mixed $id
      * @return void
      */
-    public function delete($id)
+    public function delete(int $id): void
     {
-        (new PostModel())->delete($id);
-        $this->message->success('Post deletado com sucesso')->flash();
-        Helpers::redirect('admin/posts/posts'); 
-        Helpers::redirect('admin/posts/posts');
+        if(is_int($id)){
+            $post = (new PostModel())->findByID($id);
+            if(!$post){
+                $this->message->alert('O post não existe')->flash();
+                Helpers::redirect('admin/posts/posts'); 
+            }else{
+                if($post->delete("id = {$id}")){
+                    $this->message->success('Post deletado com sucesso')->flash();
+                    Helpers::redirect('admin/posts/posts');  
+                }else{
+                    $this->message->error($post->error())->flash();
+                    Helpers::redirect('admin/posts/posts'); 
+                }
+             
+            }
+        }
+
     }
 }

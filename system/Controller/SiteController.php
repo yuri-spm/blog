@@ -17,10 +17,10 @@ class SiteController extends Controller
 
     public function index(): void
     {      
-        $posts = (new PostModel())->find();
+        $posts = (new PostModel())->find("status = 1");
         echo $this->template->render('index.html.twig', [
             'title' => 'Posts',
-            'posts' => $posts,
+            'posts' => $posts->result(true),
             'categories' => $this->categories(),
         ]);
     }
@@ -29,7 +29,7 @@ class SiteController extends Controller
     {
         $search = filter_input(INPUT_POST,'search', FILTER_DEFAULT);
         if(isset($search)){
-            $posts = (new PostModel())->search($search);
+            $posts = (new PostModel())->find("status = 1 AND title LIKE '%{$search}%'")->result(true);
             
             foreach ($posts as $post){
                 echo "<li class='list-group-item fw-bold'><a href=".Helpers::url('post/').$post->id.">$post->title</a></li>";
