@@ -104,7 +104,7 @@ class AdminPosts extends AdminController
                 $this->message->alert('O post não existe')->flash();
                 Helpers::redirect('admin/posts/posts'); 
             }else{
-                if($post->delete("id = {$id}")){
+                if($post->destroy()){
                     $this->message->success('Post deletado com sucesso')->flash();
                     Helpers::redirect('admin/posts/posts');  
                 }else{

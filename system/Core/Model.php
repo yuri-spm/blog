@@ -7,7 +7,7 @@ use stdClass;
 use system\Core\Connect;
 use system\Core\Message;
 
-class Model
+abstract class Model
 {
     protected $data;
     protected $query;
@@ -217,6 +217,14 @@ class Model
             echo $this->error = $ex;
             return null;
         }
+    }
+    public function destroy()
+    {
+        if(empty($this->id)){
+            return false;
+        }
+        $delete = $this->delete("id = {$this->id}");
+        return $delete;
     }
 
     public function count():int
