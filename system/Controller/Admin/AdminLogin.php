@@ -3,8 +3,10 @@
 
 namespace system\Controller\Admin;
 
-use system\Core\Controller;
 use system\Core\Helpers;
+use system\Core\Controller;
+use system\Model\UserModel;
+
 class AdminLogin extends Controller
 {
     public function __construct()
@@ -12,26 +14,20 @@ class AdminLogin extends Controller
         parent::__construct('templates/admin/views');
 
     }      
-    
     public function login(): void
     {
+     
       $data = filter_input_array(INPUT_POST, FILTER_DEFAULT);
-      if(isset($data)){
-        if($this->checkData($data)){
-          $this->message->success('dados validados')->flash();
+      if (isset($data)) {
+        if (in_array('', $data)) {
+          $this->message->alert("Todos os campos são obrigatorios")->flash();
+        }else{
+          $user = (new UserModel())->login($data, 3);
+          if ($user){
+            Helpers::redirect('admin/login');
+          }
         }
       }
-      echo $this->template->render('login.html.twig', []); 
-    }
-    
-    private function checkData(array $data): bool
-    {
-      if(isset($data)){
-        if(in_array('', $data)){
-          $this->message->alert('Todos os campos são obrigatorios')->flash();
-          return false;
-        }
-      }
-      return true;
+      echo $this->template->render("login.html.twig",[]);
     }
 }
