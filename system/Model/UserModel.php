@@ -2,6 +2,7 @@
 
 namespace system\Model;
 
+use system\Core\Session;
 use system\Core\Model;
 
 class UserModel extends Model
@@ -40,7 +41,8 @@ class UserModel extends Model
             $this->message->alert("Usuario sem permissão")->flash();
             return false;
         }
-
+        (new Session())->create('userId', $user->id);
+        
         $this->message->success("{$user->name}, seja bem vindo ao painel de controle")->flash();
         return true;
     } 

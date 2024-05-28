@@ -3,6 +3,7 @@
 
 namespace system\Controller\Admin;
 
+use system\Controller\UserController;
 use system\Core\Helpers;
 use system\Core\Controller;
 use system\Model\UserModel;
@@ -13,10 +14,21 @@ class AdminLogin extends Controller
     {
         parent::__construct('templates/admin/views');
 
-    }      
+    }          
+    /**
+     * login
+     * validate login
+     * @return void
+     */
     public function login(): void
     {
      
+      $user = UserController::user();
+      if($user && $user->level == 3){
+        Helpers::redirect('admin/dashboard');
+      }
+      
+
       $data = filter_input_array(INPUT_POST, FILTER_DEFAULT);
       if (isset($data)) {
         if (in_array('', $data)) {
