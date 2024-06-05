@@ -22,6 +22,7 @@ try {
 
         //Dashboard
         SimpleRouter::get(URL_ADMIN.'dashboard', 'AdminDashboard@dashboard');
+        SimpleRouter::get(URL_ADMIN.'exit', 'AdminDashboard@exit');
 
        //Login
        SimpleRouter::match(['get','post'], URL_ADMIN.'login', 'AdminLogin@login');

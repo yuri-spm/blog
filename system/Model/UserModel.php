@@ -41,6 +41,10 @@ class UserModel extends Model
             $this->message->alert("Usuario sem permissão")->flash();
             return false;
         }
+
+        $user->last_login = date('Y-m-d H:i:s');
+        $user->save();
+
         (new Session())->create('userId', $user->id);
         
         $this->message->success("{$user->name}, seja bem vindo ao painel de controle")->flash();

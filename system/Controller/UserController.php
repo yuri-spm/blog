@@ -24,7 +24,7 @@ class UserController extends Controller
      *
      * @return void
      */
-    public static function user()
+    public static function user(): ?UserModel
     {
         $session = new Session();
 
