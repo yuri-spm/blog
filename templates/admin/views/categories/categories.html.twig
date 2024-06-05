@@ -17,8 +17,12 @@
 {{ flash() }}
 
 <div class="card border-0 shadow-sm">
-<div class="card-header bg-white border-0 d-flex justify-content-between align-items-center">
-Total de categorias {{total.total}} - Ativos {{total.ativo}} - Inativos {{total.inativo}} 
+    <div class="card-header bg-white border-0 d-flex justify-content-between align-items-center">
+         <div>
+            <span class="badge rounded text-bg-secondary">{{total.total}} categorias</span> 
+            <span class="badge rounded text-bg-success">{{total.active}} ativo</span> 
+            <span class="badge rounded text-bg-danger">{{total.inactive}} inativo</span> 
+        </div>
         <a href="{{url('admin/categories/register')}}" class="btn btn-primary">Cadastrar</a>
     </div>
     <div class="card-body">

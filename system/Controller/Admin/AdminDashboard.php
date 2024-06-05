@@ -4,6 +4,8 @@ namespace system\Controller\Admin;
 
 use system\Core\Helpers;
 use system\Core\Session;
+use system\Model\PostModel;
+use system\Model\UserModel;
 
 class AdminDashboard extends AdminController
 {    
@@ -14,7 +16,20 @@ class AdminDashboard extends AdminController
      */
     public function dashboard():void
     {
-       echo $this->template->render('dashboard.html.twig',[]);
+       $post = new PostModel();
+       $user = new UserModel();
+       echo $this->template->render('dashboard.html.twig',[
+        'posts' => [
+            'total'  => $post->find()->count(),
+            'active' => $post->find('status = 1')->count(),
+            'inactive' => $post->find('status = 0')->count(),
+        ],
+        'users' => [
+            'total'  => $user->find()->count(),
+            'active' => $user->find('status = 1')->count(),
+            'inactive' => $user->find('status = 0')->count(),
+        ]
+       ]);
     }
     
     /**

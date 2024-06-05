@@ -1,5 +1,5 @@
 {% extends "base.html.twig" %}
-{% block corpo %}
+{% block default %}
 
 {% include 'menu.html.twig' %}
 
@@ -7,16 +7,83 @@
     {% include 'header.html.twig' %}
     <main>
         {% block content %}  
-        <div class="card border-0 shadow-sm">
-            <div class="card-header bg-white border-0">
-                <h5 class="card-title">Dashboard</h5>
-            </div>
-            <div class="card-body">
-                Conteúdo em desenvolvimento
+    <h5 class="mb-3">Dashboard</h5>            
+
+    {{ flash() }}
+
+    <div class="row">
+        <div class="col-xl-6 col-xxl-5 d-flex">
+            <div class="w-100">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="card border-0 shadow-sm mb-3">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col mt-0">
+                                        <h6 class="fw-bold text-secondary">Posts</h6>
+                                    </div>
+
+                                    <div class="col-auto text-secondary">
+                                        <a href="{{url('admin/posts/cadastrar')}}" tooltip="tooltip" title="Cadastrar Post">
+                                            <i class="fa-solid fa-file-pen"></i>
+                                        </a>                                            
+                                    </div>
+                                </div>
+                                <h1 class="mt-1 mb-3">{{posts.total}}</h1>
+
+                                <div class="row">
+                                    <div class="col-auto">
+                                        <span class="badge text-bg-success bg-opacity-10"> <span class="text-success fw-bold">{{posts.active}}</span> <span class="badge text-secondary">Ativo</span> </span>
+                                    </div>
+                                    <div class="col-auto">
+                                        <span class="badge text-bg-danger bg-opacity-10"> <span class="text-danger fw-bold">{{posts.inactive}}</span> <span class="badge text-secondary">Inativo</span> </span>  
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>                                   
+                    </div>
+
+                    <div class="col-sm-6">
+                        <div class="card border-0 shadow-sm mb-3">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col mt-0">
+                                        <h6 class="fw-bold text-secondary">Usuários</h6>
+                                    </div>
+
+                                    <div class="col-auto text-secondary">
+                                        <i class="fas fa-users"></i>
+                                    </div>
+                                </div>
+                                <h1 class="mt-1 mb-3">{{users.total}}</h1>
+
+                                <div class="row">
+                                    <div class="col-auto">
+                                        <span class="badge text-bg-success bg-opacity-10"> <span class="text-success fw-bold">{{users.active}}</span> <span class="badge text-secondary">Ativo</span> </span>
+                                    </div>
+                                    <div class="col-auto">
+                                        <span class="badge text-bg-danger bg-opacity-10"> <span class="text-danger fw-bold">{{users.inactive}}</span> <span class="badge text-secondary">Inativo</span> </span>  
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>                                   
+                    </div>
+
+                </div>
             </div>
         </div>
-        {% endblock %}
-    </main>
+
+    </div>
+    <div class="col-xl-6 col-xxl-7">
+    <div class="card flex-fill w-100">
+         Em desenvolvimento
+    </div>
+</div>
+
+    {% endblock %}
+</main>
     {% include 'footer.html.twig' %}
 </div>
 

@@ -23,8 +23,8 @@ class AdminPosts extends AdminController
                 'posts' => $post->find()->order('id DESC')->result(true),
                 'total' => [
                     'total'   => $post->count(),
-                    'ativo'   => $post->count('status = 1'),
-                    'inativo' => $post->count('status = 0'),
+                    'active'   => $post->find('status = 1')->count(),
+                    'inactive' => $post->find('status = 0')->count(),
                 ]
             ]
         );

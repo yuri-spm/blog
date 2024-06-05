@@ -18,8 +18,8 @@ class AdminCategories extends AdminController
                 'categories' => $categories->all(),
                 'total'      => [
                     'total'  => $categories->count(),
-                    'ativo'  => $categories->count('status = 1'),
-                    'inativo'  => $categories->count('status = 0')
+                    'active'  => $categories->count('status = 1'),
+                    'inactive'  => $categories->count('status = 0')
                 ]    
             ]
         );

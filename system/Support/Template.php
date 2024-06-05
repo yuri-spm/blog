@@ -8,6 +8,7 @@ use Twig\TwigFunction;
 use Twig\Loader\FilesystemLoader;
 use system\Core\Helpers;
 use system\Core\Message;
+use system\Controller\UserController;
 
 /**
  * Classe Template
@@ -70,6 +71,11 @@ class Template
             $this->twig->addFunction(
                 new TwigFunction('flash', function () {
                         return Helpers::flash();
+                    })
+            ),
+            $this->twig->addFunction(
+                new TwigFunction('user', function () {
+                        return UserController::user();
                     })
             ),
 
