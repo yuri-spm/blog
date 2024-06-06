@@ -29,13 +29,16 @@ class AdminUser extends AdminController
         ]);
     }
 
-
+    
+    /**
+     * register user
+     *
+     * @return void
+     */
     public function register()
     {
-        $data = filter_input(INPUT_POST, FILTER_DEFAULT);
-        var_dump($data);
-     
-die();
+        $data = filter_input_array(INPUT_POST, FILTER_DEFAULT);
+
         if(isset($data)){
             if($this->validateData($data)){
                 if(empty($data['password'])){
@@ -64,6 +67,38 @@ die();
             'user' => $data
         ]);
         
+    }
+
+    public function edit(int $id)
+    {
+        $user = (new UserModel())->findByID($id);
+
+        $data = filter_input_array(INPUT_POST, FILTER_DEFAULT);
+
+        if(isset($data)){
+            if($this->validateData($data)){
+                $user = (new UserModel())->findByID($id);
+
+                $user->name      = $data['name'];
+                $user->email     = $data['email'];
+                $user->password  = (!empty($data['password']) ? $data['password'] : $user->password);
+                $user->level     = $data['level'];
+                $user->status    = $data['status'];
+                $user->update_at =  date('Y-m-d H:i:s');
+
+                if($user->save()){
+                    $this->message->success('Usuario atualizado com sucesso')->flash();
+                    Helpers::redirect('admin/users/users');
+                }else{
+                    $this->message->error($user->error())->flash();
+                    Helpers::redirect('admin/users/register');
+                }
+            }
+        }
+
+        echo $this->template->render('users/forms_users.html.twig',[
+            'user' => $user
+        ]);
     }
     
     /**
