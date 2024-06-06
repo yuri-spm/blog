@@ -24,7 +24,7 @@
                                     </div>
 
                                     <div class="col-auto text-secondary">
-                                        <a href="{{url('admin/posts/cadastrar')}}" tooltip="tooltip" title="Cadastrar Post">
+                                        <a href="{{url('admin/posts/register')}}" tooltip="tooltip" title="Cadastrar Post">
                                             <i class="fa-solid fa-file-pen"></i>
                                         </a>                                            
                                     </div>
@@ -45,17 +45,19 @@
                     </div>
 
                     <div class="col-sm-6">
-                        <div class="card border-0 shadow-sm mb-3">
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col mt-0">
-                                        <h6 class="fw-bold text-secondary">Usuários</h6>
-                                    </div>
-
-                                    <div class="col-auto text-secondary">
-                                        <i class="fas fa-users"></i>
-                                    </div>
+                    <div class="card border-0 shadow-sm mb-3">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col mt-0">
+                                    <h6 class="fw-bold text-secondary">Posts</h6>
                                 </div>
+
+                                <div class="col-auto text-secondary">
+                                    <a href="{{url('admin/users/register')}}" tooltip="tooltip" title="Cadastrar Post">
+                                        <i class="fa-solid fa-file-pen"></i>
+                                    </a>                                            
+                                </div>
+                            </div>
                                 <h1 class="mt-1 mb-3">{{users.total}}</h1>
 
                                 <div class="row">
