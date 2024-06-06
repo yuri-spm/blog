@@ -38,6 +38,12 @@ try {
         SimpleRouter::match(['get','post'], URL_ADMIN.'categories/register', 'AdminCategories@register');
         SimpleRouter::match(['get','post'], URL_ADMIN.'categories/edit{id}', 'AdminCategories@edit');
         SimpleRouter::get(URL_ADMIN.'categories/delete/{id}', 'AdminCategories@delete');
+
+        //Admin User
+        SimpleRouter::get(URL_ADMIN.'users/users', 'AdminUser@lists');
+        SimpleRouter::match(['get','post'], URL_ADMIN.'users/register', 'AdminUser@register');
+        SimpleRouter::match(['get','post'], URL_ADMIN.'posts/edit/{id}', 'AdminUser@edit');
+        SimpleRouter::get(URL_ADMIN.'posts/delete/{id}', 'AdminUser@delete');
     });
 
     SimpleRouter::start();
