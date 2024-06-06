@@ -2,6 +2,7 @@
 
 namespace system\Controller\Admin;
 
+use FontLib\EOT\Header;
 use system\Core\Helpers;
 use system\Model\UserModel;
 
@@ -99,6 +100,25 @@ class AdminUser extends AdminController
         echo $this->template->render('users/forms_users.html.twig',[
             'user' => $user
         ]);
+    }
+
+    public function delete(int $id)
+    {
+        if(is_int($id)){
+            $user = (new UserModel())->findByID($id);
+            if(!$user){
+                $this->message->alert('O usuário que você esta tentando deletar não existe!')->flash();
+                Helpers::redirect('admin/users/users');
+            }else{
+                if($user->destroy()){
+                    $this->message->success('Usuário deletado com sucesso!')->flash();
+                    Helpers::redirect('admin/users/users');
+                }else{
+                    $this->message->error($user->error())->flash();
+                    Helpers::redirect('admin/users/users');
+                }
+            }
+        }
     }
     
     /**

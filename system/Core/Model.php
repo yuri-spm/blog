@@ -127,7 +127,7 @@ abstract class Model
 
             return Connect::getInstance()->lastInsertId();
         } catch (\PDOException $ex) {
-            echo $this->error = $ex;
+            echo $this->error = $ex->getMessage();
             return null;
         }
     }
@@ -149,7 +149,7 @@ abstract class Model
             return ($stmt->rowCount() ?? 1);
             
         } catch (\PDOException $ex) {
-            echo $this->error = $ex;
+            echo $this->error = $ex->getMessage();
             return null;
         }
     }
@@ -214,7 +214,7 @@ abstract class Model
             return true;
             
         } catch (\PDOException $ex) {
-            echo $this->error = $ex;
+            echo $this->error = $ex->getMessage();
             return null;
         }
     }
