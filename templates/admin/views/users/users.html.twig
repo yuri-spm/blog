@@ -20,7 +20,7 @@
     <div class="card-header bg-white border-0 d-flex justify-content-between align-items-center">
          <div>
             <span class="badge rounded text-bg-dark bg-opacity-25">
-                 <span class="text-dark bg-opacity-100">{{total.user}} usuário</span>
+                 <span class="text-dark bg-opacity-100">{{total.users}} usuário</span>
                 <span class="badge text-bg-success bg-opacity-100">{{total.userActive}}</span>
                 <span class="badge text-bg-danger bg-opacity-100">{{total.userInactive}}</span>
             </span> 
@@ -54,7 +54,7 @@
                             <th>{{user.id}}</th>
                             <td>
                                 <a href="{{ url('admin/users/edit/'~user.id) }}" tooltip="tooltip" title="Editar">
-                                    {{user.nome}}
+                                    {{user.name}}
                                 </a>                            
                             </td>
                             <td>{{user.email}}</td>
