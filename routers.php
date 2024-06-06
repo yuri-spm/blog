@@ -42,8 +42,8 @@ try {
         //Admin User
         SimpleRouter::get(URL_ADMIN.'users/users', 'AdminUser@lists');
         SimpleRouter::match(['get','post'], URL_ADMIN.'users/register', 'AdminUser@register');
-        SimpleRouter::match(['get','post'], URL_ADMIN.'posts/edit/{id}', 'AdminUser@edit');
-        SimpleRouter::get(URL_ADMIN.'posts/delete/{id}', 'AdminUser@delete');
+        SimpleRouter::match(['get','post'], URL_ADMIN.'users/edit/{id}', 'AdminUser@edit');
+        SimpleRouter::get(URL_ADMIN.'users/delete/{id}', 'AdminUser@delete');
     });
 
     SimpleRouter::start();
