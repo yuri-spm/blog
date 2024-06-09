@@ -13,33 +13,27 @@ class AdminLogin extends Controller
     public function __construct()
     {
         parent::__construct('templates/admin/views');
+    }
 
-    }          
-    /**
-     * login
-     * validate login
-     * @return void
-     */
     public function login(): void
     {
-     
-      $user = UserController::user();
-      if($user && $user->level == 3){
-        Helpers::redirect('admin/dashboard');
-      }
-      
-
-      $data = filter_input_array(INPUT_POST, FILTER_DEFAULT);
-      if (isset($data)) {
-        if (in_array('', $data)) {
-          $this->message->alert("Todos os campos são obrigatorios")->flash();
-        }else{
-          $user = (new UserModel())->login($data, 3);
-          if ($user){
-            Helpers::redirect('admin/login');
-          }
+        $user = UserController::user();
+        if($user && $user->level == 3){
+            Helpers::redirect('admin/dashboard');
         }
-      }
-      echo $this->template->render("login.html.twig",[]);
+        
+        $data = filter_input_array(INPUT_POST, FILTER_DEFAULT);
+        if (isset($dados)) {
+            if (in_array('', $dados)) {
+                $this->message->alert('Todos os campos são obrigatórios!')->flash();
+            } else {
+                $user = (new UserModel())->login($data, 3);
+                if($user){
+                    Helpers::redirect('admin/login');
+                }
+            }
+        }
+
+        echo $this->template->render('login.html.twig', []);
     }
 }
