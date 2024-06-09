@@ -3,101 +3,93 @@
 namespace system\Core;
 
 class Session
-{    
-    /**
-     * __construct session
-     *
-     * @return void
-     */
+{
+
     public function __construct()
     {
-        if(!session_id()){
-          session_start();
-        }   
+        //checa se não existe um ID de sessão
+        if (!session_id()) {
+            //inicia uma nova sessão ou resume uma sessão existente
+            session_start();
+        }
     }
-    
+
     /**
-     * create
-     *
-     * @param  mixed $key
-     * @param  mixed $value
+     * Cria uma sessão
+     * @param string $key
+     * @param mixed $value
      * @return Session
      */
     public function create(string $key, mixed $value): Session
     {
-       $_SESSION[$key] = (is_array($value) ? (object) $value: $value);
-       return $this;
+        $_SESSION[$key] = (is_array($value) ? (object) $value : $value);
+        return $this;
     }
-    
+
     /**
-     * load
-     *
-     * @return object
+     * Carrega uma sessão
+     * @return object|null
      */
     public function load(): ?object
     {
         return (object) $_SESSION;
     }
-    
+
     /**
-     * check
-     *
-     * @param  mixed $key
+     * Checa se uma sessão existe
+     * @param string $key
      * @return bool
      */
     public function check(string $key): bool
     {
         return isset($_SESSION[$key]);
     }
-    
+
     /**
-     * clean
-     *
-     * @param  mixed $key
+     * Limpa a sessão especificada
+     * @param string $key
      * @return Session
      */
-    public function clean(string $key): Session
+    public function clear(string $key): Session
     {
         unset($_SESSION[$key]);
         return $this;
     }
-    
+
     /**
-     * deleted
-     *
+     * Destrói todos os data registrados em uma sessão
      * @return Session
      */
-    public function deleted(): Session
+    public function destroy(): Session
     {
         session_destroy();
         return $this;
     }
-    
+
     /**
-     * __get
-     *
-     * @param  mixed $name
-     * @return void
+     * __get() é utilizado para ler data de atributos inacessíveis.
+     * @param type $atributo
+     * @return type
      */
-    public function __get($name)
+    public function __get($atributo)
     {
-        if(!empty($_SESSION[$name])){
-            return $_SESSION[$name];
+        if (!empty($_SESSION[$atributo])) {
+            return $_SESSION[$atributo];
         }
     }
-    
+
     /**
-     * flash
-     *
-     * @return Message
+     * Checa ou limpa mensagens flash
+     * @return Message|null
      */
     public function flash(): ?Message
     {
-        if($this->check('flash')){
+        if ($this->check('flash')) {
             $flash = $this->flash;
-            $this->clean('flash');
+            $this->clear('flash');
             return $flash;
         }
         return null;
     }
+
 }

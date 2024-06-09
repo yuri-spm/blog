@@ -9,33 +9,30 @@ use system\Model\UserModel;
 class AdminUser extends AdminController
 {
 
-    
+
     /**
-     * lists
-     *
+     * Lista usuários
      * @return void
      */
     public function lists(): void
     {
-        $users = new UserModel();
+        $user = new UserModel();
 
         echo $this->template->render('users/users.html.twig', [
-            'users' => $users->find()->order('level DESC, status ASC')->result(true),
+            'users' => $user->find()->order('level DESC, status ASC')->result(true),
             'total' => [
-                'users' => $users->find('level != 3')->count(),
-                'usersActive' => $users->find('status = 1 AND level != 3')->count(),
-                'userInactive' => $users->find('status = 0 AND level != 3')->count(),
-                'admin' => $users->find('level = 3')->count(),
-                'adminActive' => $users->find('status = 1 AND level = 3')->count(),
-                'adminInactive' => $users->find('status = 0 AND level = 3')->count()
+                'users' => $user->find('level != 3')->count(),
+                'userActive' => $user->find('status = 1 AND level != 3')->count(),
+                'userInactive' => $user->find('status = 0 AND level != 3')->count(),
+                'admin' => $user->find('level = 3')->count(),
+                'adminActive' => $user->find('status = 1 AND level = 3')->count(),
+                'adminInactive' => $user->find('status = 0 AND level = 3')->count()
             ]
         ]);
     }
 
-    
     /**
-     * register
-     *
+     * Cadastra usuário
      * @return void
      */
     public function register(): void
@@ -45,39 +42,38 @@ class AdminUser extends AdminController
             //checa os data 
             if ($this->validateData($data)) {
 
-                if (empty($data['senha'])) {
-                    $this->message->alert('Informe uma senha para o usuário')->flash();
+                if (empty($data['password'])) {
+                    $this->message->alert('Informe uma password para o usuário')->flash();
                 } else {
                     $user = new UserModel();
 
-                    $user->nome = $data['nome'];
+                    $user->name = $data['name'];
                     $user->email = $data['email'];
-                    $user->senha = $data['senha'];
+                    $user->password = $data['password'];
                     $user->level = $data['level'];
                     $user->status = $data['status'];
 
                     if ($user->save()) {
-                         $this->message->success('Usuário cadastrado com sucesso')->flash();
-                          Helpers::redirect('admin/users/users');
+                        $this->message->success('Usuário cadastrado com sucesso')->flash();
+                         Helpers::redirect('admin/users/users');
                     } else {
-                        $user->mensagem()->flash();
+                        $user->message()->flash();
                     }
                 }
             }
         }
 
-        echo $this->template->render('usuarios/formulario.html', [
-            'usuario' => $data
+        echo $this->template->render('users/forms_users.html.twig', [
+            'user' => $data
         ]);
     }
-    
+
     /**
-     * editar
-     *
-     * @param  mixed $id
+     * Edita os data do usuário por ID
+     * @param int $id
      * @return void
      */
-    public function editar(int $id): void
+    public function edit(int $id): void
     {
         $user = (new UserModel())->findByID($id);
 
@@ -86,45 +82,43 @@ class AdminUser extends AdminController
             if ($this->validateData($data)) {
                 $user = (new UserModel())->findByID($id);
 
-                $user->nome = $data['nome'];
+                $user->name = $data['name'];
                 $user->email = $data['email'];
-                $user->senha = (!empty($data['senha']) ? $data['senha'] : $user->senha);
+                $user->password = (!empty($data['password']) ? $data['password'] : $user->password);
                 $user->level = $data['level'];
                 $user->status = $data['status'];
                 $user->atualizado_em = date('Y-m-d H:i:s');
 
                 if ($user->save()) {
-                     $this->message->success('Usuário atualizado com sucesso')->flash();
-                      Helpers::redirect('admin/users/users');
+                    $this->message->success('Usuário atualizado com sucesso')->flash();
+                     Helpers::redirect('admin/users/users');
                 } else {
-                    $user->mensagem()->flash();
+                    $user->message()->flash();
                 }
             }
         }
 
-        echo $this->template->render('usuarios/formulario.html', [
-            'usuario' => $user
+        echo $this->template->render('users/forms_users.html.twig', [
+            'user' => $user
         ]);
     }
 
-    
     /**
-     * validateData
-     *
-     * @param  mixed $data
+     * Checa os data do formulário
+     * @param array $data
      * @return bool
      */
     public function validateData(array $data): bool
     {
         if (empty($data['name'])) {
-            $this->message->alert('Informe o nome do usuário')->flash();
+            $this->message->alert('Informe o name do usuário')->flash();
             return false;
         }
         if (empty($data['email'])) {
             $this->message->alert('Informe o e-mail do usuário')->flash();
             return false;
         }
-        if (!Helpers::validateEmail($data['email'])) {
+        if (!Helpers::validarEmail($data['email'])) {
             $this->message->alert('Informe um e-mail válido!')->flash();
             return false;
         }
@@ -132,11 +126,9 @@ class AdminUser extends AdminController
         return true;
     }
 
-    
     /**
-     * delete
-     *
-     * @param  mixed $id
+     * Deletar um usuário por ID
+     * @param int $id
      * @return void
      */
     public function delete(int $id): void
@@ -145,14 +137,14 @@ class AdminUser extends AdminController
             $user = (new UserModel())->findByID($id);
             if (!$user) {
                 $this->message->alert('O usuário que você está tentando deletar não existe!')->flash();
-                  Helpers::redirect('admin/users/users');
+                 Helpers::redirect('admin/users/users');
             } else {
                 if ($user->destroy()) {
-                     $this->message->success('Usuário deletado com sucesso!')->flash();
-                      Helpers::redirect('admin/users/users');
+                    $this->message->success('Usuário deletado com sucesso!')->flash();
+                     Helpers::redirect('admin/users/users');
                 } else {
-                    $this->message->error($user->erro())->flash();
-                      Helpers::redirect('admin/users/users');
+                    $this->message->error($user->error())->flash();
+                     Helpers::redirect('admin/users/users');
                 }
             }
         }

@@ -16,17 +16,17 @@ class AdminController extends Controller
     public function __construct()
     {
         parent::__construct('templates/admin/views');
-
-        $this->user =  UserController::user();
+        
+        $this->user = UserController::user();
         
         if(!$this->user OR $this->user->level != 3){
             $this->message->error('Faça login para acessar o painel de controle!')->flash();
             
             $sessao = new Session();
-            $sessao->clean('usuarioId');
+            $sessao->clear('userId');
             
             Helpers::redirect('admin/login');
         }
-    }      
+    }
     
 }

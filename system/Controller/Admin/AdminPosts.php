@@ -10,31 +10,32 @@ use system\Model\PostModel;
 class AdminPosts extends AdminController
 {
 
+
     public function lists(): void
     {
         $post = new PostModel();
 
-        echo $this->template->render('admin/posts/posts', [
+        echo $this->template->render('posts/posts.html.twig', [
             'posts' => $post->find()->order('status ASC, id DESC')->result(true),
-            'count' => [
+            'total' => [
                 'posts' => $post->count(),
-                'active'   => $post->find('status = 1')->count(),
-                'inactive' => $post->find('status = 0')->count()
+                'postsActive' => $post->find('status = 1')->count(),
+                'postsInactive' => $post->find('status = 0')->count()
             ]
         ]);
     }
 
     public function register(): void
     {
-        $dados = filter_input_array(INPUT_POST, FILTER_DEFAULT);
-        if (isset($dados)) {
+        $data = filter_input_array(INPUT_POST, FILTER_DEFAULT);
+        if (isset($data)) {
 
             $post = new PostModel();
 
-            $post->titulo = $dados['title'];
-            $post->categoria_id = $dados['category_id'];
-            $post->texto = $dados['text'];
-            $post->status = $dados['status'];
+            $post->title = $data['title'];
+            $post->category_id = $data['category_id'];
+            $post->text = $data['text'];
+            $post->status = $data['status'];
 
             if ($post->save()) {
                 $this->message->success('Post cadastrado com sucesso')->flash();
@@ -43,7 +44,7 @@ class AdminPosts extends AdminController
         }
 
         echo $this->template->render('posts/forms_posts.html.twig', [
-            'categorias' => (new CategoryModel())->find()
+            'categories' => (new CategoryModel())->find()
         ]);
     }
 
@@ -51,43 +52,43 @@ class AdminPosts extends AdminController
     {
         $post = (new PostModel())->findByID($id);
 
-        $dados = filter_input_array(INPUT_POST, FILTER_DEFAULT);
-        if (isset($dados)) {
+        $data = filter_input_array(INPUT_POST, FILTER_DEFAULT);
+        if (isset($data)) {
 
             $post = (new PostModel())->findByID($id);
 
-            $post->titulo = $dados['titulo'];
-            $post->categoria_id = $dados['categoria_id'];
-            $post->texto = $dados['texto'];
-            $post->status = $dados['status'];
+            $post->title = $data['title'];
+            $post->category_id = $data['category_id'];
+            $post->text = $data['text'];
+            $post->status = $data['status'];
 
-            if ($post->salvar()) {
+            if ($post->save()) {
                 $this->message->success('Post atualizado com sucesso')->flash();
-                Helpers::redirect('admin/posts/listar');
+                Helpers::redirect('admin/posts/posts');
             }
         }
 
         echo $this->template->render('posts/forms_posts.html.twig', [
             'post' => $post,
-            'categorias' => (new CategoryModel())->find()
+            'categories' => (new CategoryModel())->find()
         ]);
     }
 
-    public function deletar(int $id): void
+    public function delete(int $id): void
     {
 //        $id = filter_var($id, FILTER_VALIDATE_INT);
         if (is_int($id)) {
             $post = (new PostModel())->findByID($id);
             if (!$post) {
                 $this->message->alert('O post que você está tentando deletar não existe!')->flash();
-                Helpers::redirect('admin/posts/posts'); 
+                Helpers::redirect('admin/posts/posts');
             } else {
-                if($post->deletar()){
+                if($post->destroy()){
                     $this->message->success('Post deletado com sucesso!')->flash();
-                    Helpers::redirect('admin/posts/posts'); 
+                Helpers::redirect('admin/posts/posts');
                 }else {
-                    $this->message->error($post->erro())->flash();
-                    Helpers::redirect('admin/posts/posts'); 
+                    $this->message->error($post->error())->flash();
+                Helpers::redirect('admin/posts/posts');
                 }
                 
                 

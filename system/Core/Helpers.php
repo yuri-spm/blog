@@ -22,127 +22,129 @@ class Helpers
     }
 
     /**
-     * redirect
-     *
-     * @param  mixed $url
+     * Redireciona para a url informada
+     * @param string $url
      * @return void
      */
-    public static function redirect(string $url = null)
+    public static function redirect(string $url = null): void
     {
         header('HTTP/1.1 302 Found');
-        $local = ($url ?self::url($url) : self::url() );
-        header("Location: {$local}");
+
+        $local = ($url ? self::url($url) : self::url());
+
+        header("Location: {$local} ");
         exit();
     }
 
     /**
-     * clearNumber
-     *
-     * @param  mixed $numero
-     * @return string
-     */
-    public static function clearNumber(string $numero): string
-    {
-        return preg_replace('/[^0-9]/', '', $numero);
-    }
-
-    /**
-     * validateCPF
-     *
-     * @param  mixed $cpf
+     * Válida um número de CPF
+     * @param string $cpf
      * @return bool
      */
-    public static function validateCPF(string $cpf): bool
+    public static function validateCpf(string $cpf): bool
     {
-       $cpf = self::clearNumber($cpf);
+        $cpf = self::clearNumber($cpf);
 
-    if (mb_strlen($cpf) != 11 or preg_match('/(\d)\1{10}/', $cpf)) {
-        throw new Exception('O CPF precisa ter 11 digitos');
-    }
-    for ($t = 9; $t < 11; $t++) {
-        for ($d = 0, $c = 0; $c < $t; $c++) {
-            $d += $cpf[$c] * (($t + 1) - $c);
+        if (mb_strlen($cpf) != 11 or preg_match('/(\d)\1{10}/', $cpf)) {
+            throw new Exception('O CPF precisa ter 11 digitos');
         }
-        $d = ((10 * $d) % 11) % 10;
-        if ($cpf[$c] != $d) {
-            throw new Exception('CPF Inválido');
+        for ($t = 9; $t < 11; $t++) {
+            for ($d = 0, $c = 0; $c < $t; $c++) {
+                $d += $cpf[$c] * (($t + 1) - $c);
+            }
+            $d = ((10 * $d) % 11) % 10;
+            if ($cpf[$c] != $d) {
+                throw new Exception('CPF Inválido');
+            }
         }
+        return true;
     }
-    return true;
-    }
-
 
     /**
-     * slug
-     *
-     * @param  mixed $string
+     * Limpa todos os caracteres não numéricos
+     * @param string $number
      * @return string
+     */
+    public static function clearNumber(string $number): string
+    {
+        return preg_replace('/[^0-9]/', '', $number);
+    }
+
+    /**
+     * Gera url amigável
+     * @param string $string
+     * @return string slug
      */
     public static function slug(string $string): string
     {
+        $mapa['a'] = 'ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜüÝÞßàáâãäåæçèéêëìíîïðñòóôõöøùúûýýþÿRr"!@#$%&*()_-+={[}]/?¨|;:.,\\\'<>°ºª  ';
 
-        $map['a'] = 'ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜüÝÞßàáâãäåæçèéêëìíîïðñòóôõöøùúûýýþÿRr"!@#$%&*()_-+={[}]/?;:.,\\\'<>°ºª   ';
-        $map['b'] = 'aaaaaaaceeeeiiiidnoooooouuuuuybsaaaaaaaceeeeiiiidnoooooouuuyybyRr                                 ';
-
-        $slug = strtr(mb_convert_encoding($string, 'ISO-8859-1', 'UTF-8'), mb_convert_encoding($map['a'], 'ISO-8859-1', 'UTF-8'), $map['b']);
+        $mapa['b'] = 'aaaaaaaceeeeiiiidnoooooouuuuuybsaaaaaaaceeeeiiiidnoooooouuuyybyRr                                 ';
+        $slug = strtr(utf8_decode($string), utf8_decode($mapa['a']), $mapa['b']);
         $slug = strip_tags(trim($slug));
         $slug = str_replace(' ', '-', $slug);
         $slug = str_replace(['-----', '----', '---', '--', '-'], '-', $slug);
-        $slug = strtolower(mb_convert_encoding($slug, 'ISO-8859-1', 'UTF-8'));
 
-        return $slug;
+        return strtolower(utf8_decode($slug));
     }
 
     /**
-     * currentDate
-     *
+     * Data atual formatada 
      * @return string
      */
-    public static function currentDate(): string
+    public static function dataAtual(): string
     {
-        $day = date('d');
-        $dayWee = date('w');
+        $dayMonth = date('d');
+        $dayWeekend = date('w');
         $month = date('n') - 1;
-        $year = date('Y');
+        $ano = date('Y');
 
-        $namesDaysofWeek = ['domingo', 'segunda-feira', 'terça-feira', 'quarta-feira', 'quinta-feira', 'sexta-feira', 'sabado'];
+        $namesDiasDaSemana = ['domingo', 'segunda-feira', 'terça-feira', 'quarta-feira', 'quinta-feira', 'sexta-feira', 'sabádo'];
 
-        $nameofMonths = [
-            'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
+        $namesDosMeses = [
+            'janeiro',
+            'fevereiro',
+            'março',
+            'abril',
+            'maio',
+            'junho',
+            'julho',
+            'agosto',
+            'setembro',
+            'outubro',
+            'novembro',
+            'dezembro'
         ];
 
-        $dataFormatada = $namesDaysofWeek[$dayWee] . ', ' . $day . ' de ' . $nameofMonths[$month] . ' de ' . $year;
-        return $dataFormatada;
+        $dateFormat = $namesDiasDaSemana[$dayWeekend] . ', ' . $dayMonth . ' de ' . $namesDosMeses[$month] . ' de ' . $ano;
+
+        return $dateFormat;
     }
 
     /**
-     * url
-     *
-     * @param  mixed $url
-     * @return string
+     * Monta url de acordo com o environment 
+     * @param string $url parte da url ex. admin
+     * @return string url completa
      */
-    public static function url(?string $url = null): string
+    public static function url(string $url = null): string
     {
         $server = filter_input(INPUT_SERVER, 'SERVER_NAME');
-        $environment = ($server == 'localhost' ? URL_DESENVOLVIMENTO : URL_PRODUCAO);
-    
-        $url = $url ?? '';
-    
-        if ($url !== '' && $url[0] === '/') {
-            $url = substr($url, 1);
+        $environment  = ($server == 'localhost' ? URL_DESENVOLVIMENTO : URL_PRODUCAO);
+
+        if (str_starts_with($url, '/')) {
+            return $environment  . $url;
         }
-    
-        return $environment . '/' . $url;
+        return $environment  . '/' . $url;
     }
-    
+
     /**
-     * localhost
-     *
+     * Checa se o server é localhost
      * @return bool
      */
     public static function localhost(): bool
     {
         $server = filter_input(INPUT_SERVER, 'SERVER_NAME');
+
         if ($server == 'localhost') {
             return true;
         }
@@ -150,9 +152,8 @@ class Helpers
     }
 
     /**
-     * validateUrl
-     *
-     * @param  mixed $url
+     * Valida uma url
+     * @param string $url
      * @return bool
      */
     public static function validateUrl(string $url): bool
@@ -169,118 +170,113 @@ class Helpers
         return false;
     }
 
-
-    /**
-     * validarUrl
-     *
-     * @param  mixed $url
-     * @return bool
-     */
     public static function validateUrlFilter(string $url): bool
     {
         return filter_var($url, FILTER_VALIDATE_URL);
     }
 
-    public static function validateEmail(string $email): bool
+    /**
+     * Valida um endereço de e-mail
+     * @param string $email
+     * @return bool
+     */
+    public static function validarEmail(string $email): bool
     {
         return filter_var($email, FILTER_VALIDATE_EMAIL);
     }
 
-
-
     /**
-     * contarTempo
-     *
-     * @param  mixed $data
-     * @return void
+     * Conta o tempo decorrido de uma data
+     * @param string $data
+     * @return string
      */
-    public static function countTime(string $data)
+    public static function countTime(string $data): string
     {
-        $now =  strtotime(date('Y-m-d H:i:s'));
+        $now = strtotime(date('Y-m-d H:i:s'));
         $time = strtotime($data);
         $difference = $now - $time;
 
-        $second = $difference;
-        $minutes = round($difference / 60);
-        $hours = round($difference / 3600);
-        $days = round($difference / 86400);
+        $second  = $difference;
+        $minutes  = round($difference / 60);
+        $horas = round($difference / 3600);
+        $day = round($difference / 86400);
         $weeks = round($difference / 604800);
-        $months = round($difference / 2419200);
-        $years = round($difference / 29030400);
+        $months  = round($difference / 2419200);
+        $years  = round($difference / 29030400);
 
-        if ($second <= 60) {
+        if ($second  <= 60) {
             return 'agora';
-        } elseif ($second <= 60) {
-            return $minutes == 1 ? "há 1 minuto" : 'há ' . $minutes . ' minutos';
-        } elseif ($hours <= 24) {
-            return $hours == 1 ? "há 1 hora" : 'há ' . $hours . ' horas';
-        } elseif ($days <= 7) {
-            return $days == 1 ? "há 1 dia" : 'há ' . $days . ' dias';
+        } elseif ($minutes  <= 60) {
+            return $minutes  == 1 ? 'há 1 minuto' : 'há ' . $minutes  . ' minutos';
+        } elseif ($horas <= 24) {
+            return $horas == 1 ? 'há 1 hora' : 'há ' . $horas . ' horas';
+        } elseif ($day <= 7) {
+            return $day == 1 ? 'ontem' : 'há ' . $day . ' dias';
         } elseif ($weeks <= 4) {
-            return $weeks == 1 ? "há 1 semana" : 'há ' . $weeks . ' semanas';
-        } elseif ($months <= 12) {
-            return $months == 1 ? "há 1 mês" : 'há ' . $months . ' meses';
-        } elseif ($years <= 1) {
-            return $years == 1 ? "há 1 ano" : 'há ' . $years . ' anos';
+            return $weeks == 1 ? 'há 1 semana' : 'há ' . $weeks . ' semanas';
+        } elseif ($months  <= 12) {
+            return $months  == 1 ? 'há 1 mês' : 'há ' . $months  . ' meses';
+        } else {
+            return $years  == 1 ? 'há 1 ano' : 'há ' . $years  . ' anos';
         }
     }
 
-
     /**
-     * formaterValue
-     *
-     * @param  mixed $valor
-     * @return void
-     */
-    public static function formaterValue(string $valor = null)
-    {
-        return number_format(($valor ? $valor : 0), 2, ',', '.');
-    }
-
-    /**
-     * formaterNumber
-     *
-     * @param  mixed $numero
-     * @return void
-     */
-    public static function formaterNumber(int $numero = null)
-    {
-        return number_format($numero ? $numero : 0, 0, '.', '.');
-    }
-    /**
-     * greetings
-     *
+     * Formata um value com ponto e virgula
+     * @param float $value
      * @return string
+     */
+    public static function formaterValue(float $value = null): string
+    {
+        return number_format(($value ? $value : 0), 2, ',', '.');
+    }
+
+    /**
+     * Formata um número com pontos
+     * @param int $number
+     * @return string
+     */
+    public static function formaterNumber(int $number = null): string
+    {
+        return number_format($number ?: 0, 0, '.', '.');
+    }
+
+    /**
+     * Saudação de acordo com o horário
+     * @return string saudação
      */
     public static function greetings(): string
     {
-        $hours = date('H');
-        $greetings = match (true) {
-            $hours >= 0 && $hours <= 5 => 'Boa madrugada',
-            $hours >= 6 && $hours <= 12 => 'Bom dia',
-            $hours >= 13 && $hours <= 18 => 'Boa tarde',
-            default => 'Boa noite'
+        $hora = date('H');
+
+        $saudacao = match (true) {
+            $hora >= 0 and $hora <= 5 => 'boa madrugada',
+            $hora >= 6 and $hora <= 12 => 'bom dia',
+            $hora >= 13 and $hora <= 18 => 'boa tarde',
+            default => 'boa noite'
         };
-        return $greetings;
+
+        return $saudacao;
     }
 
     /**
-     * Resume um texto 
+     * Resume um texto
      * 
-     * @param string $texto para resumir
-     * @param  int $limite quantidade de caracteres
-     * @param string $continue opicional - oque deser exibido ao final do resumo
-     * @return string0
+     * @param string $texto texto para resumir
+     * @param int $limit quantidade de caracteres
+     * @param string $continue opcional - o que deve ser exibido ao final do resumo
+     * @return string texto resumido
      */
-
-    public static function summarizeText(string $texto, int $limit, $continue = "..."): string
+    public static function summarizeText(string $texto, int $limit, string $continue = '...'): string
     {
-        $cleanText = trim(strip_tags($texto));
-        if (mb_strlen($cleanText) <= $limit) {
-            return $cleanText;
+        $cleanText  = trim(strip_tags($texto));
+        if (mb_strlen($cleanText ) <= $limit) {
+            return $cleanText ;
         }
 
-        $summarizeText = mb_substr($cleanText, 0, mb_strrpos(mb_substr($cleanText, 0, $limit), ''));
+        $summarizeText = mb_substr($cleanText , 0, mb_strrpos(mb_substr($cleanText , 0, $limit), ''));
+
         return $summarizeText . $continue;
     }
+
 }

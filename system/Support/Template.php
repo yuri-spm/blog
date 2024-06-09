@@ -38,12 +38,12 @@ class Template
     /**
      * Metodo responsavel por realizar a renderização das views
      * @param string $view
-     * @param array $dados
+     * @param array $data
      * @return string
      */
-    public function render(string $view, array $dados): string
+    public function render(string $view, array $data): string
     {
-        return $this->twig->render($view, $dados);
+        return $this->twig->render($view, $data);
     }
 
     /**
@@ -64,8 +64,8 @@ class Template
                             })
             ),
             $this->twig->addFunction(
-                    new TwigFunction('summarizeText', function (string $texto, int $limite) {
-                                return Helpers::summarizeText($texto, $limite);
+                    new TwigFunction('summarizeText', function (string $texto, int $limit) {
+                                return Helpers::summarizeText($texto, $limit);
                             })
             ),
             $this->twig->addFunction(

@@ -10,12 +10,12 @@ use system\Model\UserModel;
 
 class AdminLogin extends Controller
 {
+
     public function __construct()
     {
         parent::__construct('templates/admin/views');
+    }
 
-    }     
-        
     public function login(): void
     {
         $user = UserController::user();
@@ -28,8 +28,8 @@ class AdminLogin extends Controller
             if (in_array('', $data)) {
                 $this->message->alert('Todos os campos são obrigatórios!')->flash();
             } else {
-                $user = (new UserModel())->login($data, 3);
-                if($user){
+                $usuario = (new UserModel())->login($data, 3);
+                if($usuario){
                     Helpers::redirect('admin/login');
                 }
             }

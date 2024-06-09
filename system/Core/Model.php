@@ -9,6 +9,7 @@ use system\Core\Message;
 
 abstract class Model
 {
+
     protected $data;
     protected $query;
     protected $error;
@@ -34,7 +35,7 @@ abstract class Model
 
     public function limit(string $limit)
     {
-        $this->limit = " LIMIT {$limit}";
+        $this->limite = " LIMIT {$limit}";
         return $this;
     }
 
@@ -78,24 +79,24 @@ abstract class Model
         return $this->data->$name ?? null;
     }
 
-    public function find(?string $terms = null, ?string $params = null, string $colunas = '*')
+    public function find(?string $terms = null, ?string $params = null, string $columns = '*')
     {
         if ($terms) {
-            $this->query = "SELECT {$colunas} FROM " . $this->entity . " WHERE {$terms} ";
+            $this->query = "SELECT {$columns} FROM " . $this->entity . " WHERE {$terms} ";
             if($params !== null){
                 parse_str($params, $this->params);
             }
             return $this;
         }
 
-        $this->query = "SELECT {$colunas} FROM " . $this->entity;;
+        $this->query = "SELECT {$columns} FROM " . $this->entity;
         return $this;
     }
 
     public function result(bool $all = false)
     {
         try {
-            $stmt = Connect::getInstance()->prepare($this->query . $this->order . $this->limit . $this->offset);
+            $stmt = Connect::getInstance()->prepare($this->query . $this->order . $this->limite . $this->offset);
             $stmt->execute($this->params);
 
             if (!$stmt->rowCount()) {
@@ -116,10 +117,10 @@ abstract class Model
     protected function register(array $data)
     {
         try {
-            $colunas = implode(',', array_keys($data));
+            $columns = implode(',', array_keys($data));
             $valuees = ':' . implode(',:', array_keys($data));
 
-            $query = "INSERT INTO " . $this->entity . " ({$colunas}) VALUES ({$valuees}) ";
+            $query = "INSERT INTO " . $this->entity . " ({$columns}) VALUES ({$valuees}) ";
             $stmt = Connect::getInstance()->prepare($query);
             $stmt->execute($this->filter($data));
 
@@ -135,8 +136,8 @@ abstract class Model
         try {
             $set = [];
 
-            foreach ($data as $chave => $value) {
-                $set[] = "{$chave} = :{$chave}";
+            foreach ($data as $key => $value) {
+                $set[] = "{$key} = :{$key}";
             }
             $set = implode(', ', $set);
 
@@ -155,8 +156,8 @@ abstract class Model
     {
         $filter = [];
 
-        foreach ($data as $chave => $value) {
-            $filter[$chave] = (is_null($value) ? null : filter_var($value, FILTER_DEFAULT));
+        foreach ($data as $key => $value) {
+            $filter[$key] = (is_null($value) ? null : filter_var($value, FILTER_DEFAULT));
         }
 
         return $filter;
@@ -213,7 +214,7 @@ abstract class Model
         if (empty($this->id)) {
             $id = $this->register($this->store());
             if ($this->error) {
-                $this->message->error('Erro de sistema ao tentar cadastrar os data');
+                $this->message->error('Erro de sistema ao tentar registrar os dados');
                 return false;
             }
         }
@@ -223,7 +224,7 @@ abstract class Model
             $id = $this->id;
             $this->update($this->store(), "id = {$id}");
             if ($this->error) {
-                $this->message->error('Erro de sistema ao tentar atualizar os data');
+                $this->message->error('Erro de sistema ao tentar update os dados');
                 return false;
             }
         }

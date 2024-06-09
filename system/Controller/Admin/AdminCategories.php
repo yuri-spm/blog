@@ -15,7 +15,7 @@ class AdminCategories extends AdminController
         echo $this->template->render(
             'categories/categories.html.twig',
             [
-                'categories' => $categories->all(),
+                'categories' => $categories->find(),
                 'total'      => [
                     'total'  => $categories->count(),
                     'active'  => $categories->count('status = 1'),
@@ -34,7 +34,7 @@ class AdminCategories extends AdminController
             Helpers::redirect('admin/categories/categories');
         }
 
-        echo $this->template->render('categorias/formulario.html', []);
+        echo $this->template->render('categories/forms_categories.html.twig', []);
     }
 
     public function edit(int $id): void
@@ -49,12 +49,12 @@ class AdminCategories extends AdminController
             Helpers::redirect('admin/categories/categories');
         }
 
-        echo $this->template->render('categorias/formulario.html', [
+        echo $this->template->render('categories/forms_categories.html.twig', [
             'categories'    => $category
         ]);
     }
 
-    public function destroy(int $id): void
+    public function delete(int $id): void
     {
         (new CategoryModel())->delete($id);
         $this->message->success('Categoria deletada com sucesso')->flash();

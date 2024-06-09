@@ -48,9 +48,9 @@ class AdminDashboard extends AdminController
     public function exit()
     {
         $session = new Session();
-        $session->clean('userId');
+        $session->clear('userId');
 
-        $this->message->info('Você saiu do painel de controle')->flash();
+        $this->message->inform('Você saiu do painel de controle')->flash();
 
         Helpers::redirect('admin/login');
     }
