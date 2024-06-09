@@ -11,7 +11,7 @@ abstract class Model
 {
     protected $data;
     protected $query;
-    protected $errorr;
+    protected $error;
     protected $params;
     protected $entity;
     protected $order;
