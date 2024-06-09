@@ -51,36 +51,15 @@ class UserModel extends Model
         return true;
     } 
 
-    public function save()
+    public function save(): bool
     {
-        //CADASTRAR
-        if(empty($this->id)){
-            if($this->findByEmail($this->email)){
-                $this->message->alert('E-mail '.$this->data->email.' ja cadastrado');
+        if($this->find("email = :e AND id != :id","e={$this->email}&id={$this->id}")->result()){
+                $this->message->alert("O e-mail ".$this->dados->email." já está cadastrado");
                 return false;
             }
-            $id = $this->create($this->store());
-            if($this->error){
-                $this->mensagem->error('error de sistema ao tentar cadastrar.');
-                return false;
-            }
-        }
         
-        //ATUALIZAR
-        if(!empty($this->id)){
-            $id = $this->id;
-            if($this->findByEmail($this->email)){
-                $this->message->alert('E-mail '.$this->data->email.' ja cadastrado');
-                return false;
-            }
-            $this->update($this->store(), "id = {$id}");
-            if($this->error){
-                $this->mensagem->error('error oo tentar atualizar '.$this->data->name.'.');
-                return false;
-            }
-        }
-        
-        $this->data = $this->findByID($id)->data();
+            parent::save();
+            
         return true;
     }
 }
