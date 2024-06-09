@@ -13,16 +13,16 @@ abstract class Model
     protected $query;
     protected $error;
     protected $params;
-    protected $table;
+    protected $entity;
     protected $order;
     protected $limit;
     protected $offset;
     protected $message;
 
 
-    public function __construct(string $table)
+    public function __construct(string $entity)
     {
-        $this->table = $table;
+        $this->entity = $entity;
         
         $this->message = new Message();
     }
@@ -82,7 +82,7 @@ abstract class Model
     public function find(?string $terms = null, ?string $params = null, string $columns = '*')
     {
         if ($terms) {
-            $this->query = "SELECT {$columns} FROM " . $this->table . " WHERE {$terms} ";
+            $this->query = "SELECT {$columns} FROM " . $this->entity . " WHERE {$terms} ";
             if($params !== null){
                 parse_str($params, $this->params);
             }
@@ -90,7 +90,7 @@ abstract class Model
             return $this;
         }
 
-        $this->query = "SELECT {$columns} FROM " . $this->table;
+        $this->query = "SELECT {$columns} FROM " . $this->entity;
         return $this;
     }
 
@@ -121,7 +121,7 @@ abstract class Model
             $columns = implode(',', array_keys($data));
             $value = ':' . implode(',:', array_keys($data));
 
-            $query = "INSERT INTO " . $this->table . " ({$columns}) VALUES ({$value}) ";
+            $query = "INSERT INTO " . $this->entity . " ({$columns}) VALUES ({$value}) ";
             $stmt = Connect::getInstance()->prepare($query);
             $stmt->execute($this->filtro($data));
 
@@ -142,7 +142,7 @@ abstract class Model
             }
             $set = implode(', ', $set);
 
-            $query = "UPDATE ".$this->table." SET {$set} WHERE {$terms}";            
+            $query = "UPDATE ".$this->entity." SET {$set} WHERE {$terms}";            
             $stmt = Connect::getInstance()->prepare($query);
             $stmt->execute($this->filtro($data));
             
@@ -207,7 +207,7 @@ abstract class Model
     public function delete(string $terms)
     {
         try {
-            $query = "DELETE FROM ".$this->table." WHERE {$terms}";            
+            $query = "DELETE FROM ".$this->entity." WHERE {$terms}";            
             $stmt = Connect::getInstance()->prepare($query);
             $stmt->execute();
             
