@@ -50,4 +50,37 @@ class UserModel extends Model
         $this->message->success("{$user->name}, seja bem vindo ao painel de controle")->flash();
         return true;
     } 
+
+    public function save()
+    {
+        //CADASTRAR
+        if(empty($this->id)){
+            if($this->findByEmail($this->email)){
+                $this->message->alert('E-mail '.$this->data->email.' ja cadastrado');
+                return false;
+            }
+            $id = $this->create($this->store());
+            if($this->error){
+                $this->mensagem->error('error de sistema ao tentar cadastrar.');
+                return false;
+            }
+        }
+        
+        //ATUALIZAR
+        if(!empty($this->id)){
+            $id = $this->id;
+            if($this->findByEmail($this->email)){
+                $this->message->alert('E-mail '.$this->data->email.' ja cadastrado');
+                return false;
+            }
+            $this->update($this->store(), "id = {$id}");
+            if($this->error){
+                $this->mensagem->error('error oo tentar atualizar '.$this->data->name.'.');
+                return false;
+            }
+        }
+        
+        $this->data = $this->findByID($id)->data();
+        return true;
+    }
 }

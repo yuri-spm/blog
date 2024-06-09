@@ -90,8 +90,7 @@ class AdminUser extends AdminController
                     $this->message->success('Usuario atualizado com sucesso')->flash();
                     Helpers::redirect('admin/users/users');
                 }else{
-                    $this->message->error($user->error())->flash();
-                    Helpers::redirect('admin/users/register');
+                    $user->message()->flash();
                 }
             }
         }
