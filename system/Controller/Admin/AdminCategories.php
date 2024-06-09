@@ -27,7 +27,6 @@ class AdminCategories extends AdminController
 
     public function register()
     {
-
         $data = filter_input_array(INPUT_POST, FILTER_DEFAULT);
         if (isset($data)) {
             (new CategoryModel())->register($data);
@@ -35,35 +34,31 @@ class AdminCategories extends AdminController
             Helpers::redirect('admin/categories/categories');
         }
 
-        echo $this->template->render('categories/forms_categories.html.twig', []);
+        echo $this->template->render('categorias/formulario.html', []);
     }
 
-    public function edit($id)
+    public function edit(int $id): void
     {
-        $category = (new CategoryModel())->findByID($id); 
+        $category = (new CategoryModel())->findByID($id);
 
         $data = filter_input_array(INPUT_POST, FILTER_DEFAULT);
-        
-        if(isset($data)){
+        if (isset($data)) {
             (new CategoryModel())->update($data, $id);
-            $this->message->success('Categoria editada com sucesso')->flash();
-            Helpers::redirect('admin/categories/categories'); 
+            
+            $this->message->success('Categoria atualizada com sucesso')->flash();
+            Helpers::redirect('admin/categories/categories');
         }
-        echo $this->template->render(
-                'categories/forms_categories.html.twig',
-                [
-                    
-                    'categories'    => $category            
-                ]
-            );
+
+        echo $this->template->render('categorias/formulario.html', [
+            'categories'    => $category
+        ]);
     }
 
-    public function delete($id)
+    public function destroy(int $id): void
     {
         (new CategoryModel())->delete($id);
         $this->message->success('Categoria deletada com sucesso')->flash();
-        Helpers::redirect('admin/posts/posts'); 
         Helpers::redirect('admin/categories/categories');
     }
-}
 
+}
