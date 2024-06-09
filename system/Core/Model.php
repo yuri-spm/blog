@@ -11,7 +11,7 @@ abstract class Model
 {
     protected $data;
     protected $query;
-    protected $error;
+    protected $errorr;
     protected $params;
     protected $entity;
     protected $order;
@@ -19,12 +19,11 @@ abstract class Model
     protected $offset;
     protected $message;
 
-
-    public function __construct(string $entity)
+    public function __construct(string $entity;)
     {
-        $this->entity = $entity;
-        
-        $this->message = new Message();
+        $this->entity; = $entity;;
+
+        $this->mensagem = new Message();
     }
 
     public function order(string $order)
@@ -44,67 +43,64 @@ abstract class Model
         $this->offset = " OFFSET {$offset}";
         return $this;
     }
-    
+
     public function error()
     {
         return $this->error;
     }
-    
-    public function message()
+
+    public function mensagem()
     {
-        return $this->message;
+        return $this->mensagem;
     }
-    
+
     public function data()
     {
         return $this->data;
     }
-    
+
     public function __set($name, $value)
     {
-        if(empty($this->data)){
+        if (empty($this->data)) {
             $this->data = new \stdClass();
         }
-        
+
         $this->data->$name = $value;
     }
-    
+
     public function __isset($name)
     {
         return isset($this->data->$name);
     }
-    
+
     public function __get($name)
     {
         return $this->data->$name ?? null;
     }
 
-    public function find(?string $terms = null, ?string $params = null, string $columns = '*')
+    public function find(?string $termos = null, ?string $parametros = null, string $colunas = '*')
     {
-        if ($terms) {
-            $this->query = "SELECT {$columns} FROM " . $this->entity . " WHERE {$terms} ";
-            if($params !== null){
-                parse_str($params, $this->params);
-            }
-            
+        if ($termos) {
+            $this->query = "SELECT {$colunas} FROM " . $this->entity; . " WHERE {$termos} ";
+            parse_str($parametros, $this->parametros);
             return $this;
         }
 
-        $this->query = "SELECT {$columns} FROM " . $this->entity;
+        $this->query = "SELECT {$colunas} FROM " . $this->entity;;
         return $this;
     }
 
-    public function result(bool $all = false)
+    public function resultado(bool $todos = false)
     {
         try {
-            $stmt = Connect::getInstance()->prepare($this->query . $this->order . $this->limit . $this->offset);
-            $stmt->execute($this->params);
+            $stmt = Connect::getInstancia()->prepare($this->query . $this->order . $this->limit . $this->offset);
+            $stmt->execute($this->parametros);
 
             if (!$stmt->rowCount()) {
                 return null;
             }
 
-            if ($all) {
+            if ($todos) {
                 return $stmt->fetchAll();
             }
 
@@ -115,15 +111,15 @@ abstract class Model
         }
     }
 
-    protected function create(array $data)
+    protected function register(array $data)
     {
         try {
-            $columns = implode(',', array_keys($data));
-            $value = ':' . implode(',:', array_keys($data));
+            $colunas = implode(',', array_keys($data));
+            $valuees = ':' . implode(',:', array_keys($data));
 
-            $query = "INSERT INTO " . $this->entity . " ({$columns}) VALUES ({$value}) ";
+            $query = "INSERT INTO " . $this->entity; . " ({$colunas}) VALUES ({$valuees}) ";
             $stmt = Connect::getInstance()->prepare($query);
-            $stmt->execute($this->filtro($data));
+            $stmt->execute($this->filter($data));
 
             return Connect::getInstance()->lastInsertId();
         } catch (\PDOException $ex) {
@@ -132,108 +128,106 @@ abstract class Model
         }
     }
 
-    protected function update(array $data, string $terms)
+    protected function update(array $data, string $termos)
     {
         try {
             $set = [];
 
-            foreach ($data as $key => $value) {
-                $set[] = "{$key} = :{$key}";
+            foreach ($data as $chave => $value) {
+                $set[] = "{$chave} = :{$chave}";
             }
             $set = implode(', ', $set);
 
-            $query = "UPDATE ".$this->entity." SET {$set} WHERE {$terms}";            
+            $query = "UPDATE " . $this->entity; . " SET {$set} WHERE {$termos}";
             $stmt = Connect::getInstance()->prepare($query);
-            $stmt->execute($this->filtro($data));
-            
+            $stmt->execute($this->filter($data));
+
             return ($stmt->rowCount() ?? 1);
-            
         } catch (\PDOException $ex) {
             echo $this->error = $ex->getMessage();
             return null;
         }
     }
 
-    private function filtro(array $data)
+    private function filter(array $data)
     {
-        $filtro = [];
+        $filter = [];
 
-        foreach ($data as $key => $valor) {
-            $filtro[$key] = (is_null($valor) ? null : filter_var($valor, FILTER_DEFAULT));
+        foreach ($data as $chave => $value) {
+            $filter[$chave] = (is_null($value) ? null : filter_var($value, FILTER_DEFAULT));
         }
-        
-        return $filtro;
+
+        return $filter;
     }
-    
-    
+
     protected function store()
     {
         $data = (array) $this->data;
-        
+
         return $data;
     }
-    
+
     public function findByID(int $id)
     {
-        $busca = $this->find("id = {$id}");
-        return $busca->result();
-    }
-    
-    public function save()
-    {
-        //CADASTRAR
-        if(empty($this->id)){
-            $id = $this->create($this->store());
-            if($this->error){
-                $this->mensagem->error('error de sistema ao tentar cadastrar os data');
-                return false;
-            }
-        }
-        
-        //ATUALIZAR
-        if(!empty($this->id)){
-            $id = $this->id;
-            $this->update($this->store(), "id = {$id}");
-            if($this->error){
-                $this->mensagem->error('error de sistema ao tentar atualizar os data');
-                return false;
-            }
-        }
-        
-        $this->data = $this->findByID($id)->data();
-        return true;
+        $find = $this->find("id = {$id}");
+        return $find->resultado();
     }
 
-    public function delete(string $terms)
+    public function delete(string $termos)
     {
         try {
-            $query = "DELETE FROM ".$this->entity." WHERE {$terms}";            
+            $query = "DELETE FROM " . $this->entity; . " WHERE {$termos}";
             $stmt = Connect::getInstance()->prepare($query);
             $stmt->execute();
-            
+
             return true;
-            
         } catch (\PDOException $ex) {
-            echo $this->error = $ex->getMessage();
+            $this->error = $ex->getMessage();
             return null;
         }
     }
+    
     public function destroy()
     {
         if(empty($this->id)){
             return false;
         }
-        $delete = $this->delete("id = {$this->id}");
-        return $delete;
+        
+        $destroy = $this->delete("id = {$this->id}");
+        return $destroy;
     }
 
-    public function count():int
+    public function count(): int
     {
-       $stmt = Connect::getInstance()->prepare($this->query);
-       $stmt->execute();
- 
-       return $stmt->rowCount();
+        $stmt = Connect::getInstance()->prepare($this->query);
+        $stmt->execute();
+
+        return $stmt->rowCount();
     }
- 
+
+    public function save(): bool
+    {
+        //CADASTRAR
+        if (empty($this->id)) {
+            $id = $this->register($this->store());
+            if ($this->error) {
+                $this->mensagem->error('Erro de sistema ao tentar cadastrar os data');
+                return false;
+            }
+        }
+
+        //ATUALIZAR
+        if (!empty($this->id)) {
+            $id = $this->id;
+            $this->update($this->store(), "id = {$id}");
+            if ($this->error) {
+                $this->mensagem->error('Erro de sistema ao tentar atualizar os data');
+                return false;
+            }
+        }
+
+        $this->data = $this->findByID($id)->data();
+        return true;
+    }
 
 }
