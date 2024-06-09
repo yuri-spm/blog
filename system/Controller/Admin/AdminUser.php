@@ -17,17 +17,17 @@ class AdminUser extends AdminController
      */
     public function lists(): void
     {
-        $user = new UserModel();
+        $users = new UserModel();
 
-        echo $this->template->render('usuarios/listar.html', [
-            'usuarios' => $user->find()->order('level DESC, status ASC')->result(true),
+        echo $this->template->render('users/users.html.twig', [
+            'users' => $users->find()->order('level DESC, status ASC')->result(true),
             'total' => [
-                'usuarios' => $user->find('level != 3')->count(),
-                'usuariosAtivo' => $user->find('status = 1 AND level != 3')->count(),
-                'usuariosInativo' => $user->find('status = 0 AND level != 3')->count(),
-                'admin' => $user->find('level = 3')->count(),
-                'adminAtivo' => $user->find('status = 1 AND level = 3')->count(),
-                'adminInativo' => $user->find('status = 0 AND level = 3')->count()
+                'users' => $users->find('level != 3')->count(),
+                'usersActive' => $users->find('status = 1 AND level != 3')->count(),
+                'userInactive' => $users->find('status = 0 AND level != 3')->count(),
+                'admin' => $users->find('level = 3')->count(),
+                'adminActive' => $users->find('status = 1 AND level = 3')->count(),
+                'adminInactive' => $users->find('status = 0 AND level = 3')->count()
             ]
         ]);
     }

@@ -19,11 +19,11 @@ abstract class Model
     protected $offset;
     protected $message;
 
-    public function __construct(string $entity;)
+    public function __construct(string $entity)
     {
-        $this->entity; = $entity;;
+        $this->entity = $entity;
 
-        $this->mensagem = new Message();
+        $this->message = new Message();
     }
 
     public function order(string $order)
@@ -49,9 +49,9 @@ abstract class Model
         return $this->error;
     }
 
-    public function mensagem()
+    public function message()
     {
-        return $this->mensagem;
+        return $this->message;
     }
 
     public function data()
@@ -78,11 +78,13 @@ abstract class Model
         return $this->data->$name ?? null;
     }
 
-    public function find(?string $termos = null, ?string $parametros = null, string $colunas = '*')
+    public function find(?string $terms = null, ?string $params = null, string $colunas = '*')
     {
-        if ($termos) {
-            $this->query = "SELECT {$colunas} FROM " . $this->entity; . " WHERE {$termos} ";
-            parse_str($parametros, $this->parametros);
+        if ($terms) {
+            $this->query = "SELECT {$colunas} FROM " . $this->entity . " WHERE {$terms} ";
+            if($params !== null){
+                parse_str($params, $this->params);
+            }
             return $this;
         }
 
@@ -90,17 +92,17 @@ abstract class Model
         return $this;
     }
 
-    public function resultado(bool $todos = false)
+    public function result(bool $all = false)
     {
         try {
-            $stmt = Connect::getInstancia()->prepare($this->query . $this->order . $this->limit . $this->offset);
-            $stmt->execute($this->parametros);
+            $stmt = Connect::getInstance()->prepare($this->query . $this->order . $this->limit . $this->offset);
+            $stmt->execute($this->params);
 
             if (!$stmt->rowCount()) {
                 return null;
             }
 
-            if ($todos) {
+            if ($all) {
                 return $stmt->fetchAll();
             }
 
@@ -117,7 +119,7 @@ abstract class Model
             $colunas = implode(',', array_keys($data));
             $valuees = ':' . implode(',:', array_keys($data));
 
-            $query = "INSERT INTO " . $this->entity; . " ({$colunas}) VALUES ({$valuees}) ";
+            $query = "INSERT INTO " . $this->entity . " ({$colunas}) VALUES ({$valuees}) ";
             $stmt = Connect::getInstance()->prepare($query);
             $stmt->execute($this->filter($data));
 
@@ -128,7 +130,7 @@ abstract class Model
         }
     }
 
-    protected function update(array $data, string $termos)
+    protected function update(array $data, string $terms)
     {
         try {
             $set = [];
@@ -138,7 +140,7 @@ abstract class Model
             }
             $set = implode(', ', $set);
 
-            $query = "UPDATE " . $this->entity; . " SET {$set} WHERE {$termos}";
+            $query = "UPDATE " . $this->entity . " SET {$set} WHERE {$terms}";
             $stmt = Connect::getInstance()->prepare($query);
             $stmt->execute($this->filter($data));
 
@@ -170,13 +172,13 @@ abstract class Model
     public function findByID(int $id)
     {
         $find = $this->find("id = {$id}");
-        return $find->resultado();
+        return $find->result();
     }
 
-    public function delete(string $termos)
+    public function delete(string $terms)
     {
         try {
-            $query = "DELETE FROM " . $this->entity; . " WHERE {$termos}";
+            $query = "DELETE FROM " . $this->entity . " WHERE {$terms}";
             $stmt = Connect::getInstance()->prepare($query);
             $stmt->execute();
 
@@ -211,7 +213,7 @@ abstract class Model
         if (empty($this->id)) {
             $id = $this->register($this->store());
             if ($this->error) {
-                $this->mensagem->error('Erro de sistema ao tentar cadastrar os data');
+                $this->message->error('Erro de sistema ao tentar cadastrar os data');
                 return false;
             }
         }
@@ -221,7 +223,7 @@ abstract class Model
             $id = $this->id;
             $this->update($this->store(), "id = {$id}");
             if ($this->error) {
-                $this->mensagem->error('Erro de sistema ao tentar atualizar os data');
+                $this->message->error('Erro de sistema ao tentar atualizar os data');
                 return false;
             }
         }

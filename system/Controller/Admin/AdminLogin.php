@@ -13,8 +13,9 @@ class AdminLogin extends Controller
     public function __construct()
     {
         parent::__construct('templates/admin/views');
-    }
 
+    }     
+        
     public function login(): void
     {
         $user = UserController::user();
@@ -23,8 +24,8 @@ class AdminLogin extends Controller
         }
         
         $data = filter_input_array(INPUT_POST, FILTER_DEFAULT);
-        if (isset($dados)) {
-            if (in_array('', $dados)) {
+        if (isset($data)) {
+            if (in_array('', $data)) {
                 $this->message->alert('Todos os campos são obrigatórios!')->flash();
             } else {
                 $user = (new UserModel())->login($data, 3);
@@ -36,4 +37,5 @@ class AdminLogin extends Controller
 
         echo $this->template->render('login.html.twig', []);
     }
+
 }
