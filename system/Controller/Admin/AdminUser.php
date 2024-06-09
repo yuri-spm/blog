@@ -57,8 +57,7 @@ class AdminUser extends AdminController
                         $this->message->success('Usuário cadastrado com sucesso')->flash();
                         Helpers::redirect('admin/users/users');
                     }else{
-                        $this->message->error($user->error()->flash());
-                        Helpers::redirect('admin/users/register');
+                        $user->message()->flash();
                     }
                 }
             }
