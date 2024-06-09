@@ -15,16 +15,16 @@
         <div class="col-xl-6 col-xxl-5 d-flex">
             <div class="w-100">
                 <div class="row">
-                    <div class="col-sm-6">
+                  {# Init Posts #}
+                    <div class="col-sm-4">
                         <div class="card border-0 shadow-sm mb-3">
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col mt-0">
                                         <h6 class="fw-bold text-secondary">Posts</h6>
                                     </div>
-
                                     <div class="col-auto text-secondary">
-                                        <a href="{{url('admin/posts/register')}}" tooltip="tooltip" title="Cadastrar Post">
+                                        <a href="{{url('admin/posts/register')}}" tooltip="tooltip" title="Listar Post">
                                             <i class="fa-solid fa-file-pen"></i>
                                         </a>                                            
                                     </div>
@@ -43,36 +43,69 @@
                             </div>
                         </div>                                   
                     </div>
-
-                    <div class="col-sm-6">
-                    <div class="card border-0 shadow-sm mb-3">
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col mt-0">
-                                    <h6 class="fw-bold text-secondary">Users</h6>
-                                </div>
-
-                                <div class="col-auto text-secondary">
-                                    <a href="{{url('admin/users/register')}}" tooltip="tooltip" title="Cadastrar Post">
-                                        <i class="fas fa-users"></i>
-                                    </a>                                            
-                                </div>
-                            </div>
-                                <h1 class="mt-1 mb-3">{{users.total}}</h1>
-
+                    {# Finish Posts #}
+                    
+                    {# Init User #}
+                    <div class="col-sm-4">
+                        <div class="card border-0 shadow-sm mb-3">
+                            <div class="card-body">
                                 <div class="row">
-                                    <div class="col-auto">
-                                        <span class="badge text-bg-success bg-opacity-10"> <span class="text-success fw-bold">{{users.active}}</span> <span class="badge text-secondary">Ativo</span> </span>
+                                    <div class="col mt-0">
+                                        <h6 class="fw-bold text-secondary">Users</h6>
                                     </div>
-                                    <div class="col-auto">
-                                        <span class="badge text-bg-danger bg-opacity-10"> <span class="text-danger fw-bold">{{users.inactive}}</span> <span class="badge text-secondary">Inativo</span> </span>  
+
+                                    <div class="col-auto text-secondary">
+                                        <a href="{{url('admin/users/users')}}" tooltip="tooltip" title="Listar Usuarios">
+                                            <i class="fas fa-users"></i>
+                                        </a>                                            
                                     </div>
                                 </div>
+                                    <h1 class="mt-1 mb-3">{{users.total}}</h1>
 
-                            </div>
+                                    <div class="row">
+                                        <div class="col-auto">
+                                            <span class="badge text-bg-success bg-opacity-10"> <span class="text-success fw-bold">{{users.active}}</span> <span class="badge text-secondary">Ativo</span> </span>
+                                        </div>
+                                        <div class="col-auto">
+                                            <span class="badge text-bg-danger bg-opacity-10"> <span class="text-danger fw-bold">{{users.inactive}}</span> <span class="badge text-secondary">Inativo</span> </span>  
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                            </div>                                   
+                        </div>
+                        {# Finish Users #}
+
+                    {# Init Categories #}
+                    <div class="col-sm-4">
+                        <div class="card border-0 shadow-sm mb-3">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col mt-0">
+                                        <h6 class="fw-bold text-secondary">Categories</h6>
+                                    </div>
+
+                                    <div class="col-auto text-secondary">
+                                        <a href="{{url('admin/categories/categories')}}" tooltip="tooltip" title="Listar Categorias">
+                                            <i class="fas fa-users"></i>
+                                        </a>                                            
+                                    </div>
+                                </div>
+                                    <h1 class="mt-1 mb-3">{{users.total}}</h1>
+
+                                    <div class="row">
+                                        <div class="col-auto">
+                                            <span class="badge text-bg-success bg-opacity-10"> <span class="text-success fw-bold">{{categories.active}}</span> <span class="badge text-secondary">Ativo</span> </span>
+                                        </div>
+                                        <div class="col-auto">
+                                            <span class="badge text-bg-danger bg-opacity-10"> <span class="text-danger fw-bold">{{users.inactive}}</span> <span class="badge text-secondary">Inativo</span> </span>  
+                                        </div>
+                                    </div>
+                                    
+                                </div>
                         </div>                                   
                     </div>
-
+                    {# Finish Categories #}
                 </div>
             </div>
         </div>
