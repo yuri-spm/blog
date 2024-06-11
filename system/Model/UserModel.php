@@ -12,35 +12,33 @@ class UserModel extends Model
         parent::__construct('user');
     }
     
-    
     /**
-     * findByEmail
-     *
-     * @param  mixed $email
-     * @return UserModel
+     * Busca usuário por e-mail
+     * @param string $email
+     * @return UsuarioModelo|null
      */
     public function findByEmail(string $email): ?UserModel
     {
-        $find = $this->find("email = :e","e={$email}");
-        return $find->result();
+        $busca = $this->find("email = :e","e={$email}");
+        return $busca->result();
     }
     
     /**
      * Valida o login do usuário
-     * @param array $data
+     * @param array $dados
      * @param int $level
      * @return boolean
      */
-    public function login(array $data, int $level = 1)
+    public function login(array $dados, int $level = 1)
     {
-        $user = (new UserModel())->findByEmail($data['email']);
+        $user = (new UserModel())->findByEmail($dados['email']);
         
         if(!$user){
             $this->message->error("Os dados informados para o login estão incorretos!")->flash();
             return false;
         }
         
-        if($data['password'] != $user->password){
+        if($dados['password'] != $user->password){
             $this->message->alert("Os dados informados para o login estão incorretos!")->flash();
             return false;
         }
@@ -56,18 +54,18 @@ class UserModel extends Model
         }
         
         //salva a data e hora do login
-        $user->ultimo_login = date('Y-m-d H:i:s');
-        $user->save();
+        $user->last_login = date('Y-m-d H:i:s');
+        $user->salvar();
         
         //cria uma sessão com o id
-        (new Session)->create('userId', $user->id);
+        (new Session())->create('userId', $user->id);
         
-        $this->message->success("{$user->name}, seja bem vindo ao painel de controle")->flash();
+        $this->message->success("{$user->nome}, seja bem vindo ao painel de controle")->flash();
         return true;
     }
     
     
-    public function save(): bool
+    public function salvar(): bool
     {
         if($this->find("email = :e AND id != :id","e={$this->email}&id={$this->id}")->result()){
                 $this->message->alert("O e-mail ".$this->data->email." já está cadastrado");

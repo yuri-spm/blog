@@ -9,8 +9,7 @@ use system\Model\UserModel;
 class AdminUser extends AdminController
 {
 
-
-    /**
+ /**
      * Lista usuários
      * @return void
      */
@@ -20,13 +19,13 @@ class AdminUser extends AdminController
 
         echo $this->template->render('users/users.html.twig', [
             'users' => $user->find()->order('level DESC, status ASC')->result(true),
-            'total' => [
+            'count' => [
                 'users' => $user->find('level != 3')->count(),
-                'userActive' => $user->find('status = 1 AND level != 3')->count(),
-                'userInactive' => $user->find('status = 0 AND level != 3')->count(),
+                'usersAtivo' => $user->find('status = 1 AND level != 3')->count(),
+                'usersInativo' => $user->find('status = 0 AND level != 3')->count(),
                 'admin' => $user->find('level = 3')->count(),
-                'adminActive' => $user->find('status = 1 AND level = 3')->count(),
-                'adminInactive' => $user->find('status = 0 AND level = 3')->count()
+                'adminAtivo' => $user->find('status = 1 AND level = 3')->count(),
+                'adminInativo' => $user->find('status = 0 AND level = 3')->count()
             ]
         ]);
     }
@@ -39,8 +38,8 @@ class AdminUser extends AdminController
     {
         $data = filter_input_array(INPUT_POST, FILTER_DEFAULT);
         if (isset($data)) {
-            //checa os data 
-            if ($this->validateData($data)) {
+            //checa os dados 
+            if ($this->validarDados($data)) {
 
                 if (empty($data['password'])) {
                     $this->message->alert('Informe uma password para o usuário')->flash();
@@ -55,7 +54,7 @@ class AdminUser extends AdminController
 
                     if ($user->save()) {
                         $this->message->success('Usuário cadastrado com sucesso')->flash();
-                         Helpers::redirect('admin/users/users');
+                        Helpers::redirect('admin/users/users');
                     } else {
                         $user->message()->flash();
                     }
@@ -69,7 +68,7 @@ class AdminUser extends AdminController
     }
 
     /**
-     * Edita os data do usuário por ID
+     * Edita os dados do usuário por ID
      * @param int $id
      * @return void
      */
@@ -79,7 +78,7 @@ class AdminUser extends AdminController
 
         $data = filter_input_array(INPUT_POST, FILTER_DEFAULT);
         if (isset($data)) {
-            if ($this->validateData($data)) {
+            if ($this->validarDados($data)) {
                 $user = (new UserModel())->findByID($id);
 
                 $user->name = $data['name'];
@@ -87,11 +86,11 @@ class AdminUser extends AdminController
                 $user->password = (!empty($data['password']) ? $data['password'] : $user->password);
                 $user->level = $data['level'];
                 $user->status = $data['status'];
-                $user->atualizado_em = date('Y-m-d H:i:s');
+                $user->update_at = date('Y-m-d H:i:s');
 
                 if ($user->save()) {
                     $this->message->success('Usuário atualizado com sucesso')->flash();
-                     Helpers::redirect('admin/users/users');
+                    Helpers::redirect('admin/users/users');
                 } else {
                     $user->message()->flash();
                 }
@@ -104,11 +103,11 @@ class AdminUser extends AdminController
     }
 
     /**
-     * Checa os data do formulário
+     * Checa os dados do formulário
      * @param array $data
      * @return bool
      */
-    public function validateData(array $data): bool
+    public function validarDados(array $data): bool
     {
         if (empty($data['name'])) {
             $this->message->alert('Informe o name do usuário')->flash();
@@ -118,7 +117,7 @@ class AdminUser extends AdminController
             $this->message->alert('Informe o e-mail do usuário')->flash();
             return false;
         }
-        if (!Helpers::validarEmail($data['email'])) {
+        if (!Helpers::validateEmail($data['email'])) {
             $this->message->alert('Informe um e-mail válido!')->flash();
             return false;
         }
@@ -133,18 +132,19 @@ class AdminUser extends AdminController
      */
     public function delete(int $id): void
     {
+
         if (is_int($id)) {
             $user = (new UserModel())->findByID($id);
             if (!$user) {
                 $this->message->alert('O usuário que você está tentando deletar não existe!')->flash();
-                 Helpers::redirect('admin/users/users');
+                Helpers::redirect('admin/users/users');
             } else {
                 if ($user->destroy()) {
                     $this->message->success('Usuário deletado com sucesso!')->flash();
-                     Helpers::redirect('admin/users/users');
+                    Helpers::redirect('admin/users/users');
                 } else {
                     $this->message->error($user->error())->flash();
-                     Helpers::redirect('admin/users/users');
+                    Helpers::redirect('admin/users/users');
                 }
             }
         }
