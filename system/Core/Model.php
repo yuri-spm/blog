@@ -224,7 +224,7 @@ abstract class Model
             $id = $this->id;
             $this->update($this->store(), "id = {$id}");
             if ($this->error) {
-                $this->message->error('Erro de sistema ao tentar update os dados');
+                $this->message->error('Erro de sistema ao tentar atualizar os dados');
                 return false;
             }
         }
