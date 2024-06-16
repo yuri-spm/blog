@@ -1,4 +1,4 @@
-# Curso da Udemy para crianção de blog com PHP 🚀
+# Curso da Udemy para criação de blog com PHP 🚀
 # Link do curso: https://www.udemy.com/course/curso-de-php-8-do-zero/?couponCode=KEEPLEARNING
 
 
