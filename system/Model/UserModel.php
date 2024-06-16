@@ -55,25 +55,30 @@ class UserModel extends Model
         
         //salva a data e hora do login
         $user->last_login = date('Y-m-d H:i:s');
-        $user->salvar();
+        $user->save();
         
         //cria uma sessão com o id
         (new Session())->create('userId', $user->id);
         
-        $this->message->success("{$user->nome}, seja bem vindo ao painel de controle")->flash();
+        $this->message->success("{$user->name}, seja bem vindo ao painel de controle")->flash();
         return true;
     }
     
     
-    public function salvar(): bool
+    public function save(): bool
     {
-        if($this->find("email = :e AND id != :id","e={$this->email}&id={$this->id}")->result()){
-                $this->message->alert("O e-mail ".$this->data->email." já está cadastrado");
-                return false;
-            }
+        $params = [
+            'e' => $this->email,
+            'id' => $this->id
+        ];
+    
+        if($this->find("email = :e AND id != :id", $params)->result()){
+            $this->message->alert("O e-mail ".$this->data->email." já está cadastrado");
+            return false;
+        }
         
-            parent::save();
-            
+        parent::save();
+        
         return true;
     }
 }
