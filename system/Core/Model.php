@@ -79,24 +79,34 @@ abstract class Model
         return $this->data->$name ?? null;
     }
 
-    public function find(?string $terms = null, ?string $params = null, string $columns = '*')
+    public function find(?string $terms = null, $params = null, string $columns = '*')
     {
         if ($terms) {
             $this->query = "SELECT {$columns} FROM " . $this->entity . " WHERE {$terms} ";
-            if($params !== null){
-                parse_str($params, $this->params);
+            if ($params !== null) {
+                if (is_string($params)) {
+                    parse_str($params, $this->params);
+                } elseif (is_array($params)) {
+                    $this->params = $params;
+                } else {
+                    throw new \InvalidArgumentException('The $params argument must be a string or an array.');
+                }
             }
             return $this;
         }
-
+    
         $this->query = "SELECT {$columns} FROM " . $this->entity;
         return $this;
     }
+    
 
     public function result(bool $all = false)
     {
         try {
-            $stmt = Connect::getInstance()->prepare($this->query . $this->order . $this->limite . $this->offset);
+
+            $fullQuery = $this->query . ($this->order ?? '') . ($this->limit ?? '') . ($this->offset ?? '');
+
+            $stmt = Connect::getInstance()->prepare($fullQuery);
             $stmt->execute($this->params);
 
             if (!$stmt->rowCount()) {
@@ -109,10 +119,11 @@ abstract class Model
 
             return $stmt->fetchObject(static::class);
         } catch (\PDOException $ex) {
-            echo $this->error = $ex;
+            $this->error = $ex->getMessage();
             return null;
         }
     }
+
 
     protected function register(array $data)
     {
@@ -172,7 +183,7 @@ abstract class Model
 
     public function findByID(int $id)
     {
-        $find = $this->find("id = {$id}");
+        $find = $this->find("id = :id", ["id" => $id]);
         return $find->result();
     }
 
