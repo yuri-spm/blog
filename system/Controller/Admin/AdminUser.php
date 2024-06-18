@@ -39,7 +39,7 @@ class AdminUser extends AdminController
         $data = filter_input_array(INPUT_POST, FILTER_DEFAULT);
         if (isset($data)) {
             //checa os dados 
-            if ($this->validarDados($data)) {
+            if ($this->validateData($data)) {
 
                 if (empty($data['password'])) {
                     $this->message->alert('Informe uma password para o usuário')->flash();
@@ -48,7 +48,7 @@ class AdminUser extends AdminController
 
                     $user->name = $data['name'];
                     $user->email = $data['email'];
-                    $user->password = $data['password'];
+                    $user->password = Helpers::generatePassword($data['password']);
                     $user->level = $data['level'];
                     $user->status = $data['status'];
 
@@ -78,12 +78,12 @@ class AdminUser extends AdminController
 
         $data = filter_input_array(INPUT_POST, FILTER_DEFAULT);
         if (isset($data)) {
-            if ($this->validarDados($data)) {
+            if ($this->validateData($data)) {
                 $user = (new UserModel())->findByID($id);
 
                 $user->name = $data['name'];
                 $user->email = $data['email'];
-                $user->password = (!empty($data['password']) ? $data['password'] : $user->password);
+                $user->password = (!empty($data['password']) ? Helpers::generatePassword($data['password'] ) : $user->password);
                 $user->level = $data['level'];
                 $user->status = $data['status'];
                 $user->update_at = date('Y-m-d H:i:s');
@@ -107,7 +107,7 @@ class AdminUser extends AdminController
      * @param array $data
      * @return bool
      */
-    public function validarDados(array $data): bool
+    public function validateData(array $data): bool
     {
         if (empty($data['name'])) {
             $this->message->alert('Informe o name do usuário')->flash();
@@ -120,6 +120,13 @@ class AdminUser extends AdminController
         if (!Helpers::validateEmail($data['email'])) {
             $this->message->alert('Informe um e-mail válido!')->flash();
             return false;
+        }
+
+        if(!empty($data['password'])){
+            if(!Helpers::validadePassword($data['password'])){
+                $this->message->alert('A senha deve ter entre 6 a 50 caracteres!')->flash();
+                return false;
+            }
         }
 
         return true;

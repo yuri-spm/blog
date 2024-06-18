@@ -6,7 +6,27 @@ use Exception;
 
 class Helpers
 {
-        
+
+    public static function validadePassword (string $password): bool
+    {
+        if(mb_strlen($password) >= 6 && mb_strlen($password) <= 50){
+            return true;
+        }
+        return false;
+    }
+
+    public static function generatePassword(string $password): string
+    {
+        return password_hash($password, PASSWORD_DEFAULT , ['cost' => 12]);
+    
+    }
+
+    public static function  verifyPassword(string $password, string $hash): bool
+    {
+        return password_verify($password, $hash);
+    }
+
+
     /**
      * flash
      *

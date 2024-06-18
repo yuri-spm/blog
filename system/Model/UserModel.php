@@ -2,6 +2,7 @@
 
 namespace system\Model;
 
+use system\Core\Helpers;
 use system\Core\Session;
 use system\Core\Model;
 
@@ -38,7 +39,7 @@ class UserModel extends Model
             return false;
         }
         
-        if($dados['password'] != $user->password){
+        if(!Helpers::verifyPassword($dados['password'], $user->password)){
             $this->message->alert("Os dados informados para o login estão incorretos!")->flash();
             return false;
         }
