@@ -12,7 +12,8 @@
 
 ![alt text](image.png)
 
-![alt text](image-1.png)
+![image-1](https://github.com/yuri-spm/blog/assets/63649751/75098e2d-6d15-4962-bc6c-7a0b19fdbb32)
+
 
 ![alt text](image-2.png)
 
