@@ -39,8 +39,8 @@
                         <label for="category_id" class="form-label">Categoria</label>
                         <select class="form-select" name="category_id" id="category_id">
                             {% for category in categories %}
-                            <option value="{{category.id}}" {% if post.category_id == category.id %}selected{%endif%}>{{category.title}}</option>
-                            {%endfor%}
+                                <option value="{{category.id}}" {% if post.category_id == category.id %}selected{% endif %}>{{category.title}}</option>
+                            {% endfor %}
                         </select>
                     </div>
                 </div>

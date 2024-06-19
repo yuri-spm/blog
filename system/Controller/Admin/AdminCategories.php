@@ -86,7 +86,7 @@ class AdminCategories extends AdminController
             if (!$category) {
                 $this->message->alert('A categoria que você esta tentando deletar não existe')->flash();
                 Helpers::redirect('admin/categories/categories');
-            }elseif($category->posts()){
+            }elseif($category->posts($category->id)){
                 $this->message->alert("A categoria {$category->title } possui posts vinculados")->flash();
                 Helpers::redirect('admin/categories/categories');
             }else {

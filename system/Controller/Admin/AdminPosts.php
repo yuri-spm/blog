@@ -50,7 +50,8 @@ class AdminPosts extends AdminController
 
 
         echo $this->template->render('posts/forms_posts.html.twig', [
-            'categories' => (new CategoryModel())->find()
+            'categories' =>  (new CategoryModel())->find()->result(true),
+            'post' => $data
         ]);
     }
 
@@ -59,19 +60,22 @@ class AdminPosts extends AdminController
         $post = (new PostModel())->findByID($id);
 
         $data = filter_input_array(INPUT_POST, FILTER_DEFAULT);
-        if(isset($data)){
+        if (isset($data)) {
+
             if ($this->validateData($data)) {
                 $post = (new PostModel())->findByID($id);
-    
+
                 $post->title = $data['title'];
                 $post->category_id = $data['category_id'];
                 $post->text = $data['text'];
                 $post->status = $data['status'];
-    
+                $post->update_at = date('Y-m-d H:i:s');
+
+
                 if ($post->save()) {
                     $this->message->success('Post atualizado com sucesso')->flash();
                     Helpers::redirect('admin/posts/posts');
-                }else{
+                } else {
                     $this->message->error($post->error())->flash();
                     Helpers::redirect('admin/posts/posts');
                 }
@@ -80,9 +84,12 @@ class AdminPosts extends AdminController
 
         echo $this->template->render('posts/forms_posts.html.twig', [
             'post' => $post,
-            'categories' => (new CategoryModel())->find()
+            'categories' => (new CategoryModel())->find()->result(true)
         ]);
     }
+
+
+
 
     public function validateData(array $data): bool
     {

@@ -25,11 +25,11 @@ class SiteController extends Controller
         
         echo $this->template->render('index.html.twig', [
             'posts' => $posts->result(true),
-            'categorias' => $this->categorias(),
+            'categories' => $this->categories(),
         ]);
     }
     
-    public function findr():void
+    public function find():void
     {
         $find = filter_input(INPUT_POST,'find', FILTER_DEFAULT);
         if(isset($find)){
@@ -56,7 +56,7 @@ class SiteController extends Controller
         
         echo $this->template->render('post.html.twig', [
             'post' => $post,
-            'categorias' => $this->categorias(),
+            'categories' => $this->categories(),
         ]);
     }
     
@@ -64,18 +64,18 @@ class SiteController extends Controller
      * Categorias
      * @return array
      */
-    public function categorias(): array
+    public function categories(): array
     {
-        return (new CategoryModel())->find();
+        return (new CategoryModel())->find("status = 1")->result(true);
     }
 
-    public function categoria(int $id):void
+    public function category(int $id):void
     {
         $posts = (new CategoryModel())->posts($id);
         
         echo $this->template->render('category.html.twig', [
             'posts' => $posts,
-            'categorias' => $this->categorias(),
+            'categories' => $this->categories(),
         ]);
     }
     
@@ -83,10 +83,11 @@ class SiteController extends Controller
      * Sobre
      * @return void
      */
-    public function sobre(): void
+    public function about(): void
     {
         echo $this->template->render('about.html.twig', [
-            'title' => 'Sobre nós'
+            'title' => 'Sobre nós',
+            'categories' => $this->categories(),
         ]);
     }
     
