@@ -2,6 +2,7 @@
 
 namespace system\Controller\Admin;
 
+use FontLib\Table\Type\head;
 use system\Core\Helpers;
 use system\Core\Message;
 use system\Model\CategoryModel;
@@ -28,20 +29,25 @@ class AdminPosts extends AdminController
     public function register(): void
     {
         $data = filter_input_array(INPUT_POST, FILTER_DEFAULT);
-        if (isset($data)) {
-
-            $post = new PostModel();
-
-            $post->title = $data['title'];
-            $post->category_id = $data['category_id'];
-            $post->text = $data['text'];
-            $post->status = $data['status'];
-
-            if ($post->save()) {
-                $this->message->success('Post cadastrado com sucesso')->flash();
-                Helpers::redirect('admin/posts/posts');
+        if(isset($data)){
+            if ($this->validateData($data)) {
+                $post = (new PostModel());
+    
+                $post->title = $data['title'];
+                $post->category_id = $data['category_id'];
+                $post->text = $data['text'];
+                $post->status = $data['status'];
+    
+                if ($post->save()) {
+                    $this->message->success('Post atualizado com sucesso')->flash();
+                    Helpers::redirect('admin/posts/posts');
+                }else{
+                    $this->message->error($post->error())->flash();
+                    Helpers::redirect('admin/posts/posts');
+                }
             }
         }
+
 
         echo $this->template->render('posts/forms_posts.html.twig', [
             'categories' => (new CategoryModel())->find()
@@ -53,18 +59,22 @@ class AdminPosts extends AdminController
         $post = (new PostModel())->findByID($id);
 
         $data = filter_input_array(INPUT_POST, FILTER_DEFAULT);
-        if (isset($data)) {
-
-            $post = (new PostModel())->findByID($id);
-
-            $post->title = $data['title'];
-            $post->category_id = $data['category_id'];
-            $post->text = $data['text'];
-            $post->status = $data['status'];
-
-            if ($post->save()) {
-                $this->message->success('Post atualizado com sucesso')->flash();
-                Helpers::redirect('admin/posts/posts');
+        if(isset($data)){
+            if ($this->validateData($data)) {
+                $post = (new PostModel())->findByID($id);
+    
+                $post->title = $data['title'];
+                $post->category_id = $data['category_id'];
+                $post->text = $data['text'];
+                $post->status = $data['status'];
+    
+                if ($post->save()) {
+                    $this->message->success('Post atualizado com sucesso')->flash();
+                    Helpers::redirect('admin/posts/posts');
+                }else{
+                    $this->message->error($post->error())->flash();
+                    Helpers::redirect('admin/posts/posts');
+                }
             }
         }
 
@@ -73,6 +83,21 @@ class AdminPosts extends AdminController
             'categories' => (new CategoryModel())->find()
         ]);
     }
+
+    public function validateData(array $data): bool
+    {
+        if (empty($data['title'])) {
+            $this->message->alert('Escreva um título para o Post!')->flash();
+            return false;
+        }
+        if (empty($data['text'])) {
+            $this->message->alert('Escreva um texto para o Post!')->flash();
+            return false;
+        }
+
+        return true;
+    }
+
 
     public function delete(int $id): void
     {
