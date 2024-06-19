@@ -13,4 +13,10 @@ class CategoryModel extends Model
     {
         parent::__construct('category');
     }
+
+    public function posts(): ?array
+    {
+        $find = (new PostModel())->find("category_id = {$this->id}");
+        return $find->result(true);
+    }
 }
