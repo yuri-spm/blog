@@ -1,8 +1,9 @@
 <?php
 
-use Pecee\SimpleRouter\Exceptions\NotFoundHttpException;
-use Pecee\SimpleRouter\SimpleRouter;
+use Pecee\Http\Request;
 use system\Core\Helpers;
+use Pecee\SimpleRouter\SimpleRouter;
+use Pecee\SimpleRouter\Exceptions\NotFoundHttpException;
 
 try {
     SimpleRouter::setDefaultNamespace('system\Controller');
@@ -34,7 +35,7 @@ try {
         SimpleRouter::get(URL_ADMIN.'posts/delete/{id}', 'AdminPosts@delete');
         
         //Category
-        SimpleRouter::get(URL_ADMIN.'categories/categories', 'AdminCategories@categories_list');
+        SimpleRouter::get(URL_ADMIN.'categories/categories', 'AdminCategories@lists');
         SimpleRouter::match(['get','post'], URL_ADMIN.'categories/register', 'AdminCategories@register');
         SimpleRouter::match(['get','post'], URL_ADMIN.'categories/edit{id}', 'AdminCategories@edit');
         SimpleRouter::get(URL_ADMIN.'categories/delete/{id}', 'AdminCategories@delete');
@@ -52,6 +53,6 @@ try {
         echo $e;
     } else {
       
-        Helpers::redirect('404');
+        Helpers::redirect(URL_SITE.'404');
     }
 }
