@@ -13,6 +13,7 @@
         </li>
     </ol>
 </nav>
+{{flash()}}
 <div class="card border-0 shadow-sm">
     <div class="card-body">
         <form action="{% if categories.id %}{{url('admin/categories/edit/'~categories.id)}}{%else%}{{url('admin/categories/register')}}{%endif%}" method="post">
@@ -21,7 +22,7 @@
                 <input type="text" name="title" id="title" value="{{categories.title}}" class="form-control">
             </div>
             <div class="mb-3">
-                <label for="texto" class="form-label">Texto</label>
+                <label for="text" class="form-label">Texto</label>
                 <textarea name="text" id="text" class="form-control" rows="3">{{categories.text}}</textarea>
             </div>
 
