@@ -4,7 +4,7 @@ namespace system\Controller\Admin;
 
 use system\Core\Helpers;
 use system\Model\CategoryModel;
-
+use system\Model\PostModel;
 
 class AdminCategories extends AdminController
 {
@@ -80,10 +80,16 @@ class AdminCategories extends AdminController
     {
         if (is_int($id)) {
             $category = (new CategoryModel())->findByID($id);
+
+            // $posts = (new PostModel())->find('category_id = {$category->id}')->result();
+
             if (!$category) {
                 $this->message->alert('A categoria que você esta tentando deletar não existe')->flash();
                 Helpers::redirect('admin/categories/categories');
-            } else {
+            }elseif($category->posts()){
+                $this->message->alert("A categoria {$category->title } possui posts vinculados")->flash();
+                Helpers::redirect('admin/categories/categories');
+            }else {
                 if ($category->destroy()) {
                     $this->message->success('Categoria deletada com sucesso!')->flash();
                     Helpers::redirect('admin/categories/categories');
