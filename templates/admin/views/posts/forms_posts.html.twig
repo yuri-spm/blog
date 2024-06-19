@@ -14,6 +14,9 @@
             </li>
         </ol>
     </nav>
+
+    {{ flash() }}
+    
     <div class="card border-1 shadow-sm">
         <div class="card-body">
 <form action="{% if post.id %}{{ url('admin/posts/edit/'~post.id) }}{% else %} {{ url('admin/posts/register') }}{% endif %}" method="post">
