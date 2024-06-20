@@ -14,3 +14,18 @@ document.addEventListener('DOMContentLoaded', function () {
         textarea.style.height = textarea.scrollHeight + 'px';
     });
 });
+
+
+const flashMessageTimeout = 5000;
+        const flashMessage = document.querySelector('.alert-dismissible');
+
+        if (flashMessage) {
+            setTimeout(() => {
+                flashMessage.classList.remove('show');
+                flashMessage.classList.add('fade');
+            
+                setTimeout(() => {
+                    flashMessage.remove();
+                }, 150); 
+            }, flashMessageTimeout);
+        }
