@@ -110,7 +110,7 @@ class AdminUser extends AdminController
     public function validateData(array $data): bool
     {
         if (empty($data['name'])) {
-            $this->message->alert('Informe o name do usuário')->flash();
+            $this->message->alert('Informe o nome do usuário')->flash();
             return false;
         }
         if (empty($data['email'])) {
