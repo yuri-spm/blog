@@ -49,6 +49,9 @@
                             {% endif %}
                         </td>
                         <td class="text-center">
+                            <a href="#info{{post.id}}" data-bs-toggle="offcanvas" tooltip="tooltip" title="Status">
+                                <i class="fa-solid fa-arrow-trend-up"></i>
+                            </a>    
                             <a href="{{ url('admin/posts/edit/'~post.id)}}" tooltip="tooltip" title="Editar">
                                 <i class="fa-solid fa-pen m-1"></i>
                             </a>
@@ -57,6 +60,28 @@
                             </a>  
                         </td>
                     </tr>
+                    <div class="offcanvas offcanvas-start" tabindex="-1" id="info{{post.id}}">
+                    <div class="offcanvas-header">
+                        <h5 class="offcanvas-title" id="offcanvasExampleLabel">{{post.title}}</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                    </div>
+                    <div class="offcanvas-body">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">
+                                Cadastrado em: {{ post.created_at|date("d/m/Y H:i:s") }}
+                            </li>
+                            <li class="list-group-item">
+                                Atualizado em: {{post.update_at}}
+                            </li>
+                            <li class="list-group-item">
+                                Última visita em:
+                            </li>
+                            <li class="list-group-item">
+                                Cadastrado por: <b>{{post.user.name}}</b>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
                     {%endfor%}
                 </tbody>
             </table>
