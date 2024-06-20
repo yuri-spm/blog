@@ -201,6 +201,13 @@ main {
     font-size: .8em;
 }
 
+#autoResizeTextarea {
+    width: 100%;
+    box-sizing: border-box;
+    overflow: hidden; 
+    resize: none; 
+}
+
 @media screen and (max-width: 1200px) {
     .sidebar {
         width: 70px;

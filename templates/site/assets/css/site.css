@@ -8,3 +8,10 @@ a:hover {
 li{
     list-style-type: none;
 }
+
+#autoResizeTextarea {
+    width: 100%;
+    box-sizing: border-box;
+    overflow: hidden; 
+    resize: none; 
+}
