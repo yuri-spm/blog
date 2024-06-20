@@ -10,6 +10,9 @@
                                 <div class="card-body">
                                     <h5 class="card-title">
                                         {{ post.title }}
+                                        <div class="my-3">
+                                            <smal class="text-muted">Por {{post.user.name}}, 00/00/000 às 00:00 em {{post.category.title}}</smal>
+                                        </div>
                                     </h5>
                                     <a href='{{url('post/'~post.id)}}'>
                                         <p class="card-text">
