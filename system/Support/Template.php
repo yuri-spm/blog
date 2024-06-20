@@ -78,6 +78,11 @@ class Template
                         return UserController::user();
                     })
             ),
+            $this->twig->addFunction(
+                new TwigFunction('countTime', function ($data) {
+                        return Helpers::countTime($data);
+                    })
+            ),
 
         );
     }
