@@ -280,16 +280,17 @@
                             <div class="card-body">
                                 {% if users %}
                                     <ul class="list-group list-group-flush">
-                                        {% for users in users.logins %}
+                                        {% for user in users.logins %}
                                             <li class="list-group-item">
                                                 <p>
                                                     <i class="fa-solid fa-user me-2"></i>
                                                     <span class="fw-bold">
-                                                        {{ users.name }}
+                                                        {{ user.name }}
                                                     </span>
                                                 </p>
                                                 <small class="text-muted">
-                                                    Há XXX tempo em xx/xx/xx às 00:00
+                                                     {{ countTime(user.created_at)}} tempo em  {{user.last_login | date ("d/m/Y" )}} às {{user.last_login | date ("H:i" )}}
+                                                      
                                                 </small>
                                             </li>
                                         {% endfor %}
