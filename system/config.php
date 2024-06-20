@@ -12,7 +12,7 @@ define('DB_USUARIO', 'root');
 define('DB_SENHA', '');
 
 //informações do sistema
-define('SITE_NOME', 'Helpx');
+define('SITE_NOME', 'Helpx Support');
 define('SITE_DESCRICAO', 'Helpx - Tecnologia em Sistemas');
 
 //urls do sistema
