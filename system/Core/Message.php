@@ -72,7 +72,7 @@ class Message
      */
     public function render(): string
     {
-        return "<div class='{$this->css} alert-dismissible fade show'>{$this->text}<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
+        return "<div class='{$this->css} alert-dismissible show'>{$this->text}<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
     }
 
     /**
