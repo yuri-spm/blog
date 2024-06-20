@@ -14,7 +14,7 @@
                                                 {{ post.title }}
                                                 <div class="d-flex justify-content-between my-3 text-muted">
                                                     <smal>{{post.category.title}}</smal>
-                                                    <smal>00/00/0000</smal>
+                                                    <smal>{{ countTime(post.created_at)}}</smal>
                                                 </div>
                                             </h4>
                                             <p class="card-text">

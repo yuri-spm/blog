@@ -6,7 +6,7 @@
         <div class="col-lg-9 col-md-12">
             <h1>{{post.title}}</h1>
                 <div class="my-3">
-                    <smal class="text-muted">Por {{post.user.name}}, 00/00/000 às 00:00 em {{post.category.title}}</smal>
+            <smal class="text-muted">Por {{post.user.name}}, {{post.created_at | date ("d/m/Y" )}} às {{post.created_at | date ("H:i" )}} em {{post.category.title}}</smal>
                 </div>
             <p>{{post.text}}</p>
         </div>

@@ -241,7 +241,7 @@
                                                                 {{ summarizeText(post.title, 100) }}
                                                             </div>
                                                             <small class="text-muted fw-normal">
-                                                                Escrito por {{post.user.name}} há 35 minutos em {{post.category.title}}
+                                                                Escrito por {{post.user.name}}  {{ countTime(post.created_at)}} minutos em {{post.category.title}}
                                                             </small>
                                                         </th>
                                                         <td class="text-center">
