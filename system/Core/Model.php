@@ -114,7 +114,7 @@ abstract class Model
             }
 
             if ($all) {
-                return $stmt->fetchAll();
+                return $stmt->fetchAll(\PDO::FETCH_CLASS, static::class);
             }
 
             return $stmt->fetchObject(static::class);
