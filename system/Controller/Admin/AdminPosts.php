@@ -14,14 +14,16 @@ class AdminPosts extends AdminController
 
     public function lists(): void
     {
-        $post = new PostModel();
+        $post = new PostModel(); 
 
         echo $this->template->render('posts/posts.html.twig', [
             'posts' => $post->find()->order('status ASC, id DESC')->result(true),
             'total' => [
-                'posts' => $post->count(),
-                'postsActive' => $post->find('status = 1')->count(),
-                'postsInactive' => $post->find('status = 0')->count()
+                'posts'         => $post->count(),
+                'postsActive'   => $post->find('status = 1')->count(),
+                'postsInactive' => $post->find('status = 0')->count(),
+                
+
             ]
         ]);
     }

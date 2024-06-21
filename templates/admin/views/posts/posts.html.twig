@@ -32,6 +32,7 @@
                     <tr>
                         <th>id</th>
                         <th>Título</th>
+                        <th class="text-center">Categoria</th>
                         <th class="text-center">Status</th>
                         <th class="text-center">Views</th>
                         <th class="text-center">Ação</th>
@@ -42,6 +43,7 @@
                     <tr>
                         <th>{{post.id}}</th>
                         <td>{{post.title}}</td>
+                        <td class="text-center">{{post.category.title}} </td>
                         <td class="text-center">
                             {% if post.status == 1 %}
                             <i class="fa-solid fa-circle text-success" tooltip="tooltip" title="Ativo"></i>

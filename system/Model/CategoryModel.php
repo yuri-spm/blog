@@ -19,4 +19,11 @@ class CategoryModel extends Model
         $find = (new PostModel())->find("category_id = {$id}");
         return $find->result(true);
     }
+
+    public function user():?UserModel
+    {
+        if($this->users_id){
+            return (new UserModel())->findByID($this->user_id);
+        }
+    }
 }

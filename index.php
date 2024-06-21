@@ -9,3 +9,4 @@ use system\Model\PostModel;
 require 'vendor/autoload.php';
 
 require 'routers.php';
+
