@@ -34,7 +34,7 @@ class AdminUser extends AdminController
      * Cadastra usuário
      * @return void
      */
-    public function register(): void
+    public function add(): void
     {
         $data = filter_input_array(INPUT_POST, FILTER_DEFAULT);
         if (isset($data)) {

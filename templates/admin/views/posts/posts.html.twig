@@ -23,7 +23,7 @@
             <span class="badge rounded text-bg-success">{{total.postsActive}} ativo</span> 
             <span class="badge rounded text-bg-danger">{{total.postsInactive}} inativo</span> 
         </div>
-        <a href="{{url('admin/posts/register')}}" class="btn btn-primary">Cadastrar</a>
+        <a href="{{url('admin/posts/add')}}" class="btn btn-primary">Cadastrar</a>
     </div>
     <div class="card-body">
         <div class="table-responsive">
@@ -33,6 +33,7 @@
                         <th>id</th>
                         <th>Título</th>
                         <th class="text-center">Status</th>
+                        <th class="text-center">Views</th>
                         <th class="text-center">Ação</th>
                     </tr>
                 </thead>
@@ -48,6 +49,7 @@
                             <i class="fa-solid fa-circle text-danger" tooltip="tooltip" title="Inativo"></i>
                             {% endif %}
                         </td>
+                        <td class="text-center">{{post.views}}</td>
                         <td class="text-center">
                             <a href="#info{{post.id}}" data-bs-toggle="offcanvas" tooltip="tooltip" title="Status">
                                 <i class="fa-solid fa-arrow-trend-up"></i>
@@ -74,7 +76,7 @@
                                 Atualizado em: {{post.update_at}}
                             </li>
                             <li class="list-group-item">
-                                Última visita em:
+                                Última visita em: {{post.last_views}}
                             </li>
                             <li class="list-group-item">
                                 Cadastrado por: <b>{{post.user.name}}</b>

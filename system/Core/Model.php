@@ -125,7 +125,7 @@ abstract class Model
     }
 
 
-    protected function register(array $data)
+    protected function add(array $data)
     {
         try {
             $columns = implode(',', array_keys($data));
@@ -223,7 +223,7 @@ abstract class Model
     {
         //CADASTRAR
         if (empty($this->id)) {
-            $id = $this->register($this->store());
+            $id = $this->add($this->store());
             if ($this->error) {
                 $this->message->error('Erro de sistema ao tentar registrar os dados');
                 return false;

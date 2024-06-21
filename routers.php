@@ -30,19 +30,20 @@ try {
 
         //Posts
         SimpleRouter::get(URL_ADMIN.'posts/posts', 'AdminPosts@lists');
-        SimpleRouter::match(['get','post'], URL_ADMIN.'posts/register', 'AdminPosts@register');
+        SimpleRouter::match(['get','post'], URL_ADMIN.'posts/add', 'AdminPosts@add');
         SimpleRouter::match(['get','post'], URL_ADMIN.'posts/edit/{id}', 'AdminPosts@edit');
         SimpleRouter::get(URL_ADMIN.'posts/delete/{id}', 'AdminPosts@delete');
         
         //Category
+        SimpleRouter::get(URL_ADMIN.'categories/modal_categories', 'AdminCategories@modalCategories');
         SimpleRouter::get(URL_ADMIN.'categories/categories', 'AdminCategories@lists');
-        SimpleRouter::match(['get','post'], URL_ADMIN.'categories/register', 'AdminCategories@register');
+        SimpleRouter::match(['get','post'], URL_ADMIN.'categories/add', 'AdminCategories@add');
         SimpleRouter::match(['get','post'], URL_ADMIN.'categories/edit{id}', 'AdminCategories@edit');
         SimpleRouter::get(URL_ADMIN.'categories/delete/{id}', 'AdminCategories@delete');
 
         //Admin User
         SimpleRouter::get(URL_ADMIN.'users/users', 'AdminUser@lists');
-        SimpleRouter::match(['get','post'], URL_ADMIN.'users/register', 'AdminUser@register');
+        SimpleRouter::match(['get','post'], URL_ADMIN.'users/add', 'AdminUser@add');
         SimpleRouter::match(['get','post'], URL_ADMIN.'users/edit/{id}', 'AdminUser@edit');
         SimpleRouter::get(URL_ADMIN.'users/delete/{id}', 'AdminUser@delete');
     });

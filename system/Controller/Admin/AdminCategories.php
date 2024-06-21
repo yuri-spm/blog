@@ -25,7 +25,14 @@ class AdminCategories extends AdminController
         );
     }
 
-    public function register()
+    public function modalCategories()
+    {
+        echo $this->template->render(
+            'categories/modal_categories.html.twig',[]
+        );
+    }
+
+    public function add()
     {
         $data = filter_input_array(INPUT_POST, FILTER_DEFAULT);
         if (isset($data)) {

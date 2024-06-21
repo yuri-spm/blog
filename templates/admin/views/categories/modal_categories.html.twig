@@ -1,0 +1,18 @@
+<div class="modal-body">
+  <h5>Popover in a modal</h5>
+  <p>
+    This <a href="#" role="button" class="btn btn-secondary popover-test"
+           title="{{ popover.title }}"
+           data-content="{{ popover.content }}">button</a>
+    triggers a popover on click.
+  </p>
+  <hr>
+  <h5>Tooltips in a modal</h5>
+  <p>
+    {% for tooltip in tooltips %}
+      <a href="#" class="tooltip-test" title="{{ tooltip.title }}">{{ tooltip.label }}</a>
+      {% if not loop.last %} and {% endif %}
+    {% endfor %}
+    have tooltips on hover.
+  </p>
+</div>

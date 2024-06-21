@@ -53,6 +53,9 @@ class SiteController extends Controller
         if(!$post){
             Helpers::redirect('404');
         }
+        $post->views = $post->views + 1 ;
+        $post->last_views = date('Y-m-d H:i:s');
+        $post->save();
         
         echo $this->template->render('post.html.twig', [
             'post' => $post,

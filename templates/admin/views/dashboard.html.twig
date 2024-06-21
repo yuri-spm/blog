@@ -6,7 +6,7 @@
         <main>
             {% block content %}
                 <h5 class="mb-3">
-                    Dashboard
+                    Dashboard <smal class='greeting text-muted'> - {{greetings()}} {{user().name}}. Seu ultimo login foi em  {{ user().last_login | date ("d/m/Y" ) }} 
                 </h5>
                 {{ flash() }}
                 <div class="row">
@@ -24,7 +24,7 @@
                                                     </h6>
                                                 </div>
                                                 <div class="col-auto text-secondary">
-                                                    <a href="{{ url('admin/posts/register') }}" tooltip="tooltip" title="Cadastrar Post">
+                                                    <a href="{{ url('admin/posts/add') }}" tooltip="tooltip" title="Cadastrar Post">
                                                         <i class="fa-solid fa-file-pen"></i>
                                                     </a>
                                                 </div>
@@ -69,7 +69,7 @@
                                                     </h6>
                                                 </div>
                                                 <div class="col-auto text-secondary">
-                                                    <a href="{{ url('admin/users/register') }}" tooltip="tooltip" title="Cadastrar Usuarios">
+                                                    <a href="{{ url('admin/users/add') }}" tooltip="tooltip" title="Cadastrar Usuarios">
                                                         <i class="fas fa-users"></i>
                                                     </a>
                                                 </div>
@@ -114,7 +114,7 @@
                                                     </h6>
                                                 </div>
                                                 <div class="col-auto text-secondary">
-                                                    <a href="{{ url('admin/users/register') }}" tooltip="tooltip" title="Cadastrar Usuarios">
+                                                    <a href="{{ url('admin/users/add') }}" tooltip="tooltip" title="Cadastrar Usuarios">
                                                         <i class="fas fa-users"></i>
                                                     </a>
                                                 </div>
@@ -150,20 +150,20 @@
                                 <!-- END ADMIN-->
                                 <!-- BEGIN CATEGORIES-->
                                 <div class="col-sm-6">
-                                <div class="card border-0 shadow-sm mb-3">
-                                    <div class="card-body">
-                                        <div class="row">
-                                            <div class="col mt-0">
-                                                <h6 class="fw-bold text-secondary">
-                                                    Categorias
-                                                </h6>
+                                    <div class="card border-0 shadow-sm mb-3">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col mt-0">
+                                                    <h6 class="fw-bold text-secondary">
+                                                        Categorias
+                                                    </h6>
+                                                </div>
+                                                <div class="col-auto text-secondary">
+                                                    <a href="{{ url('admin/categories/add') }}" tooltip="tooltip" title="Cadastrar Categorias">
+                                                        <i class="fa-solid fa-circle-plus"></i>
+                                                    </a>
+                                                </div>
                                             </div>
-                                            <div class="col-auto text-secondary">
-                                                <a href="{{ url('admin/category/register') }}" tooltip="tooltip" title="Cadastrar Categorias">
-                                                <i class="fa-solid fa-circle-plus"></i>
-                                                </a>
-                                            </div>
-                                        </div>
                                             <h1 class="mt-1 mb-3">
                                                 {{ categories.total }}
                                             </h1>
@@ -205,7 +205,7 @@
                                         Últimos Posts
                                     </h6>
                                 </div>
-                                <a href="{{ url('admin/posts/register') }}" class="fs-5" tooltip="tooltip" title="Cadastrar Post">
+                                <a href="{{ url('admin/posts/add') }}" class="fs-5" tooltip="tooltip" title="Cadastrar Post">
                                     <i class="fa-solid fa-circle-plus"></i>
                                 </a>
                             </div>
@@ -241,11 +241,15 @@
                                                                 {{ summarizeText(post.title, 100) }}
                                                             </div>
                                                             <small class="text-muted fw-normal">
-                                                                Escrito por {{post.user.name}}  {{ countTime(post.created_at)}} minutos em {{post.category.title}}
+                                                                Escrito por
+                                                                {{ post.user.name }}
+                                                                {{ countTime(post.created_at) }}
+                                                                minutos em
+                                                                {{ post.category.title }}
                                                             </small>
                                                         </th>
                                                         <td class="text-center">
-                                                            0
+                                                            {{post.views}}
                                                         </td>
                                                         <td class="text-center">
                                                             <a href="{{ url('admin/posts/edit/'~post.id) }}" tooltip="tooltip" title="Editar">
@@ -289,8 +293,11 @@
                                                     </span>
                                                 </p>
                                                 <small class="text-muted">
-                                                     {{ countTime(user.created_at)}} tempo em  {{user.last_login | date ("d/m/Y" )}} às {{user.last_login | date ("H:i" )}}
-                                                      
+                                                    {{ countTime(user.created_at) }}
+                                                    tempo em
+                                                    {{ user.last_login | date ("d/m/Y" ) }}
+                                                    às
+                                                    {{ user.last_login | date ("H:i" ) }}
                                                 </small>
                                             </li>
                                         {% endfor %}
@@ -315,3 +322,4 @@
         {% include 'footer.html.twig' %}
     </div>
 {% endblock %}
+

@@ -21,7 +21,7 @@
 {{flash()}}
 <div class="card border-0 shadow-sm">
     <div class="card-body">
-        <form action="{% if categories.id %}{{url('admin/categories/edit/'~categories.id)}}{%else%}{{url('admin/categories/register')}}{%endif%}" method="post">
+        <form action="{% if categories.id %}{{url('admin/categories/edit/'~categories.id)}}{%else%}{{url('admin/categories/add')}}{%endif%}" method="post">
             <div class="mb-3">
                 <label for="title" class="form-label">Título</label>
                 <input type="text" name="title" id="title" value="{{categories.title}}" class="form-control">

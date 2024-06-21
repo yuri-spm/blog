@@ -23,7 +23,7 @@
     
     <div class="card border-0 shadow-sm">
         <div class="card-body">
-<form action="{% if user.id %}{{url('admin/users/edit/'~user.id)}}{%else%}{{url('admin/users/register')}}{% endif %}" method="post">
+<form action="{% if user.id %}{{url('admin/users/edit/'~user.id)}}{%else%}{{url('admin/users/add')}}{% endif %}" method="post">
     
                 <div class="row">
                     <div class="col-sm-6">

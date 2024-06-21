@@ -26,6 +26,7 @@ class AdminDashboard extends AdminController
             'total'      => $post->find()->count(),
             'active'     => $post->find('status = 1')->count(),
             'inactive'   => $post->find('status = 0')->count(),
+            'last_views' => $post->last_views,
         ],
         'users' => [
             'logins'         => $user->find()->order('last_login DESC')->limit(5)->result(true),
