@@ -220,7 +220,7 @@ abstract class Model
     public function count(): int
     {
         $stmt = Connect::getInstance()->prepare($this->query);
-        $stmt->execute();
+        $stmt->execute($this->params);
 
         return $stmt->rowCount();
     }
@@ -249,5 +249,18 @@ abstract class Model
         $this->data = $this->findByID($id)->data();
         return true;
     }
+
+   private function lastId(): int
+   {
+        return Connect::getInstance()->query("SELECT MAX(id) as max FROM {$this->entity}")->fetch()->max + 1;
+   }
+
+   protected function slug()
+   {
+        $checkSlug = $this->find("slug =:s AND id != :id", "s={$this->slug}&id={$this->id}");
+        if($checkSlug->count()){
+            $this->slug = "{$this->slug} - {$this->lastId()}";
+        }
+   }
 
 }

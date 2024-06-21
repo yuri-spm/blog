@@ -27,5 +27,11 @@ class PostModel extends Model
     }
     return null;
   }
+
+  public function save(): bool
+  {
+      $this->slug();
+      return parent::save();
+  }
   
 }
