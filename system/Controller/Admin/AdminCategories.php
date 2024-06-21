@@ -41,6 +41,7 @@ class AdminCategories extends AdminController
 
                 $category->title = $data['title'];
                 $category->text  = $data['text'];
+                $category->slug  = Helpers::slug($data['title']) .'-'. uniqid();
                 $category->status  = $data['status'];
 
                 if ($category->save()) {
@@ -65,6 +66,7 @@ class AdminCategories extends AdminController
             if ($this->validateData($data)) {
                 $category->title = $data['title'];
                 $category->text  = $data['text'];
+                $category->slug  = Helpers::slug($data['title']) .'-'. uniqid();
                 $category->status  = $data['status'];
                 $category->update_at = date('Y-m-d H:i:s');
 

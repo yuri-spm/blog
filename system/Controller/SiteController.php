@@ -47,9 +47,9 @@ class SiteController extends Controller
      * @param int $id
      * @return void
      */
-    public function post(int $id):void
+    public function post(string $slug):void
     {
-        $post = (new PostModel())->findByID($id);
+        $post = (new PostModel())->findBySlug( $slug);
         if(!$post){
             Helpers::redirect('404');
         }
@@ -72,12 +72,17 @@ class SiteController extends Controller
         return (new CategoryModel())->find("status = 1")->result(true);
     }
 
-    public function category(int $id):void
+    public function category(string $slug): void
     {
-        $posts = (new CategoryModel())->posts($id);
+        $category = (new CategoryModel())->findBySlug($slug);
+        if(!$category){
+            Helpers::redirect('404');
+        }
+
+
         
         echo $this->template->render('category.html.twig', [
-            'posts' => $posts,
+            'posts' => (new CategoryModel)->posts($category->id),
             'categories' => $this->categories(),
         ]);
     }

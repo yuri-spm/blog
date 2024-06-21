@@ -187,6 +187,12 @@ abstract class Model
         return $find->result();
     }
 
+    public function findBySlug(string $slug)
+    {
+        $find = $this->find("slug = :slug", ["slug" => $slug]);
+        return $find->result();
+    }
+
     public function delete(string $terms)
     {
         try {

@@ -14,7 +14,7 @@
                                             <smal class="text-muted">Por {{post.user.name}}, {{post.created_at | date ("d/m/Y" )}} às {{post.created_at | date ("H:i" )}} em {{post.category.title}}</smal>
                                         </div>
                                     </h5>
-                                    <a href='{{url('post/'~post.id)}}'>
+                                    <a href="{{url('post/'~post.slug)}}">
                                         <p class="card-text">
                                             {{ summarizeText(post.text,150) }}
                                         </p>

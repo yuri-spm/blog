@@ -32,9 +32,10 @@ class AdminPosts extends AdminController
         if(isset($data)){
             if ($this->validateData($data)) {
                 $post = (new PostModel());
-    
+                
                 $post->title = $data['title'];
                 $post->category_id = $data['category_id'];
+                $post->slug = Helpers::slug($data['title']) .'-'. uniqid();
                 $post->text = $data['text'];
                 $post->status = $data['status'];
     
@@ -67,6 +68,7 @@ class AdminPosts extends AdminController
 
                 $post->title = $data['title'];
                 $post->category_id = $data['category_id'];
+                $post->slug = Helpers::slug($data['title']) .'-'. uniqid();
                 $post->text = $data['text'];
                 $post->status = $data['status'];
                 $post->update_at = date('Y-m-d H:i:s');
