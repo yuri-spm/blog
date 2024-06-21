@@ -32,8 +32,7 @@
 
             <form data-url-search="{{ url('search') }}" class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
                 <input type="search" name="search" id="search" class="form-control form-control-dark text-bg-dark" placeholder="Buscar..." aria-label="Search">
-            </form>            
-
+            </form>             
             <div class="text-end">
                 {% if user().level == 3 %}
                     <a href="{{url('admin/dashboard')}}" class="btn btn-outline-light me-2" tooltip="tooltip" title="">

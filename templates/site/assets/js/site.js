@@ -8,9 +8,9 @@ $(document).ready(function () {
                 data: {
                     search: search
                 },
-                success: function (resultado) {
-                    if (resultado) {
-                        $('#request').html("<div class='alert alert-dark'>"+resultado+"</ul></div></div>");
+                success: function (result) {
+                    if (result) {
+                        $('#request').html("<div class='card'><div class='card-body'><ul class='list-group list-group-flush'>"+result+"</ul></div></div>");
                     } else {
                         $('#request').html('<div class="alert alert-warning">Nenhum resultado encontrado!</div>');
                     }

@@ -22,47 +22,47 @@ class SiteController extends Controller
     public function index(): void
     {
         $posts = (new PostModel())->find("status = 1");
-        
+
         echo $this->template->render('index.html.twig', [
             'posts' => $posts->result(true),
             'categories' => $this->categories(),
         ]);
     }
-    
-    public function find():void
+
+    public function find(): void
     {
-        $find = filter_input(INPUT_POST,'find', FILTER_DEFAULT);
-        if(isset($find)){
+        $find = filter_input(INPUT_POST, 'search', FILTER_DEFAULT);
+        if (isset($find)) {
             $posts = (new PostModel())->find("status = 1 AND title LIKE '%{$find}%'")->result(true);
-            
-            foreach ($posts as $post){
-                echo "<li class='list-group-item fw-bold'><a href=".Helpers::url('post/').$post->id.">$post->title</a></li>";
+            if ($posts) {
+                foreach ($posts as $post) {
+                    echo "<li class='list-group-item fw-bold'><a href=" . Helpers::url('post/') . $post->id . ">$post->title</a></li>";
+                }
             }
         }
-        
     }
-    
+
     /**
      * Busca post por ID
      * @param int $id
      * @return void
      */
-    public function post(string $slug):void
+    public function post(string $slug): void
     {
-        $post = (new PostModel())->findBySlug( $slug);
-        if(!$post){
+        $post = (new PostModel())->findBySlug($slug);
+        if (!$post) {
             Helpers::redirect('404');
         }
-        $post->views = $post->views + 1 ;
+        $post->views = $post->views + 1;
         $post->last_views = date('Y-m-d H:i:s');
         $post->save();
-        
+
         echo $this->template->render('post.html.twig', [
             'post' => $post,
             'categories' => $this->categories(),
         ]);
     }
-    
+
     /**
      * Categorias
      * @return array
@@ -75,18 +75,18 @@ class SiteController extends Controller
     public function category(string $slug): void
     {
         $category = (new CategoryModel())->findBySlug($slug);
-        if(!$category){
+        if (!$category) {
             Helpers::redirect('404');
         }
 
 
-        
+
         echo $this->template->render('category.html.twig', [
             'posts' => (new CategoryModel)->posts($category->id),
             'categories' => $this->categories(),
         ]);
     }
-    
+
     /**
      * Sobre
      * @return void
@@ -98,7 +98,7 @@ class SiteController extends Controller
             'categories' => $this->categories(),
         ]);
     }
-    
+
     /**
      * ERRO 404
      * @return void
@@ -109,5 +109,4 @@ class SiteController extends Controller
             'title' => 'Página não encontrada'
         ]);
     }
-
 }
