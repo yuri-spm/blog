@@ -8,6 +8,12 @@
                 <h5 class="mb-3">
                     Dashboard <smal class='greeting text-muted'> - {{greetings()}} {{user().name}}. Seu ultimo login foi em  {{ user().last_login | date ("d/m/Y" ) }} 
                 </h5>
+                <div>
+                    <div class="card p-2 flex-fill w-100 bg-warning">
+                        <h6 >Em desenvolvimento....</h6>
+                    </div>
+                </div>
+                <br>
                 {{ flash() }}
                 <div class="row">
                     <div class="col-xl-6 col-xxl-5 d-flex">
@@ -311,11 +317,82 @@
                         </div>
                     </div>
                 <!-- END  LAST LOGINS -->
-                </div>
-                <div class="col-xl-6 col-xxl-7">
-                    <div class="card flex-fill w-100">
-                        Em desenvolvimento
-                    </div>
+                 <!-- BEGIN  LAST LOGINS -->
+                 <div class="col-sm-6 col-md-6 col-xl-4 mb-4">
+                 <div class="card border-0 shadow-sm  h-100">
+                     <div class="card-header bg-white border-0 mt-2">
+                         <h6 class="fw-bold text-secondary">
+                             Últimos Logins
+                         </h6>
+                     </div>
+                     <div class="card-body">
+                         {% if users %}
+                             <ul class="list-group list-group-flush">
+                                 {% for user in users.logins %}
+                                     <li class="list-group-item">
+                                         <p>
+                                             <i class="fa-solid fa-user me-2"></i>
+                                             <span class="fw-bold">
+                                                 {{ user.name }}
+                                             </span>
+                                         </p>
+                                         <small class="text-muted">
+                                             {{ countTime(user.created_at) }}
+                                             tempo em
+                                             {{ user.last_login | date ("d/m/Y" ) }}
+                                             às
+                                             {{ user.last_login | date ("H:i" ) }}
+                                         </small>
+                                     </li>
+                                 {% endfor %}
+                             </ul>
+                         {% else %}
+                             <div class="alert alert-warning" role="alert">
+                                 Nenhum login para exibir!
+                             </div>
+                         {% endif %}
+                     </div>
+                 </div>
+             </div>
+         <!-- END  LAST LOGINS -->
+          <!-- BEGIN  LAST LOGINS -->
+          <div class="col-sm-6 col-md-6 col-xl-4 mb-4">
+          <div class="card border-0 shadow-sm  h-100">
+              <div class="card-header bg-white border-0 mt-2">
+                  <h6 class="fw-bold text-secondary">
+                      Últimos Logins
+                  </h6>
+              </div>
+              <div class="card-body">
+                  {% if users %}
+                      <ul class="list-group list-group-flush">
+                          {% for user in users.logins %}
+                              <li class="list-group-item">
+                                  <p>
+                                      <i class="fa-solid fa-user me-2"></i>
+                                      <span class="fw-bold">
+                                          {{ user.name }}
+                                      </span>
+                                  </p>
+                                  <small class="text-muted">
+                                      {{ countTime(user.created_at) }}
+                                      tempo em
+                                      {{ user.last_login | date ("d/m/Y" ) }}
+                                      às
+                                      {{ user.last_login | date ("H:i" ) }}
+                                  </small>
+                              </li>
+                          {% endfor %}
+                      </ul>
+                  {% else %}
+                      <div class="alert alert-warning" role="alert">
+                          Nenhum login para exibir!
+                      </div>
+                  {% endif %}
+              </div>
+          </div>
+      </div>
+  <!-- END  LAST LOGINS -->
                 </div>
             {% endblock %}
         </main>
