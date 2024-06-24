@@ -19,47 +19,93 @@ abstract class Model
     protected $limit;
     protected $offset;
     protected $message;
-
+    
+    /**
+     * __construct
+     *
+     * @param  mixed $entity
+     * @return void
+     */
     public function __construct(string $entity)
     {
         $this->entity = $entity;
 
         $this->message = new Message();
     }
-
+    
+    /**
+     * order
+     *
+     * @param  mixed $order
+     * @return void
+     */
     public function order(string $order)
     {
         $this->order = " ORDER BY {$order}";
         return $this;
     }
-
+    
+    /**
+     * limit
+     *
+     * @param  mixed $limit
+     * @return void
+     */
     public function limit(string $limit)
     {
         $this->limite = " LIMIT {$limit}";
         return $this;
     }
-
+    
+    /**
+     * offset
+     *
+     * @param  mixed $offset
+     * @return void
+     */
     public function offset(string $offset)
     {
         $this->offset = " OFFSET {$offset}";
         return $this;
     }
-
+    
+    /**
+     * error
+     *
+     * @return void
+     */
     public function error()
     {
         return $this->error;
     }
-
+    
+    /**
+     * message
+     *
+     * @return void
+     */
     public function message()
     {
         return $this->message;
     }
-
+    
+    /**
+     * data
+     *
+     * @return void
+     */
     public function data()
     {
         return $this->data;
     }
-
+    
+    /**
+     * __set
+     *
+     * @param  mixed $name
+     * @param  mixed $value
+     * @return void
+     */
     public function __set($name, $value)
     {
         if (empty($this->data)) {
@@ -68,17 +114,37 @@ abstract class Model
 
         $this->data->$name = $value;
     }
-
+    
+    /**
+     * __isset
+     *
+     * @param  mixed $name
+     * @return void
+     */
     public function __isset($name)
     {
         return isset($this->data->$name);
     }
-
+    
+    /**
+     * __get
+     *
+     * @param  mixed $name
+     * @return void
+     */
     public function __get($name)
     {
         return $this->data->$name ?? null;
     }
-
+    
+    /**
+     * find
+     *
+     * @param  mixed $terms
+     * @param  mixed $params
+     * @param  mixed $columns
+     * @return void
+     */
     public function find(?string $terms = null, $params = null, string $columns = '*')
     {
         if ($terms) {
@@ -99,7 +165,13 @@ abstract class Model
         return $this;
     }
     
-
+    
+    /**
+     * result
+     *
+     * @param  mixed $all
+     * @return void
+     */
     public function result(bool $all = false)
     {
         try {
@@ -124,7 +196,13 @@ abstract class Model
         }
     }
 
-
+    
+    /**
+     * add
+     *
+     * @param  mixed $data
+     * @return void
+     */
     protected function add(array $data)
     {
         try {
@@ -141,7 +219,14 @@ abstract class Model
             return null;
         }
     }
-
+    
+    /**
+     * update
+     *
+     * @param  mixed $data
+     * @param  mixed $terms
+     * @return void
+     */
     protected function update(array $data, string $terms)
     {
         try {
@@ -162,7 +247,13 @@ abstract class Model
             return null;
         }
     }
-
+    
+    /**
+     * filter
+     *
+     * @param  mixed $data
+     * @return void
+     */
     private function filter(array $data)
     {
         $filter = [];
@@ -173,26 +264,49 @@ abstract class Model
 
         return $filter;
     }
-
+    
+    /**
+     * store
+     *
+     * @return void
+     */
     protected function store()
     {
         $data = (array) $this->data;
 
         return $data;
     }
-
+    
+    /**
+     * findByID
+     *
+     * @param  mixed $id
+     * @return void
+     */
     public function findByID(int $id)
     {
         $find = $this->find("id = :id", ["id" => $id]);
         return $find->result();
     }
-
+    
+    /**
+     * findBySlug
+     *
+     * @param  mixed $slug
+     * @return void
+     */
     public function findBySlug(string $slug)
     {
         $find = $this->find("slug = :slug", ["slug" => $slug]);
         return $find->result();
     }
-
+    
+    /**
+     * delete
+     *
+     * @param  mixed $terms
+     * @return void
+     */
     public function delete(string $terms)
     {
         try {
@@ -206,7 +320,12 @@ abstract class Model
             return null;
         }
     }
-    
+        
+    /**
+     * destroy
+     *
+     * @return void
+     */
     public function destroy()
     {
         if(empty($this->id)){
@@ -216,7 +335,12 @@ abstract class Model
         $destroy = $this->delete("id = {$this->id}");
         return $destroy;
     }
-
+    
+    /**
+     * count
+     *
+     * @return int
+     */
     public function count(): int
     {
         $stmt = Connect::getInstance()->prepare($this->query);
@@ -224,7 +348,12 @@ abstract class Model
 
         return $stmt->rowCount();
     }
-
+    
+    /**
+     * save
+     *
+     * @return bool
+     */
     public function save(): bool
     {
         //CADASTRAR
@@ -249,12 +378,22 @@ abstract class Model
         $this->data = $this->findByID($id)->data();
         return true;
     }
-
+   
+   /**
+    * lastId
+    *
+    * @return int
+    */
    private function lastId(): int
    {
         return Connect::getInstance()->query("SELECT MAX(id) as max FROM {$this->entity}")->fetch()->max + 1;
    }
-
+   
+   /**
+    * slug
+    *
+    * @return void
+    */
    protected function slug()
    {
         $checkSlug = $this->find("slug =:s AND id != :id", "s={$this->slug}&id={$this->id}");

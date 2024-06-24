@@ -7,16 +7,22 @@ use system\Core\Session;
 use system\Core\Model;
 
 class UserModel extends Model
-{
+{    
+    /**
+     * __construct
+     * BD user
+     * @return void
+     */
     public function __construct()
     {
         parent::__construct('user');
     }
-    
+      
     /**
-     * Busca usuário por e-mail
-     * @param string $email
-     * @return UsuarioModelo|null
+     * findByEmail
+     *
+     * @param  mixed $email
+     * @return UserModel
      */
     public function findByEmail(string $email): ?UserModel
     {
@@ -24,22 +30,24 @@ class UserModel extends Model
         return $busca->result();
     }
     
+    
     /**
-     * Valida o login do usuário
-     * @param array $dados
-     * @param int $level
-     * @return boolean
+     * login
+     *
+     * @param  mixed $data
+     * @param  mixed $level
+     * @return void
      */
-    public function login(array $dados, int $level = 1)
+    public function login(array $data, int $level = 1)
     {
-        $user = (new UserModel())->findByEmail($dados['email']);
+        $user = (new UserModel())->findByEmail($data['email']);
         
         if(!$user){
             $this->message->error("Os dados informados para o login estão incorretos!")->flash();
             return false;
         }
         
-        if(!Helpers::verifyPassword($dados['password'], $user->password)){
+        if(!Helpers::verifyPassword($data['password'], $user->password)){
             $this->message->alert("Os dados informados para o login estão incorretos!")->flash();
             return false;
         }
@@ -65,7 +73,12 @@ class UserModel extends Model
         return true;
     }
     
-    
+        
+    /**
+     * save
+     *
+     * @return bool
+     */
     public function save(): bool
     {
         $params = [

@@ -18,6 +18,7 @@ class Template
 
     private \Twig\Environment $twig;
     
+    
     /**
      * __construct
      *
@@ -34,11 +35,12 @@ class Template
         ));
         $this->twig->setLexer($lexer);
     }
-
+    
     /**
-     * Metodo responsavel por realizar a renderização das views
-     * @param string $view
-     * @param array $data
+     * render
+     *
+     * @param  mixed $view
+     * @param  mixed $data
      * @return string
      */
     public function render(string $view, array $data): string
@@ -46,8 +48,10 @@ class Template
         return $this->twig->render($view, $data);
     }
 
+    
     /**
-     * Metodo responsavel por chamar funções da classe Helpers
+     * helpers
+     *
      * @return void
      */
     private function helpers(): void

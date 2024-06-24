@@ -10,12 +10,22 @@ use system\Model\UserModel;
 
 class AdminLogin extends Controller
 {
-
+    
+    /**
+     * __construct
+     *
+     * @return void
+     */
     public function __construct()
     {
         parent::__construct('templates/admin/views');
     }
-
+    
+    /**
+     * login
+     *
+     * @return void
+     */
     public function login(): void
     {
         $user = UserController::user();

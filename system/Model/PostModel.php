@@ -11,7 +11,12 @@ class PostModel extends Model
   {
       parent:: __construct('posts');
   }
-
+  
+  /**
+   * category
+   *
+   * @return CategoryModel
+   */
   public function category(): ? CategoryModel
   {
     if($this->category_id){
@@ -19,7 +24,12 @@ class PostModel extends Model
     }
     return null;
   }
-
+  
+  /**
+   * user
+   *
+   * @return UserModel
+   */
   public function user(): ? UserModel
   {
     if($this->user_id){
@@ -27,7 +37,12 @@ class PostModel extends Model
     }
     return null;
   }
-
+  
+  /**
+   * save
+   *
+   * @return bool
+   */
   public function save(): bool
   {
       $this->slug();

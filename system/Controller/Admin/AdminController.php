@@ -12,7 +12,12 @@ use system\Model\UserModel;
 class AdminController extends Controller
 {
     protected $user;
-
+    
+    /**
+     * __construct
+     *
+     * @return void
+     */
     public function __construct()
     {
         parent::__construct('templates/admin/views');

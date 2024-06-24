@@ -12,15 +12,22 @@ class Message
 
     private $text;
     private $css;
-
+    
+    /**
+     * __toString
+     *
+     * @return void
+     */
     public function __toString()
     {
         return $this->render();
     }
 
+      
     /**
-     * Método responsável pelas mensagens de sucesso
-     * @param string $mensagem
+     * success
+     *
+     * @param  mixed $mensagem
      * @return Message
      */
     public function success(string $mensagem): Message
@@ -30,9 +37,11 @@ class Message
         return $this;
     }
 
+      
     /**
-     * Método responsável pelas mensagens de error
-     * @param string $mensagem
+     * error
+     *
+     * @param  mixed $mensagem
      * @return Message
      */
     public function error(string $mensagem): Message
@@ -42,9 +51,11 @@ class Message
         return $this;
     }
 
+     
     /**
-     * Método responsável pelas mensagens de alert
-     * @param string $mensagem
+     * alert
+     *
+     * @param  mixed $mensagem
      * @return Message
      */
     public function alert(string $mensagem): Message
@@ -54,9 +65,11 @@ class Message
         return $this;
     }
 
+    
     /**
-     * Método responsável pelas mensagens de informações
-     * @param string $mensagem
+     * inform
+     *
+     * @param  mixed $mensagem
      * @return Message
      */
     public function inform(string $mensagem): Message
@@ -66,8 +79,10 @@ class Message
         return $this;
     }
 
+       
     /**
-     * Método responsável pela renderização das mensagens
+     * render
+     *
      * @return string
      */
     public function render(): string
@@ -75,18 +90,21 @@ class Message
         return "<div class='{$this->css} alert-dismissible show'>{$this->text}<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
     }
 
+    
     /**
-     * Método responsável por filter as mensagens
-     * @param string $mensagem
+     * filter
+     *
+     * @param  mixed $mensagem
      * @return string
      */
     private function filter(string $mensagem): string
     {
         return filter_var($mensagem, FILTER_SANITIZE_SPECIAL_CHARS);
     }
-
+    
     /**
-     * Cria a sessão das mensagens flash
+     * flash
+     *
      * @return void
      */
     public function flash(): void

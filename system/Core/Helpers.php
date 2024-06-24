@@ -6,7 +6,13 @@ use Exception;
 
 class Helpers
 {
-
+    
+    /**
+     * validadePassword
+     *
+     * @param  mixed $password
+     * @return bool
+     */
     public static function validadePassword (string $password): bool
     {
         if(mb_strlen($password) >= 6 && mb_strlen($password) <= 50){
@@ -14,7 +20,13 @@ class Helpers
         }
         return false;
     }
-
+    
+    /**
+     * generatePassword
+     *
+     * @param  mixed $password
+     * @return string
+     */
     public static function generatePassword(string $password): string
     {
         return password_hash($password, PASSWORD_DEFAULT , ['cost' => 12]);
@@ -41,9 +53,11 @@ class Helpers
         return null;
     }
 
+     
     /**
-     * Redireciona para a url informada
-     * @param string $url
+     * redirect url
+     *
+     * @param  mixed $url
      * @return void
      */
     public static function redirect(string $url = null): void
@@ -56,9 +70,11 @@ class Helpers
         exit();
     }
 
+     
     /**
-     * Válida um número de CPF
-     * @param string $cpf
+     * validateCpf
+     *
+     * @param  mixed $cpf
      * @return bool
      */
     public static function validateCpf(string $cpf): bool
@@ -80,20 +96,23 @@ class Helpers
         return true;
     }
 
+    
     /**
-     * Limpa todos os caracteres não numéricos
-     * @param string $number
+     * clearNumber
+     *
+     * @param  mixed $number
      * @return string
      */
     public static function clearNumber(string $number): string
     {
         return preg_replace('/[^0-9]/', '', $number);
     }
-
+    
     /**
-     * Gera url amigável
-     * @param string $string
-     * @return string slug
+     * slug
+     *
+     * @param  mixed $string
+     * @return string
      */
     public static function slug(string $string): string
     {
@@ -108,8 +127,10 @@ class Helpers
         return strtolower(utf8_decode($slug));
     }
 
+    
     /**
-     * Data atual formatada 
+     * dataAtual
+     *
      * @return string
      */
     public static function dataAtual(): string
@@ -141,10 +162,12 @@ class Helpers
         return $dateFormat;
     }
 
+    
     /**
-     * Monta url de acordo com o environment 
-     * @param string $url parte da url ex. admin
-     * @return string url completa
+     * url
+     *
+     * @param  mixed $url
+     * @return string
      */
     public static function url(string $url = null): string
     {
@@ -157,8 +180,10 @@ class Helpers
         return $environment  . '/' . $url;
     }
 
+    
     /**
-     * Checa se o server é localhost
+     * localhost
+     *
      * @return bool
      */
     public static function localhost(): bool
@@ -170,10 +195,11 @@ class Helpers
         }
         return false;
     }
-
+    
     /**
-     * Valida uma url
-     * @param string $url
+     * validateUrl
+     *
+     * @param  mixed $url
      * @return bool
      */
     public static function validateUrl(string $url): bool
@@ -189,15 +215,23 @@ class Helpers
         }
         return false;
     }
-
+    
+    /**
+     * validateUrlFilter
+     *
+     * @param  mixed $url
+     * @return bool
+     */
     public static function validateUrlFilter(string $url): bool
     {
         return filter_var($url, FILTER_VALIDATE_URL);
     }
 
+    
     /**
-     * Valida um endereço de e-mail
-     * @param string $email
+     * validateEmail
+     *
+     * @param  mixed $email
      * @return bool
      */
     public static function validateEmail(string $email): bool
@@ -205,9 +239,11 @@ class Helpers
         return filter_var($email, FILTER_VALIDATE_EMAIL);
     }
 
+    
     /**
-     * Conta o tempo decorrido de uma data
-     * @param string $data
+     * countTime
+     *
+     * @param  mixed $data
      * @return string
      */
     public static function countTime(string $data): string
@@ -240,10 +276,11 @@ class Helpers
             return $years  == 1 ? 'há 1 ano' : 'há ' . $years  . ' anos';
         }
     }
-
+    
     /**
-     * Formata um value com ponto e virgula
-     * @param float $value
+     * formaterValue
+     *
+     * @param  mixed $value
      * @return string
      */
     public static function formaterValue(float $value = null): string
@@ -251,9 +288,11 @@ class Helpers
         return number_format(($value ? $value : 0), 2, ',', '.');
     }
 
+    
     /**
-     * Formata um número com pontos
-     * @param int $number
+     * formaterNumber
+     *
+     * @param  mixed $number
      * @return string
      */
     public static function formaterNumber(int $number = null): string
@@ -261,31 +300,34 @@ class Helpers
         return number_format($number ?: 0, 0, '.', '.');
     }
 
+    
     /**
-     * Saudação de acordo com o horário
-     * @return string saudação
+     * greetings
+     *
+     * @return string
      */
     public static function greetings(): string
     {
         $hora = date('H');
 
-        $saudacao = match (true) {
+        $greetings = match (true) {
             $hora >= 0 and $hora <= 5 => 'boa madrugada',
             $hora >= 6 and $hora <= 12 => 'bom dia',
             $hora >= 13 and $hora <= 18 => 'boa tarde',
             default => 'boa noite'
         };
 
-        return $saudacao;
+        return $greetings;
     }
 
+    
     /**
-     * Resume um texto
-     * 
-     * @param string $texto texto para resumir
-     * @param int $limit quantidade de caracteres
-     * @param string $continue opcional - o que deve ser exibido ao final do resumo
-     * @return string texto resumido
+     * summarizeText
+     *
+     * @param  mixed $texto
+     * @param  mixed $limit
+     * @param  mixed $continue
+     * @return string
      */
     public static function summarizeText(string $texto, int $limit, string $continue = '...'): string
     {

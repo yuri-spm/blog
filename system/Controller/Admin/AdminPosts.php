@@ -11,7 +11,12 @@ use system\Model\PostModel;
 class AdminPosts extends AdminController
 {
 
-
+    
+    /**
+     * lists
+     *
+     * @return void
+     */
     public function lists(): void
     {
         $post = new PostModel(); 
@@ -27,7 +32,12 @@ class AdminPosts extends AdminController
             ]
         ]);
     }
-
+    
+    /**
+     * add
+     *
+     * @return void
+     */
     public function add(): void
     {
         $data = filter_input_array(INPUT_POST, FILTER_DEFAULT);
@@ -57,7 +67,13 @@ class AdminPosts extends AdminController
             'post' => $data
         ]);
     }
-
+    
+    /**
+     * edit
+     *
+     * @param  mixed $id
+     * @return void
+     */
     public function edit(int $id): void
     {
         $post = (new PostModel())->findByID($id);
@@ -94,7 +110,13 @@ class AdminPosts extends AdminController
 
 
 
-
+    
+    /**
+     * validateData
+     *
+     * @param  mixed $data
+     * @return bool
+     */
     public function validateData(array $data): bool
     {
         if (empty($data['title'])) {
@@ -109,7 +131,13 @@ class AdminPosts extends AdminController
         return true;
     }
 
-
+    
+    /**
+     * delete
+     *
+     * @param  mixed $id
+     * @return void
+     */
     public function delete(int $id): void
     {
 //        $id = filter_var($id, FILTER_VALIDATE_INT);

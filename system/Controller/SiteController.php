@@ -9,7 +9,12 @@ use system\Model\CategoryModel;
 
 class SiteController extends Controller
 {
-
+    
+    /**
+     * __construct
+     *
+     * @return void
+     */
     public function __construct()
     {
         parent::__construct('templates/site/views');
@@ -42,9 +47,11 @@ class SiteController extends Controller
         }
     }
 
+      
     /**
-     * Busca post por ID
-     * @param int $id
+     * post
+     *
+     * @param  mixed $slug
      * @return void
      */
     public function post(string $slug): void
@@ -63,15 +70,23 @@ class SiteController extends Controller
         ]);
     }
 
+      
     /**
-     * Categorias
+     * categories
+     *
      * @return array
      */
     public function categories(): array
     {
         return (new CategoryModel())->find("status = 1")->result(true);
     }
-
+    
+    /**
+     * category
+     *
+     * @param  mixed $slug
+     * @return void
+     */
     public function category(string $slug): void
     {
         $category = (new CategoryModel())->findBySlug($slug);
@@ -87,8 +102,10 @@ class SiteController extends Controller
         ]);
     }
 
+      
     /**
-     * Sobre
+     * about
+     *
      * @return void
      */
     public function about(): void

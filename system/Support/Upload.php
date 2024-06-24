@@ -11,7 +11,13 @@ class Upload
     public $directory;
     public $folder;
    
-
+    
+    /**
+     * __construct
+     *
+     * @param  mixed $directory
+     * @return void
+     */
     public function __construct(string $directory = null)
     {
        $this->directory = $directory ?? 'uploads';
@@ -20,7 +26,15 @@ class Upload
             mkdir($this->directory, 0755);
        }
     }
-
+    
+    /**
+     * file
+     *
+     * @param  mixed $file
+     * @param  mixed $name
+     * @param  mixed $folder
+     * @return void
+     */
     public function file(array $file, string $name = null, string $folder = null)
     {
         $this->file = $file;
@@ -31,7 +45,12 @@ class Upload
         $this->renameFile();
         $this->upload();
     }
-
+    
+    /**
+     * createFolder
+     *
+     * @return void
+     */
     public function createFolder(): void
     {
         if(!file_exists($this->directory.DIRECTORY_SEPARATOR.$this->folder) && !is_dir($this->directory.DIRECTORY_SEPARATOR.$this->folder)){
@@ -39,7 +58,12 @@ class Upload
         }
         
     }
-
+    
+    /**
+     * renameFile
+     *
+     * @return void
+     */
     public function renameFile(): void
     {
         $file =$this->name.strrchr($this->file['name'], '.');
@@ -49,7 +73,12 @@ class Upload
         }
         $this->name = $file;
     }
-
+    
+    /**
+     * upload
+     *
+     * @return void
+     */
     public function upload(): void
     {
         if(move_uploaded_file($this->file['tmp_name'], $this->directory.DIRECTORY_SEPARATOR.$this->folder.DIRECTORY_SEPARATOR.$this->name)){

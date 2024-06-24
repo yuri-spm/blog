@@ -9,8 +9,10 @@ use system\Model\UserModel;
 class AdminUser extends AdminController
 {
 
- /**
-     * Lista usuários
+    
+    /**
+     * lists users
+     *
      * @return void
      */
     public function lists(): void
@@ -30,8 +32,10 @@ class AdminUser extends AdminController
         ]);
     }
 
+     
     /**
-     * Cadastra usuário
+     * add users
+     *
      * @return void
      */
     public function add(): void
@@ -67,9 +71,11 @@ class AdminUser extends AdminController
         ]);
     }
 
+    
     /**
-     * Edita os dados do usuário por ID
-     * @param int $id
+     * edit users
+     *
+     * @param  mixed $id
      * @return void
      */
     public function edit(int $id): void
@@ -102,9 +108,11 @@ class AdminUser extends AdminController
         ]);
     }
 
+      
     /**
-     * Checa os dados do formulário
-     * @param array $data
+     * validateData
+     *
+     * @param  mixed $data
      * @return bool
      */
     public function validateData(array $data): bool
@@ -132,9 +140,11 @@ class AdminUser extends AdminController
         return true;
     }
 
+    
     /**
-     * Deletar um usuário por ID
-     * @param int $id
+     * delete users
+     *
+     * @param  mixed $id
      * @return void
      */
     public function delete(int $id): void

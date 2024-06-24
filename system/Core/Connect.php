@@ -6,15 +6,18 @@ use PDO;
 use PDOException;
 
 /**
- * Classe Connect - Padrão Singleton: Retorna uma instância única de uma classe.
- *
- * @author Ronaldo Aires
+ * Connect
  */
 class Connect
 {
 
     private static $instance;
-
+    
+    /**
+     * getInstance
+     *
+     * @return PDO
+     */
     public static function getInstance(): PDO
     {
         if (empty(self::$instance)) {
@@ -35,18 +38,21 @@ class Connect
         }
         return self::$instance;
     }
-
+    
     /**
-     * Construtor do tipo protegido previne que uma nova instância da
-     * Classe seja criada através do operador `new` de fora dessa classe.
+     * __construct
+     *
+     * @return void
      */
     protected function __construct()
     {
         
     }
 
+    
     /**
-     * Método clone do tipo privado previne a clonagem dessa instância da classe
+     * __clone
+     *
      * @return void
      */
     private function __clone(): void

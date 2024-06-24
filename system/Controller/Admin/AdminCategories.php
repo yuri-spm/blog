@@ -7,7 +7,12 @@ use system\Model\CategoryModel;
 use system\Model\PostModel;
 
 class AdminCategories extends AdminController
-{
+{    
+    /**
+     * lists
+     *
+     * @return void
+     */
     public function lists()
     {
         $categories = new CategoryModel();
@@ -24,14 +29,24 @@ class AdminCategories extends AdminController
             ]
         );
     }
-
+    
+    /**
+     * modalCategories
+     *
+     * @return void
+     */
     public function modalCategories()
     {
         echo $this->template->render(
             'categories/modal_categories.html.twig',[]
         );
     }
-
+    
+    /**
+     * add
+     *
+     * @return void
+     */
     public function add()
     {
         $data = filter_input_array(INPUT_POST, FILTER_DEFAULT);
@@ -56,7 +71,13 @@ class AdminCategories extends AdminController
 
         echo $this->template->render('categories/forms_categories.html.twig', []);
     }
-
+    
+    /**
+     * edit
+     *
+     * @param  mixed $id
+     * @return void
+     */
     public function edit(int $id): void
     {
         $category = (new CategoryModel())->findByID($id);
@@ -84,7 +105,13 @@ class AdminCategories extends AdminController
             'categories'    => $category
         ]);
     }
-
+    
+    /**
+     * delete
+     *
+     * @param  mixed $id
+     * @return void
+     */
     public function delete(int $id): void
     {
         if (is_int($id)) {
@@ -109,7 +136,13 @@ class AdminCategories extends AdminController
             }
         }
     }
-
+    
+    /**
+     * validateData
+     *
+     * @param  mixed $data
+     * @return bool
+     */
     private function validateData(array $data): bool
     {
         if (empty($data['title'])) {

@@ -4,7 +4,12 @@ namespace system\Core;
 
 class Session
 {
-
+    
+    /**
+     * __construct
+     *
+     * @return void
+     */
     public function __construct()
     {
         //checa se não existe um ID de sessão
@@ -14,10 +19,12 @@ class Session
         }
     }
 
+    
     /**
-     * Cria uma sessão
-     * @param string $key
-     * @param mixed $value
+     * create
+     *
+     * @param  mixed $key
+     * @param  mixed $value
      * @return Session
      */
     public function create(string $key, mixed $value): Session
@@ -26,18 +33,22 @@ class Session
         return $this;
     }
 
+    
     /**
-     * Carrega uma sessão
-     * @return object|null
+     * load
+     *
+     * @return object
      */
     public function load(): ?object
     {
         return (object) $_SESSION;
     }
 
+    
     /**
-     * Checa se uma sessão existe
-     * @param string $key
+     * check
+     *
+     * @param  mixed $key
      * @return bool
      */
     public function check(string $key): bool
@@ -45,9 +56,11 @@ class Session
         return isset($_SESSION[$key]);
     }
 
+    
     /**
-     * Limpa a sessão especificada
-     * @param string $key
+     * clear
+     *
+     * @param  mixed $key
      * @return Session
      */
     public function clear(string $key): Session
@@ -56,8 +69,10 @@ class Session
         return $this;
     }
 
+    
     /**
-     * Destrói todos os data registrados em uma sessão
+     * destroy
+     *
      * @return Session
      */
     public function destroy(): Session
@@ -66,10 +81,12 @@ class Session
         return $this;
     }
 
+    
     /**
-     * __get() é utilizado para ler data de atributos inacessíveis.
-     * @param type $atributo
-     * @return type
+     * __get
+     *
+     * @param  mixed $atributo
+     * @return void
      */
     public function __get($atributo)
     {
@@ -78,9 +95,11 @@ class Session
         }
     }
 
+    
     /**
-     * Checa ou limpa mensagens flash
-     * @return Message|null
+     * flash
+     *
+     * @return Message
      */
     public function flash(): ?Message
     {
