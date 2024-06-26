@@ -6,19 +6,29 @@ use DirectoryIterator;
 
 class Upload 
 {
-    public $file;
-    public $name;
-    public $directory;
-    public $folder;
-    public $result;
-    public $error;
-    public $size;
-
+    public  array    $file;
+    public  string   $name;
+    public  string   $directory;
+    public  string   $folder;
+    public  string   $result;
+    private string   $error;
+    public  int      $size;
+    
+    /**
+     * getResult
+     *
+     * @return string
+     */
     public function getResult(): ?string
     {
         return $this->result;
     }
-
+    
+    /**
+     * getError
+     *
+     * @return string
+     */
     public function getError(): ?string
     {
         return $this->error;
@@ -82,7 +92,7 @@ class Upload
      *
      * @return void
      */
-    public function createFolder(): void
+    private function createFolder(): void
     {
         if(!file_exists($this->directory.DIRECTORY_SEPARATOR.$this->folder) && !is_dir($this->directory.DIRECTORY_SEPARATOR.$this->folder)){
             mkdir($this->directory.DIRECTORY_SEPARATOR.$this->folder, 0775);
@@ -95,7 +105,7 @@ class Upload
      *
      * @return void
      */
-    public function renameFile(): void
+    private function renameFile(): void
     {
         $file =$this->name.strrchr($this->file['name'], '.');
 
@@ -107,10 +117,10 @@ class Upload
     
     /**
      * upload
-     *
+     * add and move file
      * @return void
      */
-    public function upload(): void
+    private function upload(): void
     {
         if(move_uploaded_file($this->file['tmp_name'], $this->directory.DIRECTORY_SEPARATOR.$this->folder.DIRECTORY_SEPARATOR.$this->name)){
             $this->result = $this->name;
