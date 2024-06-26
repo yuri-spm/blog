@@ -10,11 +10,24 @@ class Upload
     public $name;
     public $directory;
     public $folder;
+    public $result;
+    public $error;
+    public $size;
+
+    public function getResult(): ?string
+    {
+        return $this->result;
+    }
+
+    public function getError(): ?string
+    {
+        return $this->error;
+    }
    
     
     /**
      * __construct
-     *
+     * created directory
      * @param  mixed $directory
      * @return void
      */
@@ -29,21 +42,39 @@ class Upload
     
     /**
      * file
-     *
+     * 
      * @param  mixed $file
      * @param  mixed $name
      * @param  mixed $folder
      * @return void
      */
-    public function file(array $file, string $name = null, string $folder = null)
+    public function file(array $file, string $name = null, string $folder = null, int $size =null)
     {
         $this->file = $file;
         $this->name = $name ?? pathinfo($this->file['name'], PATHINFO_FILENAME);
         $this->folder = $folder ?? 'files';
 
-        $this->createFolder();
-        $this->renameFile();
-        $this->upload();
+        $this->size = $size ?? 5;
+
+        $extension = pathinfo($this->file['name'], PATHINFO_EXTENSION);
+
+        $validExtension = ['pdf', 'png', 'jpeg'];
+
+        $validType = ['application/pdf', 'image/png', 'image/jpeg'];
+
+        if(!in_array($extension, $validExtension)){
+            $this->error = "Extensão não permitida. Por favor enviar apenas arquivos com extensão: " . implode(' .',$validExtension);
+        }else if(!in_array($this->file['type'], $validType)){
+            $this->error = "Tipo de arquivo não permitido";
+        }else if($this->file['size'] > $this->size * (1024*1024)){
+            $this->error = "Arquivo muito grande, tamanho permitido {$this->size}MB seu arquivo tem {$this->file['size']}";
+        }else{
+            $this->createFolder();
+            $this->renameFile();
+            $this->upload();
+        }
+
+        
     }
     
     /**
@@ -82,9 +113,10 @@ class Upload
     public function upload(): void
     {
         if(move_uploaded_file($this->file['tmp_name'], $this->directory.DIRECTORY_SEPARATOR.$this->folder.DIRECTORY_SEPARATOR.$this->name)){
-            echo $this->name.' foi movido com sucesso';
+            $this->result = $this->name;
         }else {
-            echo 'Erro ao enviar arquivo';
+           $this->result = null;
+           $this->error = "Erro ao enviar arquivo";
         }
     }
 }
