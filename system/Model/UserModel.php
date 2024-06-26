@@ -26,8 +26,8 @@ class UserModel extends Model
      */
     public function findByEmail(string $email): ?UserModel
     {
-        $busca = $this->find("email = :e","e={$email}");
-        return $busca->result();
+        $find = $this->find("email = :e","e={$email}");
+        return $find->result();
     }
     
     

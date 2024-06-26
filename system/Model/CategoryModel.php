@@ -3,9 +3,10 @@
 namespace system\Model;
 
 use PDOException;
+use system\Core\Model;
 use system\Core\Connect;
 use system\Core\Message;
-use system\Core\Model;
+use system\Model\UserModel;
 
 class CategoryModel extends Model
 {    
