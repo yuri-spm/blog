@@ -7,10 +7,11 @@ use system\Core\Helpers;
 use system\Core\Message;
 use system\Model\CategoryModel;
 use system\Model\PostModel;
+use system\Support\Upload;
 
 class AdminPosts extends AdminController
 {
-
+    private string $cover;
     
     /**
      * lists
@@ -50,6 +51,7 @@ class AdminPosts extends AdminController
                 $post->slug = Helpers::slug($data['title']) .'-'. uniqid();
                 $post->text = $data['text'];
                 $post->status = $data['status'];
+                $post->cover = $this->cover;
     
                 if ($post->save()) {
                     $this->message->success('Post atualizado com sucesso')->flash();
@@ -91,6 +93,13 @@ class AdminPosts extends AdminController
                 $post->status = $data['status'];
                 $post->update_at = date('Y-m-d H:i:s');
 
+                if(!empty($_FILES['cover'])){
+                    if($post->cover && file_exists("uploads/files/{$post->cover}")){
+                        unlink("uploads/files/{$post->cover}");
+                    }
+                    $post->cover = $this->cover;
+                }
+
 
                 if ($post->save()) {
                     $this->message->success('Post atualizado com sucesso')->flash();
@@ -119,6 +128,15 @@ class AdminPosts extends AdminController
      */
     public function validateData(array $data): bool
     {
+        if(!empty($_FILES['cover'])){
+            $upload = new Upload();
+            $upload->file($_FILES['cover'], Helpers::slug($data['title'], 'images'));
+            if($upload->getResult()){
+                $this->cover = $upload->getResult();
+            }else{
+                $this->message->alert($upload->getError())->flash();
+            }
+        }
         if (empty($data['title'])) {
             $this->message->alert('Escreva um título para o Post!')->flash();
             return false;
@@ -137,10 +155,15 @@ class AdminPosts extends AdminController
      *
      * @param  mixed $id
      * @return void
+     */    
+    /**
+     * delete
+     *
+     * @param  mixed $id
+     * @return void
      */
     public function delete(int $id): void
     {
-//        $id = filter_var($id, FILTER_VALIDATE_INT);
         if (is_int($id)) {
             $post = (new PostModel())->findByID($id);
             if (!$post) {
@@ -148,6 +171,9 @@ class AdminPosts extends AdminController
                 Helpers::redirect('admin/posts/posts');
             } else {
                 if($post->destroy()){
+                        if($post->cover && file_exists("uploads/files/{$post->cover}")){
+                            unlink("uploads/files/{$post->cover}");
+                        }
                     $this->message->success('Post deletado com sucesso!')->flash();
                 Helpers::redirect('admin/posts/posts');
                 }else {
