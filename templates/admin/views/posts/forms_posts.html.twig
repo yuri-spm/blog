@@ -20,7 +20,8 @@
     {{ flash() }}
     <div class="card border-1 shadow-sm">
         <div class="card-body">
-            <form action="{% if post.id %}{{ url('admin/posts/edit/'~post.id) }}{% else %} {{ url('admin/posts/add') }}{% endif %}" method="post">
+            <form action="{% if post.id %}{{ url('admin/posts/edit/'~post.id) }}{% else %} {{ url('admin/posts/add') }}{% endif %}" method="post" enctype='multipart/form-data'>
+            <input type="file" name="cover">
                 <div class="mb-3">
                     <label for="titulo" class="form-label">
                         Título
