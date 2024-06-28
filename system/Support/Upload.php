@@ -6,13 +6,13 @@ use DirectoryIterator;
 
 class Upload 
 {
-    public  array    $file;
-    public  string   $name;
-    public  string   $directory;
-    public  string   $folder;
-    public  string   $result;
-    private string   $error;
-    public  int      $size;
+    public  ?array    $file;
+    public  ?string   $name;
+    public  ?string   $directory;
+    public  ?string   $folder;
+    public  ?string   $result = null;
+    private ?string   $error;
+    public  ?int      $size;
     
     /**
      * getResult
