@@ -22,6 +22,7 @@
         "pecee/simple-router": "dev-master",
         "twig/twig": "3.x-dev",
         "dompdf/dompdf": "dev-master",
-        "digitalnature/php-ref": "dev-master"
+        "digitalnature/php-ref": "dev-master",
+        "verot/class.upload.php": "dev-master"
     }
 }
