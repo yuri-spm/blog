@@ -26,14 +26,14 @@ class SiteController extends Controller
      */
     public function index(): void
     {
-        $posts = (new PostModel())->find("status = 1");
-
+        $posts = (new PostModel())->find("status = 1");     
+    
         echo $this->template->render('index.html.twig', [
-            'posts' => $posts->result(true),
+            'posts' => $posts->order('id DESC')->limit(5)->offset(3)->result(true),
             'categories' => $this->categories(),
         ]);
     }
-
+    
     public function find(): void
     {
         $find = filter_input(INPUT_POST, 'search', FILTER_DEFAULT);
