@@ -19,7 +19,7 @@ abstract class Model
     protected $limit;
     protected $offset;
     protected $message;
-    
+
     /**
      * __construct
      *
@@ -32,7 +32,7 @@ abstract class Model
 
         $this->message = new Message();
     }
-    
+
     /**
      * order
      *
@@ -44,7 +44,7 @@ abstract class Model
         $this->order = " ORDER BY {$order}";
         return $this;
     }
-    
+
     /**
      * limit
      *
@@ -53,10 +53,10 @@ abstract class Model
      */
     public function limit(string $limit)
     {
-        $this->limite = " LIMIT {$limit}";
+        $this->limit = " LIMIT {$limit}";
         return $this;
     }
-    
+
     /**
      * offset
      *
@@ -68,7 +68,7 @@ abstract class Model
         $this->offset = " OFFSET {$offset}";
         return $this;
     }
-    
+
     /**
      * error
      *
@@ -78,7 +78,7 @@ abstract class Model
     {
         return $this->error;
     }
-    
+
     /**
      * message
      *
@@ -88,7 +88,7 @@ abstract class Model
     {
         return $this->message;
     }
-    
+
     /**
      * data
      *
@@ -98,7 +98,7 @@ abstract class Model
     {
         return $this->data;
     }
-    
+
     /**
      * __set
      *
@@ -114,7 +114,7 @@ abstract class Model
 
         $this->data->$name = $value;
     }
-    
+
     /**
      * __isset
      *
@@ -125,7 +125,7 @@ abstract class Model
     {
         return isset($this->data->$name);
     }
-    
+
     /**
      * __get
      *
@@ -136,7 +136,7 @@ abstract class Model
     {
         return $this->data->$name ?? null;
     }
-    
+
     /**
      * find
      *
@@ -160,12 +160,12 @@ abstract class Model
             }
             return $this;
         }
-    
+
         $this->query = "SELECT {$columns} FROM " . $this->entity;
         return $this;
     }
-    
-    
+
+
     /**
      * result
      *
@@ -196,7 +196,7 @@ abstract class Model
         }
     }
 
-    
+
     /**
      * add
      *
@@ -219,7 +219,7 @@ abstract class Model
             return null;
         }
     }
-    
+
     /**
      * update
      *
@@ -247,7 +247,7 @@ abstract class Model
             return null;
         }
     }
-    
+
     /**
      * filter
      *
@@ -264,7 +264,7 @@ abstract class Model
 
         return $filter;
     }
-    
+
     /**
      * store
      *
@@ -276,7 +276,7 @@ abstract class Model
 
         return $data;
     }
-    
+
     /**
      * findByID
      *
@@ -288,7 +288,7 @@ abstract class Model
         $find = $this->find("id = :id", ["id" => $id]);
         return $find->result();
     }
-    
+
     /**
      * findBySlug
      *
@@ -300,7 +300,7 @@ abstract class Model
         $find = $this->find("slug = :slug", ["slug" => $slug]);
         return $find->result();
     }
-    
+
     /**
      * delete
      *
@@ -320,7 +320,7 @@ abstract class Model
             return null;
         }
     }
-        
+
     /**
      * destroy
      *
@@ -328,14 +328,14 @@ abstract class Model
      */
     public function destroy()
     {
-        if(empty($this->id)){
+        if (empty($this->id)) {
             return false;
         }
-        
+
         $destroy = $this->delete("id = {$this->id}");
         return $destroy;
     }
-    
+
     /**
      * count
      *
@@ -348,7 +348,7 @@ abstract class Model
 
         return $stmt->rowCount();
     }
-    
+
     /**
      * save
      *
@@ -378,28 +378,27 @@ abstract class Model
         $this->data = $this->findByID($id)->data();
         return true;
     }
-   
-   /**
-    * lastId
-    *
-    * @return int
-    */
-   private function lastId(): int
-   {
+
+    /**
+     * lastId
+     *
+     * @return int
+     */
+    private function lastId(): int
+    {
         return Connect::getInstance()->query("SELECT MAX(id) as max FROM {$this->entity}")->fetch()->max + 1;
-   }
-   
-   /**
-    * slug
-    *
-    * @return void
-    */
-   protected function slug()
-   {
+    }
+
+    /**
+     * slug
+     *
+     * @return void
+     */
+    protected function slug()
+    {
         $checkSlug = $this->find("slug =:s AND id != :id", "s={$this->slug}&id={$this->id}");
-        if($checkSlug->count()){
+        if ($checkSlug->count()) {
             $this->slug = "{$this->slug} - {$this->lastId()}";
         }
-   }
-
+    }
 }
