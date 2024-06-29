@@ -2,6 +2,7 @@
 {% block content %}
 
 <div class="container my-5">
+
     <div class="row">
         <div class="col-lg-9 col-md-12">
             {% include 'carousel.html.twig' %}
@@ -13,7 +14,7 @@
                         <div class="card-body">
                             <a href="{{url('post/'~post.slug)}}" tooltip="tooltip" title="{{post.title}}">
                                 {% if post.cover %}
-                                <img src="{{url('uploads/files/'~post.cover)}}" alt="{{post.title}}" title="{{post.title}}" class="coverBig mb-3"/>
+                                <img src="{{url('uploads/files/'~post.cover)}}" alt="{{post.title}}" title="{{post.title}}" class="capaGrande mb-3"/>
                                 {% endif %}
 
                                 <h4 class="card-title">{{post.title}}</h4>
@@ -23,7 +24,7 @@
                                     <small>{{ countTime(post.created_at) }}</small>
                                 </div>
 
-                                <p class="card-text">{{summarizeText(post.title, 150)}}</p>
+                                <p class="card-text">{{summarizeText(post.text, 150)}}</p>
                             </a>
                         </div>
                     </div>
