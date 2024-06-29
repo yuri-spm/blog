@@ -1,36 +1,49 @@
 {% extends 'base.html.twig' %}
 {% block content %}
-    <div class="container my-5">
-        <div class='row'>
-            <div class="col-lg-9 col-md-12">
-                <div class="row">
-                    {% for post in posts %}
-                        <div class="col-md-6 mb-4">
-                            <div class="card h-100">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <a href="{{url('post/'~post.slug)}}" tooltip="tooltip title="{{post_title}}">
-                                            <h4 class="card-title">
-                                                {{ post.title }}
-                                                <div class="d-flex justify-content-between my-3 text-muted">
-                                                    <smal>{{post.category.title}}</smal>
-                                                    <smal>{{ countTime(post.created_at)}}</smal>
-                                                </div>
-                                            </h4>
-                                            <p class="card-text">
-                                                {{ summarizeText(post.text,150) }}
-                                            </p>
-                                        </a>
-                                    </div>
+
+<div class="container my-5">
+    <div class="row">
+        <div class="col-lg-9 col-md-12">
+            {% include 'carousel.html.twig' %}
+            {% if posts %}
+            <div class="row">
+                {% for post in posts %}
+                <div class="col-md-6 mb-4">
+                    <div class="card border-0 h-100">
+                        <div class="card-body">
+                            <a href="{{url('post/'~post.slug)}}" tooltip="tooltip" title="{{post.title}}">
+                                {% if post.cover %}
+                                <img src="{{url('uploads/files/'~post.cover)}}" alt="{{post.title}}" title="{{post.title}}" class="coverBig mb-3"/>
+                                {% endif %}
+
+                                <h4 class="card-title">{{post.title}}</h4>
+
+                                <div class="d-flex justify-content-between my-3 text-muted">
+                                    <small>{{post.category.title |upper}}</small>
+                                    <small>{{ countTime(post.created_at) }}</small>
                                 </div>
-                            </div>
+
+                                <p class="card-text">{{summarizeText(post.title, 150)}}</p>
+                            </a>
                         </div>
-                    {% endfor %}
-                </div>
+                    </div>
+                </div>    
+                {% endfor %}
             </div>
-            <div class="col-lg-3">
-                {% include'sidebar.html.twig ' %}
+            {% else %}
+            <div class="alert alert-warning" role="alert">
+                Nenhum post cadastrado para exibir!
             </div>
+            {% endif %}
+
         </div>
+
+        <div class="col-lg-3">
+            {% include'sidebar.html.twig '%}
+        </div>
+
     </div>
+
+</div>
+
 {% endblock %}
