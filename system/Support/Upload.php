@@ -68,7 +68,7 @@ class Upload
 
         $extension = pathinfo($this->file['name'], PATHINFO_EXTENSION);
 
-        $validExtension = ['pdf', 'png', 'jpeg'];
+        $validExtension = ['pdf', 'png', 'jpeg', 'gif', 'jpg'];
 
         $validType = ['application/pdf', 'image/png', 'image/jpeg'];
 
