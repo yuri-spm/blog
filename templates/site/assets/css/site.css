@@ -15,3 +15,16 @@ li{
     overflow: hidden; 
     resize: none; 
 }
+
+
+.coverBig{
+    max-width: 540px;
+}
+
+.coverAverage{
+    max-width: 270px;
+}
+
+.coverSmall{
+    max-width: 135px;
+}

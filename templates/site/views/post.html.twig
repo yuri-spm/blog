@@ -9,7 +9,14 @@
                     <smal class="text-muted">Por {{post.user.name}}, {{post.created_at | date ("d/m/Y" )}} às {{post.created_at | date ("H:i" )}} em {{post.category.title}}</smal>
                 </div>
                 <div data-mdb-input-init class="form-outline mb-4">
-                    <textarea class="form-control autoResizeTextarea" id="autoResizeTextarea" rows="1">{{post.text}}</textarea>
+                <a href="{{url('uploads/files/'~post.cover)}}" 
+                    data-pswp-width="1669" 
+                    data-pswp-height="2500" 
+                    >
+                    <img src="{{url('uploads/files/'~post.cover)}}" alt="{{post.title}}" title="{{post.title}}" class="coverAverage"/>
+                </a>
+                    
+                    <textarea class="form-control autoResizeTextarea" id="autoResizeTextarea" rows="1">{{post.text | raw}}</textarea>
                     <label class="form-label" for="form6Example7"></label>
                 </div>
         </div>

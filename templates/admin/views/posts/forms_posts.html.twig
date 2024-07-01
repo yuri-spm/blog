@@ -19,9 +19,12 @@
     </nav>
     {{ flash() }}
     <div class="card border-1 shadow-sm">
-        <div class="card-body">
+        <div class="card-body">    
             <form action="{% if post.id %}{{ url('admin/posts/edit/'~post.id) }}{% else %} {{ url('admin/posts/add') }}{% endif %}" method="post" enctype='multipart/form-data'>
-            <input type="file" name="cover">
+            <div class="mb-3">
+                <label class="form-label">Capa</label>
+                <input class="form-control" name="cover" type="file" id="cover" multiple>
+            </div>
                 <div class="mb-3">
                     <label for="titulo" class="form-label">
                         Título
@@ -29,7 +32,7 @@
                     <input type="text" class="form-control" id="title" name="title" value="{{ post.title }}"></div>
                     <div class="mb-3">
                         <label class="form-label"></label>
-                        <textarea name='text' class="form-control autoResizeTextarea" id="autoResizeTextarea" id="text" rows="1">
+                        <textarea name='text' class="form-control autoResizeTextarea ckeditor" id="autoResizeTextarea" id="text" rows="1">
                             {{ post.text }}
                         </textarea>
                     </div>
