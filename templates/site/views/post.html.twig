@@ -4,24 +4,32 @@
 <div class="container my-5">
     <div class="row">
         <div class="col-lg-9 col-md-12">
-            <h1>{{post.title}}</h1>
-                <div class="my-3">
-                    <smal class="text-muted">Por {{post.user.name}}, {{post.created_at | date ("d/m/Y" )}} às {{post.created_at | date ("H:i" )}} em {{post.category.title}}</smal>
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h1>{{post.title}}</h1>
+
+                    <div class="my-3">
+                        <small class="text-muted">Por {{post.user.name}}, {{ post.created_at|date("d/m/Y") }} às {{ post.created_at|date("H:i") }} em {{post.category.title}}</small>
+                    </div>
+
+                    {% if post.capa %}
+                    <div class="float-xl-start float-lg-none capaGrande mx-auto">
+                        <div class="card border-0 me-4">
+                            <a data-fancybox data-caption="{{post.title}}" class="overflow zoom " href="{{url('uploads/files/'~post.capa)}}">
+                                <img src="{{url('uploads/files/'~post.capa)}}" alt="{{post.title}}" title="{{post.title}}"/>
+                            </a>
+                        </div>
+                    </div>
+                    {% endif %}            
+
+                    <div class="title">
+                        <p>{{post.text | raw}}</p>
+                    </div>
                 </div>
-                <div data-mdb-input-init class="form-outline mb-4">
-                <a href="{{url('uploads/files/'~post.cover)}}" 
-                    data-pswp-width="1669" 
-                    data-pswp-height="2500" 
-                    >
-                    <img src="{{url('uploads/files/'~post.cover)}}" alt="{{post.title}}" title="{{post.title}}" class="coverAverage"/>
-                </a>
-                    
-                    <textarea class="form-control autoResizeTextarea" id="autoResizeTextarea" rows="1">{{post.text | raw}}</textarea>
-                    <label class="form-label" for="form6Example7"></label>
-                </div>
+            </div>
         </div>
         <div class="col-lg-3">
-            {% include'sidebar.html.twig '%}
+            {% include'sidebar.html.twig'%}
         </div>
     </div>
 </div>
