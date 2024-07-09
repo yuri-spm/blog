@@ -16,7 +16,7 @@
                                     </h5>
                                     <a href="{{url('post/'~post.slug)}}">
                                         <p class="card-text">
-                                            {{ summarizeText(post.text,150) }}
+                                            {{ summarizeText(post.text,150) | striptags | raw  }}
                                         </p>
                                     </a>
                                 </div>

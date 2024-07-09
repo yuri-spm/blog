@@ -1,30 +1,29 @@
+body {
+    background: #f9f9f9
+}
+
 a {
     color: #222
 }
 a:hover {
-   color: #666
+    color: #666
 }
-
-li{
-    list-style-type: none;
+.texto {
+    font-weight: 400;
+    font-size: 14pt;
+    color: #555;
+    line-height: 30px;
 }
-
-#autoResizeTextarea {
-    width: 100%;
-    box-sizing: border-box;
-    overflow: hidden; 
-    resize: none; 
+.capaGrande {
+    max-width: 540px
 }
-
-
-.coverBig{
-    max-width: 540px;
+.capaMedia {
+    max-width: 270px
 }
-
-.coverAverage{
-    max-width: 270px;
+.capaPequena {
+    max-width: 135px
 }
-
-.coverSmall{
-    max-width: 135px;
+.tempoCarregamento {
+    font-size: .7em;
+    float: right
 }

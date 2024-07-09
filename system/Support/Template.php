@@ -87,6 +87,17 @@ class Template
                         return Helpers::countTime($data);
                     })
             ),
+            $this->twig->addFunction(
+                new \Twig\TwigFunction('formaterNumber', function (int $number) {
+                            return Helpers::formaterNumber($number);
+                        })
+            ),
+            $this->twig->addFunction(
+                new TwigFunction('timeStart', function () {
+                        $time = microtime(true) - $_SERVER["REQUEST_TIME_FLOAT"];
+                        return number_format($time, 4);
+                    })
+            ),
 
         );
     }
