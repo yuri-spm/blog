@@ -23,9 +23,9 @@ class AdminDashboard extends AdminController
        echo $this->template->render('dashboard.html.twig',[
         'posts' => [
             'posts' => $post->find()->order('id DESC')->limit(5)->result(true),
-            'total'      => $post->find()->count(),
-            'active'     => $post->find('status = 1')->count(),
-            'inactive'   => $post->find('status = 0')->count(),
+            'total'      => $post->find(null, 'COUNT(id)', 'id')->count(),
+            'active'     => $post->find('status = :s', 's=1 COUNT(status)', 'status')->count(),
+            'inactive'   => $post->find('status = :s', 's=0 COUNT(status)', 'status')->count(),
             'last_views' => $post->last_views,
         ],
         'users' => [
