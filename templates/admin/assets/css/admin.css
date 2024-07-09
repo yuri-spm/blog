@@ -292,3 +292,8 @@ main {
 @media screen and (max-width: 576px) {
 
 }
+
+img {
+    max-width: 80px;
+}
+

@@ -12,11 +12,11 @@
                         <small class="text-muted">Por {{post.user.name}}, {{ post.created_at|date("d/m/Y") }} às {{ post.created_at|date("H:i") }} em {{post.category.title}}</small>
                     </div>
 
-                    {% if post.capa %}
+                    {% if post.cover %}
                     <div class="float-xl-start float-lg-none capaGrande mx-auto">
                         <div class="card border-0 me-4">
-                            <a data-fancybox data-caption="{{post.title}}" class="overflow zoom " href="{{url('uploads/files/'~post.capa)}}">
-                                <img src="{{url('uploads/files/'~post.capa)}}" alt="{{post.title}}" title="{{post.title}}"/>
+                            <a data-fancybox data-caption="{{post.title}}" class="overflow zoom " href="{{url('uploads/files/thumbs/'~post.cover)}}">
+                                <img src="{{url('uploads/files/thumbs/'~post.cover)}}" alt="{{post.title}}" title="{{post.title}}"/>
                             </a>
                         </div>
                     </div>

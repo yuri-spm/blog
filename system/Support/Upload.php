@@ -64,20 +64,36 @@ class Upload
         $this->name = $name ?? pathinfo($this->file['name'], PATHINFO_FILENAME);
         $this->folder = $folder ?? 'files';
 
-        $this->size = $size ?? 5;
-
         $extension = pathinfo($this->file['name'], PATHINFO_EXTENSION);
 
-        $validExtension = ['pdf', 'png', 'jpeg', 'gif', 'jpg'];
+        $this->size = $size ?? 1;
 
-        $validType = ['application/pdf', 'image/png', 'image/jpeg'];
+        $validExtension = [
+            'pdf',
+            'png',
+            'docx',
+            'jpg',
+            'gif',
+            'txt',
+            'jpeg'
+        ];
+
+        $validType = [
+            'application/pdf',
+            'text/plain',
+            'image/png',
+            'image/x-png',
+            'image/gif',
+            'image/jpeg',
+            'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+        ];
 
         if(!in_array($extension, $validExtension)){
             $this->error = "Extensão não permitida. Por favor enviar apenas arquivos com extensão: " . implode(' .',$validExtension);
         }else if(!in_array($this->file['type'], $validType)){
             $this->error = "Tipo de arquivo não permitido";
         }else if($this->file['size'] > $this->size * (1024*1024)){
-            $this->error = "Arquivo muito grande, tamanho permitido {$this->size}MB seu arquivo tem {$this->file['size']}";
+            $this->error = "Arquivo muito grande, tamanho permitido {$this->size}MB seu arquivo tem {$this->file['size']}MB";
         }else{
             $this->createFolder();
             $this->renameFile();

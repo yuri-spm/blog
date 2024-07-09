@@ -1,5 +1,5 @@
 {% extends 'base.html.twig' %}
-{% block conteudo %}
+{% block content %}
 
 <div class="container my-5">
 
@@ -17,7 +17,7 @@
                     {% for slide in posts.slides %}
                     {% if loop.index0 == 0 %}
                     <div class='carousel-item active'> 
-                        {%else%}
+                        {% else %}
                         <div class='carousel-item'>
                             {%endif%}
                             <a href="{{url('post/'~slide.slug)}}" tooltip="tooltip" title="{{slide.title}}">
@@ -64,21 +64,11 @@
 
                                     <div class="d-flex justify-content-between my-3 text-muted">
                                         <small>{{post.categoria.title |upper}}</small>
-                                        <small>{{ countTime(post.cadastrado_em) }}</small>
+                                        <small>{{ countTime(post.created_at) }}</small>
                                     </div>
 
                                     <p class="card-text">{{summarizeText(post.text, 150)}}</p>
                                 </a>
-                                {% if user().level == 3 %}
-                                <div class="card-footer border-0 bg-transparent text-secondary text-end">
-                                    <a href="{{ url('admin/posts/editar/'~post.id) }}" tooltip="tooltip" title="Editar">
-                                        <i class="fa-solid fa-pen m-1"></i>
-                                    </a>
-                                    <a href="{{ url('admin/posts/deletar/'~post.id) }}" tooltip="tooltip" title="Deletar">
-                                        <i class="fa-solid fa-trash m-1"></i>
-                                    </a>
-                                </div>
-                                {% endif %}
                             </div>
                         </div>
                     </div>    
@@ -92,7 +82,7 @@
             </div>
 
             <div class="col-lg-3">
-                {% include'sidebar.html '%}
+                {% include'sidebar.html.twig'%}
 
                 <div class="card mb-4">
                     <div class="card-header fw-bold bg-white text-secondary">

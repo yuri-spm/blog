@@ -26,15 +26,17 @@ class SiteController extends Controller
      */
     public function index(): void
     {
-        $posts = (new PostModel())->find("status = 1");     
-    
+        $posts = (new PostModel())->find("status = 1");
         echo $this->template->render('index.html.twig', [
-            'posts' => $posts->order('id DESC')->limit(15)->offset(3)->result(true),
-            'slids' => $posts->order('id DESC')->limit(3)->result(true),
+            'posts' => [
+                'slides' => $posts->order('id DESC')->limit(3)->result(true),
+                'posts' => $posts->order('id DESC')->limit(10)->offset(3)->result(true),
+                'maisLidos' => (new PostModel())->find("status = 1")->order('views DESC')->limit(5)->result(true),
+            ],
             'categories' => $this->categories(),
         ]);
     }
-
+    
     public function carrousel(): void
     {
         $posts = (new PostModel())->find("status = 1");
