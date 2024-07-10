@@ -6,7 +6,7 @@
         <ul class="list-group list-group-flush">
             {% for category in categories %}
             <li class="list-group-item d-flex justify-content-between">
-                <a href="{{url('categoria/'~categoria.slug)}}" class="fw-bold" tooltip="tooltip" title="{{ category.title }}">
+                <a href="{{url('category/'~category.slug)}}" class="fw-bold" tooltip="tooltip" title="{{ category.title }}">
                     {{ category.title }}
                 </a>
                 <div class="fw-normal">
