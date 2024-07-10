@@ -42,7 +42,7 @@ class AdminPosts extends AdminController
                 $post = new PostModel();
 
                 $post->user_id = $this->user->id;
-                $post->categoria_id = $data['categoria_id'];
+                $post->category_id = $data['category_id'];
                 $post->slug = Helpers::slug($data['title']);
                 $post->title = $data['title'];
                 $post->text = $data['text'];
@@ -60,7 +60,7 @@ class AdminPosts extends AdminController
         }
 
         echo $this->template->render('posts/forms_post.html.twig', [
-            'categorias' => (new CategoryModel())->find('status = 1')->result(true),
+            'categories' => (new CategoryModel())->find('status = 1')->result(true),
             'post' => $data
         ]);
     }
