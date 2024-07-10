@@ -12,7 +12,7 @@ try {
     SimpleRouter::get(URL_SITE, 'SiteController@index');
     SimpleRouter::get(URL_SITE.'sobre', 'SiteController@about');
     SimpleRouter::get(URL_SITE.'post/{slug}', 'SiteController@post');
-    SimpleRouter::get(URL_SITE.'category/{slug}', 'SiteController@category');
+    SimpleRouter::get(URL_SITE.'category/{slug}/{page?}', 'SiteController@category');
     SimpleRouter::post(URL_SITE.'search', 'SiteController@find');
 
     SimpleRouter::get(URL_SITE.'404', 'SiteController@error404');
