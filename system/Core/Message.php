@@ -2,114 +2,91 @@
 
 namespace system\Core;
 
-/**
- * Classe Message – responsável por exibir as mensagens do sistema.
- * @author Ronaldo Aires <ceo@unset.com.br>
- * @copyright Copyright (c) 2022, UnSet
- */
 class Message
 {
 
-    private $text;
+    private $texto;
     private $css;
-    
-    /**
-     * __toString
-     *
-     * @return void
-     */
+
     public function __toString()
     {
         return $this->render();
     }
 
-      
     /**
-     * success
-     *
-     * @param  mixed $mensagem
+     * Método responsável pelas mensagens de success
+     * @param string $message
      * @return Message
      */
-    public function success(string $mensagem): Message
+    public function success(string $message): Message
     {
         $this->css = 'alert alert-success';
-        $this->text = $this->filter($mensagem);
+        $this->texto = $this->filter($message);
         return $this;
     }
 
-      
     /**
-     * error
-     *
-     * @param  mixed $mensagem
+     * Método responsável pelas mensagens de error
+     * @param string $message
      * @return Message
      */
-    public function error(string $mensagem): Message
+    public function error(string $message): Message
     {
         $this->css = 'alert alert-danger';
-        $this->text = $this->filter($mensagem);
+        $this->texto = $this->filter($message);
         return $this;
     }
 
-     
     /**
-     * alert
-     *
-     * @param  mixed $mensagem
+     * Método responsável pelas mensagens de alert
+     * @param string $message
      * @return Message
      */
-    public function alert(string $mensagem): Message
+    public function alert(string $message): Message
     {
         $this->css = 'alert alert-warning';
-        $this->text = $this->filter($mensagem);
+        $this->texto = $this->filter($message);
         return $this;
     }
 
-    
     /**
-     * inform
-     *
-     * @param  mixed $mensagem
+     * Método responsável pelas mensagens de infoções
+     * @param string $message
      * @return Message
      */
-    public function inform(string $mensagem): Message
+    public function info(string $message): Message
     {
         $this->css = 'alert alert-primary';
-        $this->text = $this->filter($mensagem);
+        $this->texto = $this->filter($message);
         return $this;
     }
 
-       
     /**
-     * render
-     *
+     * Método responsável pela renderização das mensagens
      * @return string
      */
     public function render(): string
     {
-        return "<div class='{$this->css} alert-dismissible show'>{$this->text}<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
+        return "<div class='{$this->css} alert-dismissible fade show'>{$this->texto}<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
     }
 
-    
     /**
-     * filter
-     *
-     * @param  mixed $mensagem
+     * Método responsável por filter as mensagens
+     * @param string $message
      * @return string
      */
-    private function filter(string $mensagem): string
+    private function filter(string $message): string
     {
-        return filter_var($mensagem, FILTER_SANITIZE_SPECIAL_CHARS);
+        return filter_var($message, FILTER_SANITIZE_SPECIAL_CHARS);
     }
-    
+
     /**
-     * flash
-     *
+     * Cria a sessão das mensagens flash
      * @return void
      */
     public function flash(): void
     {
-        (new Session)->create('flash', $this);
+        (new Session())->create('flash', $this);
     }
 
 }

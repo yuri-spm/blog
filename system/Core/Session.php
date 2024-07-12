@@ -4,12 +4,7 @@ namespace system\Core;
 
 class Session
 {
-    
-    /**
-     * __construct
-     *
-     * @return void
-     */
+
     public function __construct()
     {
         //checa se não existe um ID de sessão
@@ -19,12 +14,10 @@ class Session
         }
     }
 
-    
     /**
-     * create
-     *
-     * @param  mixed $key
-     * @param  mixed $value
+     * Cria uma sessão
+     * @param string $key
+     * @param mixed $value
      * @return Session
      */
     public function create(string $key, mixed $value): Session
@@ -33,22 +26,18 @@ class Session
         return $this;
     }
 
-    
     /**
-     * load
-     *
-     * @return object
+     * Carrega uma sessão
+     * @return object|null
      */
     public function load(): ?object
     {
         return (object) $_SESSION;
     }
 
-    
     /**
-     * check
-     *
-     * @param  mixed $key
+     * Checa se uma sessão existe
+     * @param string $key
      * @return bool
      */
     public function check(string $key): bool
@@ -56,11 +45,9 @@ class Session
         return isset($_SESSION[$key]);
     }
 
-    
     /**
-     * clear
-     *
-     * @param  mixed $key
+     * Limpa a sessão especificada
+     * @param string $key
      * @return Session
      */
     public function clear(string $key): Session
@@ -69,37 +56,31 @@ class Session
         return $this;
     }
 
-    
     /**
-     * destroy
-     *
+     * Destrói all os data registrados em uma sessão
      * @return Session
      */
-    public function destroy(): Session
+    public function delete(): Session
     {
         session_destroy();
         return $this;
     }
 
-    
     /**
-     * __get
-     *
-     * @param  mixed $atributo
-     * @return void
+     * __get() é utilizado para ler data de attributes inacessíveis.
+     * @param type $attribute
+     * @return type
      */
-    public function __get($atributo)
+    public function __get($attribute)
     {
-        if (!empty($_SESSION[$atributo])) {
-            return $_SESSION[$atributo];
+        if (!empty($_SESSION[$attribute])) {
+            return $_SESSION[$attribute];
         }
     }
 
-    
     /**
-     * flash
-     *
-     * @return Message
+     * Checa ou limpa mensagens flash
+     * @return Message|null
      */
     public function flash(): ?Message
     {

@@ -326,7 +326,7 @@ abstract class Model
      *
      * @return void
      */
-    public function destroy()
+    public function beforeDelete()
     {
         if (empty($this->id)) {
             return false;
@@ -400,5 +400,12 @@ abstract class Model
         if ($checkSlug->count()) {
             $this->slug = "{$this->slug} - {$this->lastId()}";
         }
+    }
+
+    public function saveViews(): void
+    {
+        $this->views += 1;
+        $this->last_views = date('Y-m-d H:i:s');
+        $this->save();
     }
 }

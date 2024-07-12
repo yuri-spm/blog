@@ -313,7 +313,7 @@ class Helpers
         $greetings = match (true) {
             $hora >= 0 and $hora <= 5 => 'boa madrugada',
             $hora >= 6 and $hora <= 12 => 'bom dia',
-            $hora >= 13 and $hora <= 18 => 'boa tarde',
+            $hora >= 13 and $hora <= 17 => 'boa tarde',
             default => 'boa noite'
         };
 
