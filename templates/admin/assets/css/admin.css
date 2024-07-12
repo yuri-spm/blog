@@ -1,30 +1,11 @@
-:root {
-    --cor1: #0a0d12;
-    --cor2: #202736;
-    --cor3: #2b3448;
-    --cor4: #36415a;
-    --cor5: #4c5b7e;
-    --cor6: #6275a2;
-    --cor7: #6d82b5;
-    --cor8: #7b8ebc;
-    --cor9: #8a9bc3;
-    --cor10: #98a7cb;
-    --cor11: #a7b4d2;
-    --cor12: #b6c0da;
-    --cor13: #c4cde1;
-    --cor14: #d3d9e8;
-    --cor15: #f0f2f7;
-    --corTexto: #2b3448;
-    --corLink: #414e6c;
-}
-
-
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap');
 
 body {
     font-family: "Inter", "Helvetica Neue", Arial;
 }
-
+.greetings {
+    font-size: .7em
+}
 .sidebar {
     width: 300px;
     position: fixed;
@@ -33,7 +14,7 @@ body {
     height: 100%;
     z-index: 100;
     transition: left 300ms;
-    background: var(--cor4);
+    background: var(--cor3);
     overflow-y: auto;
 }
 
@@ -42,12 +23,12 @@ body {
 }
 
 .sidebar::-webkit-scrollbar-track {
-    box-shadow: inset 0 0 5px var(--cor3);
+    box-shadow: inset 0 0 5px var(--cor2);
     border-radius: 10px;
 }
 
 .sidebar::-webkit-scrollbar-thumb {
-    background: var(--cor3);
+    background: var(--cor2);
     border-radius: 10px;
 }
 
@@ -89,7 +70,7 @@ body {
     padding: .2rem;
     display: block;
     color: var(--cor14);
-    border-bottom: 1px solid var(--cor3);
+    border-bottom: 1px solid var(--cor2);
 }
 
 .sidebarMenu a:hover {
@@ -201,11 +182,8 @@ main {
     font-size: .8em;
 }
 
-#autoResizeTextarea {
-    width: 100%;
-    box-sizing: border-box;
-    overflow: hidden; 
-    resize: none; 
+.cover {
+    max-width: 80px
 }
 
 @media screen and (max-width: 1200px) {
@@ -292,8 +270,3 @@ main {
 @media screen and (max-width: 576px) {
 
 }
-
-img {
-    max-width: 80px;
-}
-

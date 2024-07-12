@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2003-2023, CKSource Holding sp. z o.o. All rights reserved.
+Copyright (c) 2003-2021, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 
@@ -21,7 +21,7 @@ body
 
 .cke_editable
 {
-	font-size: 13px;
+	font-size: 1em !important;
 	line-height: 1.6;
 
 	/* Fix for missing scrollbars with RTL texts. (#10488) */

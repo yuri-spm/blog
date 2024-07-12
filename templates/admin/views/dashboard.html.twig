@@ -1,402 +1,329 @@
 {% extends "base.html.twig" %}
 {% block default %}
-    {% include 'menu.html.twig' %}
-    <div class="conteudo">
-        {% include 'header.html.twig' %}
-        <main>
-            {% block content %}
-                <h5 class="mb-3">
-                    Dashboard <smal class='greeting text-muted'> - {{greetings()}} {{user().name}}. Seu ultimo login foi em  {{ user().last_login | date ("d/m/Y" ) }} 
-                </h5>
-                <div>
-                    <div class="card p-2 flex-fill w-100 bg-warning">
-                        <h6 >Em desenvolvimento....</h6>
-                    </div>
-                </div>
-                <br>
-                {{ flash() }}
-                <div class="row">
-                    <div class="col-xl-6 col-xxl-5 d-flex">
-                        <div class="w-100">
-                            <div class="row">
-                                <!-- BEGIN POSTS-->
-                                <div class="col-sm-6">
-                                    <div class="card border-0 shadow-sm mb-3">
-                                        <div class="card-body">
-                                            <div class="row">
-                                                <div class="col mt-0">
-                                                    <h6 class="fw-bold text-secondary">
-                                                        Posts
-                                                    </h6>
-                                                </div>
-                                                <div class="col-auto text-secondary">
-                                                    <a href="{{ url('admin/posts/add') }}" tooltip="tooltip" title="Cadastrar Post">
-                                                        <i class="fa-solid fa-file-pen"></i>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <h1 class="mt-1 mb-3">
-                                                {{ posts.total }}
-                                            </h1>
-                                            <div class="row">
-                                                <div class="col-auto">
-                                                    <span class="badge text-bg-success bg-opacity-10">
-                                                        <span class="text-success fw-bold">
-                                                            {{ posts.active }}
-                                                        </span>
-                                                        <span class="badge text-secondary">
-                                                            Ativo
-                                                        </span>
-                                                    </span>
-                                                </div>
-                                                <div class="col-auto">
-                                                    <span class="badge text-bg-danger bg-opacity-10">
-                                                        <span class="text-danger fw-bold">
-                                                            {{ posts.inactive }}
-                                                        </span>
-                                                        <span class="badge text-secondary">
-                                                            Inativo
-                                                        </span>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- END POSTS-->
-                                <!-- BEGIN USER-->
-                                <div class="col-sm-6">
-                                    <div class="card border-0 shadow-sm mb-3">
-                                        <div class="card-body">
-                                            <div class="row">
-                                                <div class="col mt-0">
-                                                    <h6 class="fw-bold text-secondary">
-                                                        Users
-                                                    </h6>
-                                                </div>
-                                                <div class="col-auto text-secondary">
-                                                    <a href="{{ url('admin/users/add') }}" tooltip="tooltip" title="Cadastrar Usuarios">
-                                                        <i class="fas fa-users"></i>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <h1 class="mt-1 mb-3">
-                                                {{ users.users }}
-                                            </h1>
-                                            <div class="row">
-                                                <div class="col-auto">
-                                                    <span class="badge text-bg-success bg-opacity-10">
-                                                        <span class="text-success fw-bold">
-                                                            {{ users.users_active }}
-                                                        </span>
-                                                        <span class="badge text-secondary">
-                                                            Ativo
-                                                        </span>
-                                                    </span>
-                                                </div>
-                                                <div class="col-auto">
-                                                    <span class="badge text-bg-danger bg-opacity-10">
-                                                        <span class="text-danger fw-bold">
-                                                            {{ users.users_inactive }}
-                                                        </span>
-                                                        <span class="badge text-secondary">
-                                                            Inativo
-                                                        </span>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- END USERS-->
-                                <!-- BEGIN ADMIN-->
-                                <div class="col-sm-6">
-                                    <div class="card border-0 shadow-sm mb-3">
-                                        <div class="card-body">
-                                            <div class="row">
-                                                <div class="col mt-0">
-                                                    <h6 class="fw-bold text-secondary">
-                                                        Admin Users
-                                                    </h6>
-                                                </div>
-                                                <div class="col-auto text-secondary">
-                                                    <a href="{{ url('admin/users/add') }}" tooltip="tooltip" title="Cadastrar Usuarios">
-                                                        <i class="fas fa-users"></i>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <h1 class="mt-1 mb-3">
-                                                {{ users.admin }}
-                                            </h1>
-                                            <div class="row">
-                                                <div class="col-auto">
-                                                    <span class="badge text-bg-success bg-opacity-10">
-                                                        <span class="text-success fw-bold">
-                                                            {{ users.admin_active }}
-                                                        </span>
-                                                        <span class="badge text-secondary">
-                                                            Ativo
-                                                        </span>
-                                                    </span>
-                                                </div>
-                                                <div class="col-auto">
-                                                    <span class="badge text-bg-danger bg-opacity-10">
-                                                        <span class="text-danger fw-bold">
-                                                            {{ users.admin_inactive }}
-                                                        </span>
-                                                        <span class="badge text-secondary">
-                                                            Inativo
-                                                        </span>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- END ADMIN-->
-                                <!-- BEGIN CATEGORIES-->
-                                <div class="col-sm-6">
-                                    <div class="card border-0 shadow-sm mb-3">
-                                        <div class="card-body">
-                                            <div class="row">
-                                                <div class="col mt-0">
-                                                    <h6 class="fw-bold text-secondary">
-                                                        Categorias
-                                                    </h6>
-                                                </div>
-                                                <div class="col-auto text-secondary">
-                                                    <a href="{{ url('admin/categories/add') }}" tooltip="tooltip" title="Cadastrar Categorias">
-                                                        <i class="fa-solid fa-circle-plus"></i>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <h1 class="mt-1 mb-3">
-                                                {{ categories.total }}
-                                            </h1>
-                                            <div class="row">
-                                                <div class="col-auto">
-                                                    <span class="badge text-bg-success bg-opacity-10">
-                                                        <span class="text-success fw-bold">
-                                                            {{ categories.active }}
-                                                        </span>
-                                                        <span class="badge text-secondary">
-                                                            Ativo
-                                                        </span>
-                                                    </span>
-                                                </div>
-                                                <div class="col-auto">
-                                                    <span class="badge text-bg-danger bg-opacity-10">
-                                                        <span class="text-danger fw-bold">
-                                                            {{ categories.inactive }}
-                                                        </span>
-                                                        <span class="badge text-secondary">
-                                                            Inativo
-                                                        </span>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            <!-- END CATEGORIES -->
-                            </div>
-                        </div>
-                    </div>
-                    <!-- BEGIN LAST POSTS -->
-                    <div class="col-xl-6 col-xxl-7 mb-4">
-                        <div class="card border-0 shadow-sm">
-                            <div class="card-header bg-white border-0 d-flex justify-content-between align-items-center mt-2">
-                                <div>
-                                    <h6 class="fw-bold text-secondary">
-                                        Últimos Posts
-                                    </h6>
-                                </div>
-                                <a href="{{ url('admin/posts/add') }}" class="fs-5" tooltip="tooltip" title="Cadastrar Post">
-                                    <i class="fa-solid fa-circle-plus"></i>
-                                </a>
-                            </div>
-                            <div class="card-body">
-                                {% if posts.posts %}
-                                    <div class="table-responsive">
-                                        <table class="table table-hover">
-                                            <thead>
-                                                <tr>
-                                                    <th>
-                                                        Título
-                                                    </th>
-                                                    <th class="text-center">
-                                                        Views
-                                                    </th>
-                                                    <th class="text-center">
-                                                        Ação
-                                                    </th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                {% for post in posts.posts %}
-                                                    <tr>
-                                                        <th>
-                                                            <div>
-                                                                <span>
-                                                                    {% if post.status == 1 %}
-                                                                        <i class="fa-solid fa-circle text-success" tooltip="tooltip" title="Ativo"></i>
-                                                                    {% else %}
-                                                                        <i class="fa-solid fa-circle text-danger" tooltip="tooltip" title="Inativo"></i>
-                                                                    {% endif %}
-                                                                </span>
-                                                                {{ summarizeText(post.title, 100) }}
-                                                            </div>
-                                                            <small class="text-muted fw-normal">
-                                                                Escrito por
-                                                                {{ post.user.name }}
-                                                                {{ countTime(post.created_at) }}
-                                                                minutos em
-                                                                {{ post.category.title }}
-                                                            </small>
-                                                        </th>
-                                                        <td class="text-center">
-                                                            {{post.views}}
-                                                        </td>
-                                                        <td class="text-center">
-                                                            <a href="{{ url('admin/posts/edit/'~post.id) }}" tooltip="tooltip" title="Editar">
-                                                                <i class="fa-solid fa-pen m-1"></i>
-                                                            </a>
-                                                            <a href="{{ url('admin/posts/delete/'~post.id) }}" tooltip="tooltip" title="Deletar">
-                                                                <i class="fa-solid fa-trash m-1"></i>
-                                                            </a>
-                                                        </td>
-                                                    </tr>
-                                                {% endfor %}
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                {% else %}
-                                    <div class="alert alert-warning" role="alert">
-                                        Nenhum post cadastrado para exibir!
-                                    </div>
-                                {% endif %}
-                            </div>
-                        </div>
-                    </div>
-                    <!-- END  LAST POSTS -->
-                    <!-- BEGIN  LAST LOGINS -->
-                    <div class="col-sm-6 col-md-6 col-xl-4 mb-4">
-                        <div class="card border-0 shadow-sm  h-100">
-                            <div class="card-header bg-white border-0 mt-2">
-                                <h6 class="fw-bold text-secondary">
-                                    Últimos Logins
-                                </h6>
-                            </div>
-                            <div class="card-body">
-                                {% if users %}
-                                    <ul class="list-group list-group-flush">
-                                        {% for user in users.logins %}
-                                            <li class="list-group-item">
-                                                <p>
-                                                    <i class="fa-solid fa-user me-2"></i>
-                                                    <span class="fw-bold">
-                                                        {{ user.name }}
-                                                    </span>
-                                                </p>
-                                                <small class="text-muted">
-                                                    {{ countTime(user.created_at) }}
-                                                    tempo em
-                                                    {{ user.last_login | date ("d/m/Y" ) }}
-                                                    às
-                                                    {{ user.last_login | date ("H:i" ) }}
-                                                </small>
-                                            </li>
-                                        {% endfor %}
-                                    </ul>
-                                {% else %}
-                                    <div class="alert alert-warning" role="alert">
-                                        Nenhum login para exibir!
-                                    </div>
-                                {% endif %}
-                            </div>
-                        </div>
-                    </div>
-                <!-- END  LAST LOGINS -->
-                 <!-- BEGIN  LAST LOGINS -->
-                 <div class="col-sm-6 col-md-6 col-xl-4 mb-4">
-                 <div class="card border-0 shadow-sm  h-100">
-                     <div class="card-header bg-white border-0 mt-2">
-                         <h6 class="fw-bold text-secondary">
-                             Últimos Logins
-                         </h6>
-                     </div>
-                     <div class="card-body">
-                         {% if users %}
-                             <ul class="list-group list-group-flush">
-                                 {% for user in users.logins %}
-                                     <li class="list-group-item">
-                                         <p>
-                                             <i class="fa-solid fa-user me-2"></i>
-                                             <span class="fw-bold">
-                                                 {{ user.name }}
-                                             </span>
-                                         </p>
-                                         <small class="text-muted">
-                                             {{ countTime(user.created_at) }}
-                                             tempo em
-                                             {{ user.last_login | date ("d/m/Y" ) }}
-                                             às
-                                             {{ user.last_login | date ("H:i" ) }}
-                                         </small>
-                                     </li>
-                                 {% endfor %}
-                             </ul>
-                         {% else %}
-                             <div class="alert alert-warning" role="alert">
-                                 Nenhum login para exibir!
-                             </div>
-                         {% endif %}
-                     </div>
-                 </div>
-             </div>
-         <!-- END  LAST LOGINS -->
-          <!-- BEGIN  LAST LOGINS -->
-          <div class="col-sm-6 col-md-6 col-xl-4 mb-4">
-          <div class="card border-0 shadow-sm  h-100">
-              <div class="card-header bg-white border-0 mt-2">
-                  <h6 class="fw-bold text-secondary">
-                      Últimos Logins
-                  </h6>
-              </div>
-              <div class="card-body">
-                  {% if users %}
-                      <ul class="list-group list-group-flush">
-                          {% for user in users.logins %}
-                              <li class="list-group-item">
-                                  <p>
-                                      <i class="fa-solid fa-user me-2"></i>
-                                      <span class="fw-bold">
-                                          {{ user.name }}
-                                      </span>
-                                  </p>
-                                  <small class="text-muted">
-                                      {{ countTime(user.created_at) }}
-                                      tempo em
-                                      {{ user.last_login | date ("d/m/Y" ) }}
-                                      às
-                                      {{ user.last_login | date ("H:i" ) }}
-                                  </small>
-                              </li>
-                          {% endfor %}
-                      </ul>
-                  {% else %}
-                      <div class="alert alert-warning" role="alert">
-                          Nenhum login para exibir!
-                      </div>
-                  {% endif %}
-              </div>
-          </div>
-      </div>
-  <!-- END  LAST LOGINS -->
-                </div>
-            {% endblock %}
-        </main>
-        {% include 'footer.html.twig' %}
-    </div>
-{% endblock %}
 
+{% include 'menu.html.twig' %}
+
+<div class="conteudo">
+    {% include 'header.html.twig' %}
+    <main>
+        {% block content %}          
+        <h5 class="mb-3">Dashboard <small class="greetings text-muted"> - {{greetings()}}, {{user().name}}. Seu último login foi em {{user().last_login |date('d/m/Y')}} às {{user().last_login |date('H:i')}}</small></h5>
+
+
+        {{ flash() }}
+
+        <div class="row">
+            <div class="col-xl-6 col-xxl-5 mb-4 d-flex">
+                <div class="w-100">
+                    <div class="row">
+                        <!--INICIO POSTS-->
+                        <div class="col-sm-6">
+                            <div class="card border-0 shadow-sm mb-3">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col">
+                                            <h6 class="fw-bold text-secondary">Posts</h6>
+                                        </div>
+
+                                        <div class="col-auto text-secondary">
+                                        <a href="{{ url('admin/posts/add') }}"  tooltip="tooltip" title="Cadastrar Post">
+                                                <i class="fa-solid fa-file-pen"></i>
+                                            </a>                                            
+                                        </div>
+                                    </div>
+                                    <h1 class="mt-1 mb-3">{{formaterNumber(posts.count)}}</h1>
+
+                                    <div class="row">
+                                        <div class="col-auto">
+                                            <span class="badge text-bg-success bg-opacity-10"> <span class="text-success fw-bold">{{posts.ativo}}</span> <span class="badge text-secondary">Ativo</span> </span>
+                                        </div>
+                                        <div class="col-auto">
+                                            <span class="badge text-bg-danger bg-opacity-10"> <span class="text-danger fw-bold">{{posts.inativo}}</span> <span class="badge text-secondary">Inativo</span> </span>  
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>                                   
+                        </div>
+                        <!--FIM POSTS-->
+
+                        <!--INICIO CATEGORIAS-->
+                        <div class="col-sm-6">
+                            <div class="card border-0 shadow-sm mb-3">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col">
+                                            <h6 class="fw-bold text-secondary">Categorias</h6>
+                                            
+                                        </div>
+
+                                        <div class="col-auto text-secondary">
+                                        <a href="{{ url('admin/categories/add') }}" tooltip="tooltip" title="Cadastrar Categorias">
+                                            <i class="fa-solid fa-list"></i>
+                                        </a>
+                                        </div>
+                                    </div>
+                                    <h1 class="mt-1 mb-3">{{categorias.count}}</h1>
+
+                                    <div class="row">
+                                        <div class="col-auto">
+                                            <span class="badge text-bg-success bg-opacity-10"> <span class="text-success fw-bold">{{categorias.categoriasAtiva}}</span> <span class="badge text-secondary">Ativo</span> </span>
+                                        </div>
+                                        <div class="col-auto">
+                                            <span class="badge text-bg-danger bg-opacity-10"> <span class="text-danger fw-bold">{{categorias.categoriasInativa}}</span> <span class="badge text-secondary">Inativo</span> </span>  
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>                                   
+                        </div>
+                        <!--FIM CATEGORIAS-->
+
+                        <!--INICIO USUARIOS-->
+                        <div class="col-sm-6">
+                            <div class="card border-0 shadow-sm mb-3">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col">
+                                            <h6 class="fw-bold text-secondary">Usuários</h6>
+                                        </div>
+
+                                        <div class="col-auto text-secondary">
+                                        <a href="{{ url('admin/users/add') }}" tooltip="tooltip" title="Cadastrar Usuarios">
+                                            <i class="fas fa-users"></i>
+                                        </a>
+                                        </div>
+                                    </div>
+                                    <h1 class="mt-1 mb-3">{{users.users}}</h1>
+
+                                    <div class="row">
+                                        <div class="col-auto">
+                                            <span class="badge text-bg-success bg-opacity-10"> <span class="text-success fw-bold">{{users.usersAtivo}}</span> <span class="badge text-secondary">Ativo</span> </span>
+                                        </div>
+                                        <div class="col-auto">
+                                            <span class="badge text-bg-danger bg-opacity-10"> <span class="text-danger fw-bold">{{users.usersInativo}}</span> <span class="badge text-secondary">Inativo</span> </span>  
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>                                   
+                        </div>
+                        <!--FIM USUARIOS-->
+
+                        <!--INICIO ADMIN-->
+                        <div class="col-sm-6">
+                            <div class="card border-0 shadow-sm mb-3">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col">
+                                            <h6 class="fw-bold text-secondary">Admin</h6>
+                                        </div>
+
+                                        <div class="col-auto text-secondary">
+                                        <a href="{{ url('admin/users/add') }}" tooltip="tooltip" title="Cadastrar Usuarios">
+                                            <i class="fa-solid fa-screwdriver-wrench"></i>
+                                        </a>    
+                                        </div>
+                                    </div>
+                                    <h1 class="mt-1 mb-3">{{users.admin}}</h1>
+
+                                    <div class="row">
+                                        <div class="col-auto">
+                                            <span class="badge text-bg-success bg-opacity-10"> <span class="text-success fw-bold">{{users.adminAtivo}}</span> <span class="badge text-secondary">Ativo</span> </span>
+                                        </div>
+                                        <div class="col-auto">
+                                            <span class="badge text-bg-danger bg-opacity-10"> <span class="text-danger fw-bold">{{users.adminInativo}}</span> <span class="badge text-secondary">Inativo</span> </span>  
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>                                   
+                        </div>
+                        <!--FIM ADMIN-->
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-6 col-xxl-7 mb-4">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header bg-white border-0 d-flex justify-content-between align-items-center mt-2">
+                        <div>
+                            <h6 class="fw-bold text-secondary">
+                                Últimos Posts
+                            </h6>                          
+                        </div>
+                        <a href="{{url('admin/posts/add')}}" class="fs-5" tooltip="tooltip" title="Cadastrar Post">
+                            <i class="fa-solid fa-circle-plus"></i>
+                        </a>
+                    </div>
+                    <div class="card-body">
+                        {% if posts.posts %}
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Título</th>
+                                        <th class="text-center">Visitas</th>
+                                        <th class="text-center">Ação</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for post in posts.posts %}
+                                    <tr>
+                                        <th>
+
+                                            <div>
+                                                <span>
+                                                    {% if post.status == 1 %}
+                                                    <i class="fa-solid fa-circle text-success" tooltip="tooltip" title="Ativo"></i>
+                                                    {% else %}
+                                                    <i class="fa-solid fa-circle text-danger" tooltip="tooltip" title="Inativo"></i>
+                                                    {% endif %}
+                                                </span>
+                                                {{summarizeText(post.title, 100)}}
+                                            </div>
+                                            <small class="text-muted fw-normal">
+                                                Escrito por {{post.user.name}} {{ countTime(post.created_at) }} {{post.categoria.title}}
+                                            </small>
+                                        </th>
+                                        <td class="text-center">{{formaterNumber(post.views)}}</td>
+                                        <td class="text-center">
+
+                                            <a href="{{ url('admin/posts/edit/'~post.id) }}" tooltip="tooltip" title="Editar">
+                                                <i class="fa-solid fa-pen m-1"></i>
+                                            </a>
+                                            <a href="{{ url('admin/posts/delete/'~post.id) }}" tooltip="tooltip" title="Deletar">
+                                                <i class="fa-solid fa-trash m-1"></i>
+                                            </a>
+
+                                        </td>
+                                    </tr>
+                                    {%endfor%}
+                                </tbody>
+                            </table>
+                        </div>
+                        {% else %}
+                        <div class="alert alert-warning" role="alert">
+                            Nenhum post cadastrado para exibir!
+                        </div>
+                        {% endif %}
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-12 col-md-6 col-xl-4 mb-4">
+                <div class="card border-0 shadow-sm  h-100">
+                    <div class="card-header bg-white border-0 d-flex justify-content-between align-items-center mt-2">
+                        <h6 class="fw-bold text-secondary">
+                            Últimas Categorias
+                        </h6> 
+
+                        <a href="{{url('admin/categories/add')}}" class="fs-5" tooltip="tooltip" title="Cadastrar Categoria">
+                            <i class="fa-solid fa-circle-plus"></i>
+                        </a>
+                    </div>
+                    <div class="card-body">
+                        {% if categorias.categorias %}
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+
+                                        <th>Título</th>
+                                        <th class="text-center">Visitas</th>
+                                        <th class="text-center">Ação</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for categoria in categorias.categorias %}
+                                    <tr>
+
+                                        <td>
+                                            <span>
+                                                {% if categoria.status == 1 %}
+                                                <i class="fa-solid fa-circle text-success" tooltip="tooltip" title="Ativo"></i>
+                                                {% else %}
+                                                <i class="fa-solid fa-circle text-danger" tooltip="tooltip" title="Inativo"></i>
+                                                {% endif %}
+                                            </span>
+                                            {{categoria.title}}
+                                        </td>
+                                        <td class="text-center">
+                                            {{formaterNumber(categoria.views)}}
+                                        </td>
+                                        <td class="text-center">
+                                            <a href="{{ url('admin/categories/edit/'~categoria.id) }}" tooltip="tooltip" title="Editar">
+                                                <i class="fa-solid fa-pen m-1"></i>
+                                            </a>
+                                            <a href="{{ url('admin/categories/delete/'~categoria.id) }}" tooltip="tooltip" title="Deletar">
+                                                <i class="fa-solid fa-trash m-1"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    {%endfor%}
+                                </tbody>
+                            </table>
+                        </div> 
+                        {% else %}
+                        <div class="alert alert-warning" role="alert">
+                            Nenhuma categoria cadastrada para exibir!
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <!--INICIO ULTIMOS LOGIN-->
+            <div class="col-sm-6 col-md-6 col-xl-4 mb-4">
+                <div class="card border-0 shadow-sm  h-100">
+                    <div class="card-header bg-white border-0 mt-2">
+                        <h6 class="fw-bold text-secondary">
+                            Últimos Logins
+                        </h6> 
+                    </div>
+                    <div class="card-body">
+                        {% if users %}
+                        <ul class="list-group list-group-flush">
+                            {% for user in users.logins %}
+                            <li class="list-group-item">
+                                <p>
+                                    <i class="fa-solid fa-user me-2"></i>
+                                    <span class="fw-bold">{{user.name}}</span>
+                                </p>                              
+                                <small class="text-muted">{{ countTime(user.created_at) }} em {{ user.created_at|date("d/m/Y") }} às {{ user.created_at|date("H:i") }}</small>
+                            </li>
+                            {%endfor%}
+                        </ul>
+                        {% else %}
+                        <div class="alert alert-warning" role="alert">
+                            Nenhum login para exibir!
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <!--FIM ULTIMOS LOGIN-->
+
+            <div class="col-sm-6 col-md-12 col-xl-4 mb-4">
+                <div class="card border-0 shadow-sm  h-100">
+                    <div class="card-header bg-white border-0 mt-2">
+                        <h6 class="fw-bold text-secondary">
+                            Em desenvolvimento
+                        </h6> 
+                    </div>                   
+                    <div class="card-body">
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        {% endblock %}
+    </main>
+    {% include 'footer.html.twig' %}
+</div>
+
+{% endblock %}

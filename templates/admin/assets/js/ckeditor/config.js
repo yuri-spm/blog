@@ -1,16 +1,9 @@
-﻿/**
- * @license Copyright (c) 2003-2023, CKSource Holding sp. z o.o. All rights reserved.
+/**
+ * @license Copyright (c) 2003-2021, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 CKEDITOR.editorConfig = function( config ) {
-	
-	// %REMOVE_START%
-	// The configuration options below are needed when running CKEditor from source files.
-	config.plugins = 'dialogui,dialog,about,basicstyles,notification,button,toolbar,clipboard,enterkey,entities,floatingspace,wysiwygarea,indent,indentlist,fakeobjects,link,list,undo';
-	config.skin = 'moono-lisa';
-	// %REMOVE_END%
-
 	// Define changes to default configuration here.
 	// For complete reference see:
 	// https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html
@@ -34,7 +27,7 @@ CKEDITOR.editorConfig = function( config ) {
 
 	// The default plugins included in the basic setup define some buttons that
 	// are not needed in a basic editor. They are removed here.
-	config.removeButtons = 'Cut,Copy,Paste,Undo,Redo,Anchor,Underline,Strike,Subscript,Superscript';
+	config.removeButtons = 'Cut,Copy,Paste,Undo,Redo,Anchor,Strike,Subscript,Superscript';
 
 	// Dialog windows are also simplified.
 	config.removeDialogTabs = 'link:advanced';

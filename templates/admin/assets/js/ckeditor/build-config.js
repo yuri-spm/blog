@@ -1,6 +1,6 @@
 ﻿/**
- * @license Copyright (c) 2003-2024, CKSource Holding sp. z o.o. All rights reserved.
- * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license/
+ * @license Copyright (c) 2003-2021, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or https://ckeditor.com/license
  */
 
 /**
@@ -13,10 +13,10 @@
  * (1) https://ckeditor.com/cke4/builder
  *     Visit online builder to build CKEditor from scratch.
  *
- * (2) https://ckeditor.com/cke4/builder/b4e6bcee77218bc18145022830507dce
+ * (2) https://ckeditor.com/cke4/builder/a2a0f0303038ba8acfaee86abacd11f8
  *     Visit online builder to build CKEditor, starting with the same setup as before.
  *
- * (3) https://ckeditor.com/cke4/builder/download/b4e6bcee77218bc18145022830507dce
+ * (3) https://ckeditor.com/cke4/builder/download/a2a0f0303038ba8acfaee86abacd11f8
  *     Straight download link to the latest version of CKEditor (Optimized) with the same setup as before.
  *
  * NOTE:
@@ -25,7 +25,7 @@
  */
 
 var CKBUILDER_CONFIG = {
-	skin: 'moono-lisa',
+	skin: 'office2013',
 	preset: 'basic',
 	ignore: [
 		'.DS_Store',
@@ -43,7 +43,6 @@ var CKBUILDER_CONFIG = {
 		'.travis.yml',
 		'bender-err.log',
 		'bender-out.log',
-		'bender-runner.config.json',
 		'bender.ci.js',
 		'bender.js',
 		'dev',
@@ -55,21 +54,31 @@ var CKBUILDER_CONFIG = {
 		'tests'
 	],
 	plugins : {
-		'about' : 1,
 		'basicstyles' : 1,
 		'clipboard' : 1,
+		'colorbutton' : 1,
 		'enterkey' : 1,
 		'entities' : 1,
 		'floatingspace' : 1,
+		'font' : 1,
+		'horizontalrule' : 1,
 		'indentlist' : 1,
+		'justify' : 1,
 		'link' : 1,
 		'list' : 1,
+		'maximize' : 1,
+		'pastetext' : 1,
+		'quicktable' : 1,
+		'removeformat' : 1,
+		'sourcearea' : 1,
+		'specialchar' : 1,
+		'table' : 1,
 		'toolbar' : 1,
 		'undo' : 1,
 		'wysiwygarea' : 1
 	},
 	languages : {
 		'en' : 1,
-		'pt-br' : 1
+		'pt' : 1
 	}
 };

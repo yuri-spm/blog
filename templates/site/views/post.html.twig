@@ -9,20 +9,20 @@
                     <h1>{{post.title}}</h1>
 
                     <div class="my-3">
-                        <small class="text-muted">Por {{post.user.name}}, {{ post.created_at|date("d/m/Y") }} às {{ post.created_at|date("H:i") }} em {{post.category.title}}</small>
+                        <small class="text-muted">Por {{post.user.name}}, {{ post.created_at|date("d/m/Y") }} às {{ post.created_at|date("H:i") }} em {{post.categoria.title}}</small>
                     </div>
 
                     {% if post.cover %}
-                    <div class="float-xl-start float-lg-none capaGrande mx-auto">
+                    <div class="float-xl-start float-lg-none coverGrande mx-auto">
                         <div class="card border-0 me-4">
-                            <a data-fancybox data-caption="{{post.title}}" class="overflow zoom " href="{{url('uploads/files/thumbs/'~post.cover)}}">
-                                <img src="{{url('uploads/files/thumbs/'~post.cover)}}" alt="{{post.title}}" title="{{post.title}}"/>
+                            <a data-fancybox data-caption="{{post.title}}" class="overflow zoom " href="{{url('uploads/imagens/'~post.cover)}}">
+                                <img src="{{url('uploads/imagens/'~post.cover)}}" alt="{{post.title}}" title="{{post.title}}"/>
                             </a>
                         </div>
                     </div>
                     {% endif %}            
 
-                    <div class="title">
+                    <div class="texto">
                         <p>{{post.text | raw}}</p>
                     </div>
                 </div>

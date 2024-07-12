@@ -14,16 +14,43 @@ a:hover {
     color: #555;
     line-height: 30px;
 }
-.capaGrande {
+.coverGrande {
     max-width: 540px
 }
-.capaMedia {
+.coverMedia {
     max-width: 270px
 }
-.capaPequena {
+.coverPequena {
     max-width: 135px
 }
-.tempoCarregamento {
+.timeStart {
     font-size: .7em;
     float: right
 }
+
+.overflow {
+    position: relative;
+    overflow: hidden;
+}
+
+.zoom img {
+    transition: all 0.2s linear;
+}
+
+.zoom:hover img {
+    -webkit-transform: scale(1.1);
+    transform: scale(1.1);
+}
+
+.pagertion>li>a,
+.pagertion>li>span {
+  color: #333
+}
+.pagertion span.active {
+  background: #555;
+  color: #fff;
+  border: none
+}
+
+.logo {
+    margin-right: 20px; 

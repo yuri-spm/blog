@@ -1,19 +1,19 @@
 <div class="card mb-4">
     <div class="card-header fw-bold bg-white text-secondary">
-        Categorias
+    Categorias 
     </div>
     <div class="card-body">
         <ul class="list-group list-group-flush">
-            {% for category in categories %}
+            {% for categoria in categories %}
             <li class="list-group-item d-flex justify-content-between">
-                <a href="{{url('category/'~category.slug)}}" class="fw-bold" tooltip="tooltip" title="{{ category.title }}">
-                    {{ category.title }}
+                <a href="{{url('category/'~categoria.slug)}}" class="fw-bold" tooltip="tooltip" title="{{categoria.title}}">
+                    {{categoria.title}}
                 </a>
                 <div class="fw-normal">
-                    <a href="{{ url('admin/category/edit/'~category.id) }}" tooltip="tooltip" title="Editar">
+                    <a href="{{ url('admin/categories/edit/'~categoria.id) }}" tooltip="tooltip" title="Editar">
                         <i class="fa-solid fa-pen m-1"></i>
                     </a>
-                    <a href="{{ url('admin/category/delete/'~category.id) }}" tooltip="tooltip" title="Deletar">
+                    <a href="{{ url('admin/categories/delete/'~categoria.id) }}" tooltip="tooltip" title="Deletar">
                         <i class="fa-solid fa-trash m-1"></i>
                     </a>
                 </div>
@@ -22,3 +22,5 @@
         </ul>
     </div>
 </div>
+
+
