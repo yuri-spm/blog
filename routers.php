@@ -12,10 +12,11 @@ try {
     SimpleRouter::get(URL_SITE, 'SiteController@index');
     SimpleRouter::get(URL_SITE.'sobre', 'SiteController@about');
     SimpleRouter::get(URL_SITE.'post/{slug}', 'SiteController@post');
-    SimpleRouter::get(URL_SITE.'category/{slug}/{page?}', 'SiteController@category');
+    SimpleRouter::get(URL_SITE.'category/{slug}/{page?}', 'SiteController@category'); 
+  
     SimpleRouter::post(URL_SITE.'search', 'SiteController@find');
 
-    SimpleRouter::get(URL_SITE.'404', 'SiteController@error404');
+    SimpleRouter::get(URL_SITE.'404', 'SiteController@errorr404');
 
 
     //admin
@@ -29,20 +30,20 @@ try {
        SimpleRouter::match(['get','post'], URL_ADMIN.'login', 'AdminLogin@login');
 
         //Posts
-        SimpleRouter::get(URL_ADMIN.'posts/posts', 'AdminPosts@lists');
+        SimpleRouter::get(URL_ADMIN.'posts/lists', 'AdminPosts@lists');
         SimpleRouter::match(['get','post'], URL_ADMIN.'posts/add', 'AdminPosts@add');
         SimpleRouter::match(['get','post'], URL_ADMIN.'posts/edit/{id}', 'AdminPosts@edit');
         SimpleRouter::get(URL_ADMIN.'posts/delete/{id}', 'AdminPosts@delete');
         
         //Category
         SimpleRouter::get(URL_ADMIN.'categories/modal_categories', 'AdminCategories@modalCategories');
-        SimpleRouter::get(URL_ADMIN.'categories/categories', 'AdminCategories@lists');
+        SimpleRouter::get(URL_ADMIN.'categories/lists', 'AdminCategories@lists');
         SimpleRouter::match(['get','post'], URL_ADMIN.'categories/add', 'AdminCategories@add');
         SimpleRouter::match(['get','post'], URL_ADMIN.'categories/edit{id}', 'AdminCategories@edit');
         SimpleRouter::get(URL_ADMIN.'categories/delete/{id}', 'AdminCategories@delete');
 
         //Admin User
-        SimpleRouter::get(URL_ADMIN.'users/users', 'AdminUser@lists');
+        SimpleRouter::get(URL_ADMIN.'users/lists', 'AdminUser@lists');
         SimpleRouter::match(['get','post'], URL_ADMIN.'users/add', 'AdminUser@add');
         SimpleRouter::match(['get','post'], URL_ADMIN.'users/edit/{id}', 'AdminUser@edit');
         SimpleRouter::get(URL_ADMIN.'users/delete/{id}', 'AdminUser@delete');
