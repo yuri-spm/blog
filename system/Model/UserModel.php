@@ -7,22 +7,16 @@ use system\Core\Session;
 use system\Core\Model;
 
 class UserModel extends Model
-{    
-    /**
-     * __construct
-     * BD user
-     * @return void
-     */
+{
     public function __construct()
     {
         parent::__construct('user');
     }
-      
+    
     /**
-     * findByEmail
-     *
-     * @param  mixed $email
-     * @return UserModel
+     * Busca usuário por e-mail
+     * @param string $email
+     * @return UserModel|null
      */
     public function findByEmail(string $email): ?UserModel
     {
@@ -30,25 +24,23 @@ class UserModel extends Model
         return $find->result();
     }
     
-    
     /**
-     * login
-     *
-     * @param  mixed $data
-     * @param  mixed $level
-     * @return void
+     * Valida o login do usuário
+     * @param array $data
+     * @param int $level
+     * @return boolean
      */
     public function login(array $data, int $level = 1)
     {
         $user = (new UserModel())->findByEmail($data['email']);
         
         if(!$user){
-            $this->message->error("Os dados informados para o login estão incorretos!")->flash();
+            $this->message->error("Os data infodos para o login estão incorretos!")->flash();
             return false;
         }
         
         if(!Helpers::verifyPassword($data['password'], $user->password)){
-            $this->message->alert("Os dados informados para o login estão incorretos!")->flash();
+            $this->message->alert("Os data infodos para o login estão incorretos!")->flash();
             return false;
         }
         
@@ -73,26 +65,16 @@ class UserModel extends Model
         return true;
     }
     
-        
-    /**
-     * save
-     *
-     * @return bool
-     */
+    
     public function save(): bool
     {
-        $params = [
-            'e' => $this->email,
-            'id' => $this->id
-        ];
-    
-        if($this->find("email = :e AND id != :id", $params)->result()){
-            $this->message->alert("O e-mail ".$this->data->email." já está cadastrado");
-            return false;
-        }
+        if($this->find("email = :e AND id != :id","e={$this->email}&id={$this->id}")->result()){
+                $this->message->alert("O e-mail ".$this->data->email." já está cadastrado");
+                return false;
+            }
         
-        parent::save();
-        
+            parent::save();
+            
         return true;
     }
 }
