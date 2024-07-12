@@ -2,13 +2,10 @@
 
 namespace system\Support;
 
-use Twig\Lexer;
-use Twig\Environment;
-use Twig\TwigFunction;
-use Twig\Loader\FilesystemLoader;
-use system\Core\Helpers;
-use system\Core\Message;
 use system\Controller\UserController;
+use Twig\Lexer;
+use system\Core\Helpers;
+
 
 /**
  * Classe Template
@@ -17,88 +14,76 @@ class Template
 {
 
     private \Twig\Environment $twig;
-    
-    
-    /**
-     * __construct
-     *
-     * @param  mixed $diretorio
-     * @return void
-     */
+
     public function __construct(string $diretorio)
     {
-        $loader = new FilesystemLoader($diretorio);
-        $this->twig = new Environment($loader);
+        $loader = new \Twig\Loader\FilesystemLoader($diretorio);
+        $this->twig = new \Twig\Environment($loader);
 
         $lexer = new Lexer($this->twig, array(
             $this->helpers()
         ));
         $this->twig->setLexer($lexer);
     }
-    
-    /**
-     * render
-     *
-     * @param  mixed $view
-     * @param  mixed $data
-     * @return string
-     */
-    public function render(string $view, array $data): string
+
+
+    public function render(string $view, array $data)
     {
-        return $this->twig->render($view, $data);
+        try {
+            return $this->twig->render($view, $data);
+        } catch (\Twig\Error\LoaderError | \Twig\Error\SyntaxError $ex) {
+
+            echo 'Erro:: ' . $ex->getMessage();
+        }
     }
 
-    
-    /**
-     * helpers
-     *
-     * @return void
-     */
+
     private function helpers(): void
     {
         array(
             $this->twig->addFunction(
-                    new TwigFunction('url', function (string $url = null) {
+                    new \Twig\TwigFunction('url', function (string $url = null) {
                                 return Helpers::url($url);
                             })
             ),
             $this->twig->addFunction(
-                    new TwigFunction('greetings', function () {
+                    new \Twig\TwigFunction('greetings', function () {
                                 return Helpers::greetings();
                             })
             ),
             $this->twig->addFunction(
-                    new TwigFunction('summarizeText', function (string $texto, int $limit) {
+                    new \Twig\TwigFunction('summarizeText', function (string $texto, int $limit) {
                                 return Helpers::summarizeText($texto, $limit);
                             })
             ),
             $this->twig->addFunction(
-                new TwigFunction('flash', function () {
-                        return Helpers::flash();
-                    })
+                    new \Twig\TwigFunction('flash', function () {
+                                return Helpers::flash();
+                            })
             ),
             $this->twig->addFunction(
-                new TwigFunction('user', function () {
-                        return UserController::user();
-                    })
+                    new \Twig\TwigFunction('user', function () {
+                                return UserController::user();
+                            })
             ),
             $this->twig->addFunction(
-                new TwigFunction('countTime', function ($data) {
-                        return Helpers::countTime($data);
-                    })
+                    new \Twig\TwigFunction('countTime', function (string $data) {
+                                return Helpers::countTime($data);
+                            })
             ),
             $this->twig->addFunction(
-                new \Twig\TwigFunction('formaterNumber', function (int $number) {
-                            return Helpers::formaterNumber($number);
-                        })
+                    new \Twig\TwigFunction('formaterNumber', function (int $numero) {
+                                return Helpers::formaterNumber($numero);
+                            })
             ),
             $this->twig->addFunction(
-                new TwigFunction('timeStart', function () {
-                        $time = microtime(true) - $_SERVER["REQUEST_TIME_FLOAT"];
-                        return number_format($time, 4);
-                    })
-            ),
+                    new \Twig\TwigFunction('timeStart', function () {
 
+                                $timeTotal = microtime(true) - filter_var($_SERVER["REQUEST_TIME_FLOAT"], FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
+
+                                return number_format($timeTotal, 2);
+                            })
+            ),
         );
     }
 

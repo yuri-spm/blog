@@ -1,84 +1,77 @@
 <?php
 
-namespace system\Support;
+namespace sistema\Biblioteca;
 
-use DirectoryIterator;
+/**
+ * Classe Upload
 
-class Upload 
+class Upload
 {
-    public  ?array    $file;
-    public  ?string   $name;
-    public  ?string   $directory;
-    public  ?string   $folder;
-    public  ?string   $result = null;
-    private ?string   $error;
-    public  ?int      $size;
-    
+
+    private ?string $diretorio;
+    private ?array $arquivo;
+    private ?string $nome;
+    private ?string $subDiretorio;
+    private ?int $tamanho;
+    private ?string $resultado = null;
+    private ?string $error;
+
     /**
-     * getResult
-     *
-     * @return string
+     * Retorna o resultado, 
+     * @return string|null = Nome do arquivo
      */
-    public function getResult(): ?string
+    public function getResultado(): ?string
     {
         return $this->result;
     }
-    
+
     /**
-     * getError
-     *
-     * @return string
+     * Retorna os errors
+     * @return string|null
      */
-    public function getError(): ?string
+    public function getErro(): ?string
     {
         return $this->error;
     }
-   
-    
-    /**
-     * __construct
-     * created directory
-     * @param  mixed $directory
-     * @return void
-     */
-    public function __construct(string $directory = null)
-    {
-       $this->directory = $directory ?? 'uploads';
 
-       if(!file_exists($this->directory) && !is_dir($this->directory)){
-            mkdir($this->directory, 0755);
-       }
+    /**
+     * Verifica e cria o diretório padrão de uploads! Opcionalmente defina um diretório para envio dos arquivos
+     * @param string $diretorio
+     */
+    public function __construct(string $diretorio = null)
+    {
+        $this->diretorio = $diretorio ?? 'uploads';
+
+        if (!file_exists($this->diretorio) && !is_dir($this->diretorio)) {
+            mkdir($this->diretorio, 0755);
+        }
     }
-    
+
     /**
-     * file
-     * 
-     * @param  mixed $file
-     * @param  mixed $name
-     * @param  mixed $folder
-     * @return void
+     * Realiza a validação e o envio dos arquivos
+     * @param array $arquivo
+     * @param string $nome
+     * @param string $subDiretorio
+     * @param int $tamanho
      */
-    public function file(array $file, string $name = null, string $folder = null, int $size =null)
+    public function arquivo(array $arquivo, string $nome = null, string $subDiretorio = null, int $tamanho = null)
     {
-        $this->file = $file;
-        $this->name = $name ?? pathinfo($this->file['name'], PATHINFO_FILENAME);
-        $this->folder = $folder ?? 'files';
+        $this->arquivo = $arquivo;
+        $this->nome = $nome ?? pathinfo($this->arquivo['name'], PATHINFO_FILENAME);
+        $this->subDiretorio = $subDiretorio ?? 'arquivos';
+        $extensao = pathinfo($this->arquivo['name'], PATHINFO_EXTENSION);
+        $this->tamanho = $tamanho ?? 1;
 
-        $extension = pathinfo($this->file['name'], PATHINFO_EXTENSION);
-
-        $this->size = $size ?? 1;
-
-        $validExtension = [
+        $extensoesValidas = [
             'pdf',
             'png',
             'docx',
             'jpg',
             'gif',
-            'txt',
-            'jpeg'
+            'txt'
         ];
 
-        $validType = [
+        $tiposValidos = [
             'application/pdf',
             'text/plain',
             'image/png',
@@ -88,61 +81,55 @@ class Upload
             'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
         ];
 
-        if(!in_array($extension, $validExtension)){
-            $this->error = "Extensão não permitida. Por favor enviar apenas arquivos com extensão: " . implode(' .',$validExtension);
-        }else if(!in_array($this->file['type'], $validType)){
-            $this->error = "Tipo de arquivo não permitido";
-        }else if($this->file['size'] > $this->size * (1024*1024)){
-            $this->error = "Arquivo muito grande, tamanho permitido {$this->size}MB seu arquivo tem {$this->file['size']}MB";
-        }else{
-            $this->createFolder();
-            $this->renameFile();
-            $this->upload();
+        if (!in_array($extensao, $extensoesValidas)) {
+            $this->error = 'Erro: A extensão do arquivo que você está tentando enviar não é permitida! Extensões permitidas .' . implode(' .', $extensoesValidas);
+        } elseif (!in_array($this->arquivo['type'], $tiposValidos)) {
+            $this->error = 'Erro: O tipo de arquivo que você está tentando enviar não é permitido!';
+        } elseif ($this->arquivo['size'] > $this->tamanho * (1024 * 1024)) {
+            $this->error = "Erro: O arquivo que você está tentando enviar é muito grande. O tamanho máximo é {$this->tamanho}MB";
+        } else {
+            $this->createSubDiretorio();
+            $this->renomarArquivo();
+            $this->moverArquivo();
         }
+    }
 
-        
-    }
-    
     /**
-     * createFolder
-     *
+     * Cria sub diretório dentro do diretório padrão.
      * @return void
      */
-    private function createFolder(): void
+    private function createSubDiretorio(): void
     {
-        if(!file_exists($this->directory.DIRECTORY_SEPARATOR.$this->folder) && !is_dir($this->directory.DIRECTORY_SEPARATOR.$this->folder)){
-            mkdir($this->directory.DIRECTORY_SEPARATOR.$this->folder, 0775);
+        if (!file_exists($this->diretorio . DIRECTORY_SEPARATOR . $this->subDiretorio) && !is_dir($this->diretorio . DIRECTORY_SEPARATOR . $this->subDiretorio)) {
+            mkdir($this->diretorio . DIRECTORY_SEPARATOR . $this->subDiretorio, 0755);
         }
-        
     }
-    
-    /**
-     * renameFile
-     *
-     * @return void
-     */
-    private function renameFile(): void
-    {
-        $file =$this->name.strrchr($this->file['name'], '.');
 
-        if(file_exists($this->directory.DIRECTORY_SEPARATOR.$this->folder.DIRECTORY_SEPARATOR.$file)){
-            $file = $this->name.'_'.uniqid().strrchr($this->file['name'], '.');
-        }
-        $this->name = $file;
-    }
-    
     /**
-     * upload
-     * add and move file
+     * Renomeia o arquivo. Se o arquivo existir concatena com um id único, se não renomeia para o novo nome infodo.
      * @return void
      */
-    private function upload(): void
+    private function renomarArquivo(): void
     {
-        if(move_uploaded_file($this->file['tmp_name'], $this->directory.DIRECTORY_SEPARATOR.$this->folder.DIRECTORY_SEPARATOR.$this->name)){
-            $this->result = $this->name;
-        }else {
-           $this->result = null;
-           $this->error = "Erro ao enviar arquivo";
+        $arquivo = $this->nome . strrchr($this->arquivo['name'], '.');
+        if (file_exists($this->diretorio . DIRECTORY_SEPARATOR . $this->subDiretorio . DIRECTORY_SEPARATOR . $arquivo)) {
+            $arquivo = $this->nome . '-' . uniqid() . strrchr($this->arquivo['name'], '.');
+        }
+        $this->nome = $arquivo;
+    }
+
+    /**
+     * move os arquivos para o diretório e armazena o nome do arquivo no resultado.
+     * @return void
+     */
+    private function moverArquivo(): void
+    {
+        if (move_uploaded_file($this->arquivo['tmp_name'], $this->diretorio . DIRECTORY_SEPARATOR . $this->subDiretorio . DIRECTORY_SEPARATOR . $this->nome)) {
+            $this->result = $this->nome;
+        } else {
+            $this->result = null;
+            $this->error = 'Erro ao enviar arquivo';
         }
     }
+
 }
