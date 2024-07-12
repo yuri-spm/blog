@@ -10,54 +10,53 @@ use system\Model\UserModel;
 
 class AdminDashboard extends AdminController
 {    
+
     /**
-     * dashboard
-     *
+     * Home do admin
      * @return void
      */
-    public function dashboard():void
+    public function dashboard(): void
     {
-       $post = new PostModel();
-       $user = new UserModel();
-       $categories = new CategoryModel();
-       echo $this->template->render('dashboard.html.twig',[
-        'posts' => [
-            'posts' => $post->find()->order('id DESC')->limit(5)->result(true),
-            'total'      => $post->find(null, 'COUNT(id)', 'id')->count(),
-            'active'     => $post->find('status = :s', 's=1 COUNT(status)', 'status')->count(),
-            'inactive'   => $post->find('status = :s', 's=0 COUNT(status)', 'status')->count(),
-            'last_views' => $post->last_views,
-        ],
-        'users' => [
-            'logins'         => $user->find()->order('last_login DESC')->limit(5)->result(true),
-            'users'          => $user->find('level != 3')->count(),
-            'users_active'   => $user->find('status = 1 AND level !=3')->count(),
-            'users_inactive' => $user->find('status = 0 AND level !=3')->count(),
-            'admin'          => $user->find('level = 3')->count(),
-            'admin_active'          => $user->find('status = 1 AND level = 3')->count(),
-            'admin_inactive' => $user->find('status = 0 AND level =3')->count()
-        ],
-        'categories' => [
-            'total'    => $categories->find()->count(),
-            'active'   => $categories->find('status = 1')->count(),
-            'inactive' => $categories->find('status = 0')->count()
+        $posts = new PostModel();
+        $users = new UserModel();
+        $categorias = new CategoryModel();
 
-        ]
-       ]);
+        echo $this->template->render('dashboard.html.twig', [
+            'posts' => [
+                'posts' => $posts->find()->order('id DESC')->limit(5)->result(true),
+                'count' => $posts->find(null,'COUNT(id)','id')->count(),
+                'ativo' => $posts->find('status = :s','s=1 COUNT(status)','status')->count(),
+                'inativo' => $posts->find('status = :s','s=0 COUNT(status)','status')->count()
+            ],
+            'categorias' => [
+                'categorias' => $categorias->find()->order('id DESC')->limit(5)->result(true),
+                'count' => $categorias->find()->count(),
+                'categoriasAtiva' => $categorias->find('status = 1')->count(),
+                'categoriasInativa' => $categorias->find('status = 0')->count(),
+            ],
+            'users' => [
+                'logins' => $users->find()->order('last_login DESC')->limit(5)->result(true),
+                'users' => $users->find('level != 3')->count(),
+                'usersAtivo' => $users->find('status = 1 AND level != 3')->count(),
+                'usersInativo' => $users->find('status = 0 AND level != 3')->count(),
+                'admin' => $users->find('level = 3')->count(),
+                'adminAtivo' => $users->find('status = 1 AND level = 3')->count(),
+                'adminInativo' => $users->find('status = 0 AND level = 3')->count()
+            ],
+        ]);
     }
-    
+
     /**
-     * exit
-     *
+     * Faz logout do usuário
      * @return void
      */
-    public function exit()
+    public function exit(): void
     {
-        $session = new Session();
-        $session->clear('userId');
+        $sessao = new Session();
+        $sessao->clear('userId');
 
-        $this->message->inform('Você saiu do painel de controle')->flash();
-
+        $this->message->info('Você saiu do painel de controle!')->flash();
         Helpers::redirect('admin/login');
     }
+
 }

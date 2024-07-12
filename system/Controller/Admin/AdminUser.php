@@ -9,17 +9,11 @@ use system\Model\UserModel;
 class AdminUser extends AdminController
 {
 
-    
-    /**
-     * lists users
-     *
-     * @return void
-     */
     public function lists(): void
     {
         $user = new UserModel();
 
-        echo $this->template->render('users/users.html.twig', [
+        echo $this->template->render('users/listar.html.twig', [
             'users' => $user->find()->order('level DESC, status ASC')->result(true),
             'count' => [
                 'users' => $user->find('level != 3')->count(),
@@ -32,17 +26,15 @@ class AdminUser extends AdminController
         ]);
     }
 
-     
     /**
-     * add users
-     *
+     * Cadastra usuário
      * @return void
      */
     public function add(): void
     {
         $data = filter_input_array(INPUT_POST, FILTER_DEFAULT);
         if (isset($data)) {
-            //checa os dados 
+            //checa os data 
             if ($this->validateData($data)) {
 
                 if (empty($data['password'])) {
@@ -57,8 +49,8 @@ class AdminUser extends AdminController
                     $user->status = $data['status'];
 
                     if ($user->save()) {
-                        $this->message->success('Usuário cadastrado com sucesso')->flash();
-                        Helpers::redirect('admin/users/users');
+                        $this->message->success('Usuário cadastrado com success')->flash();
+                        Helpers::redirect('admin/users/lists');
                     } else {
                         $user->message()->flash();
                     }
@@ -66,16 +58,14 @@ class AdminUser extends AdminController
             }
         }
 
-        echo $this->template->render('users/forms_users.html.twig', [
+        echo $this->template->render('users/formulario.html.twig', [
             'user' => $data
         ]);
     }
 
-    
     /**
-     * edit users
-     *
-     * @param  mixed $id
+     * Edita os data do usuário por ID
+     * @param int $id
      * @return void
      */
     public function edit(int $id): void
@@ -89,36 +79,34 @@ class AdminUser extends AdminController
 
                 $user->name = $data['name'];
                 $user->email = $data['email'];
-                $user->password = (!empty($data['password']) ? Helpers::generatePassword($data['password'] ) : $user->password);
+                $user->password = (!empty($data['password']) ? Helpers::generatePassword($data['password']) : $user->password);
                 $user->level = $data['level'];
                 $user->status = $data['status'];
                 $user->update_at = date('Y-m-d H:i:s');
 
                 if ($user->save()) {
-                    $this->message->success('Usuário atualizado com sucesso')->flash();
-                    Helpers::redirect('admin/users/users');
+                    $this->message->success('Usuário atualizado com success')->flash();
+                    Helpers::redirect('admin/users/lists');
                 } else {
                     $user->message()->flash();
                 }
             }
         }
 
-        echo $this->template->render('users/forms_users.html.twig', [
+        echo $this->template->render('users/formulario.html.twig', [
             'user' => $user
         ]);
     }
 
-      
     /**
-     * validateData
-     *
-     * @param  mixed $data
+     * Checa os data do formulário
+     * @param array $data
      * @return bool
      */
     public function validateData(array $data): bool
     {
         if (empty($data['name'])) {
-            $this->message->alert('Informe o nome do usuário')->flash();
+            $this->message->alert('Informe o name do usuário')->flash();
             return false;
         }
         if (empty($data['email'])) {
@@ -129,10 +117,10 @@ class AdminUser extends AdminController
             $this->message->alert('Informe um e-mail válido!')->flash();
             return false;
         }
-
+        
         if(!empty($data['password'])){
             if(!Helpers::validadePassword($data['password'])){
-                $this->message->alert('A senha deve ter entre 6 a 50 caracteres!')->flash();
+                $this->message->alert('A senha deve ter entre 6 e 50 caracteres!')->flash();
                 return false;
             }
         }
@@ -140,28 +128,25 @@ class AdminUser extends AdminController
         return true;
     }
 
-    
     /**
-     * delete users
-     *
-     * @param  mixed $id
+     * Deletar um usuário por ID
+     * @param int $id
      * @return void
      */
     public function delete(int $id): void
     {
-
         if (is_int($id)) {
             $user = (new UserModel())->findByID($id);
             if (!$user) {
                 $this->message->alert('O usuário que você está tentando deletar não existe!')->flash();
-                Helpers::redirect('admin/users/users');
+                Helpers::redirect('admin/users/lists');
             } else {
-                if ($user->destroy()) {
-                    $this->message->success('Usuário deletado com sucesso!')->flash();
-                    Helpers::redirect('admin/users/users');
+                if ($user->beforeDelete()) {
+                    $this->message->success('Usuário deletado com success!')->flash();
+                    Helpers::redirect('admin/users/lists');
                 } else {
                     $this->message->error($user->error())->flash();
-                    Helpers::redirect('admin/users/users');
+                    Helpers::redirect('admin/users/lists');
                 }
             }
         }

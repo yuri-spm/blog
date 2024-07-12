@@ -6,15 +6,11 @@ use system\Core\Controller;
 use system\Core\Helpers;
 use system\Model\PostModel;
 use system\Model\CategoryModel;
+use system\Support\Pager;
 
 class SiteController extends Controller
 {
-    
-    /**
-     * __construct
-     *
-     * @return void
-     */
+
     public function __construct()
     {
         parent::__construct('templates/site/views');
@@ -27,6 +23,7 @@ class SiteController extends Controller
     public function index(): void
     {
         $posts = (new PostModel())->find("status = 1");
+
         echo $this->template->render('index.html.twig', [
             'posts' => [
                 'slides' => $posts->order('id DESC')->limit(3)->result(true),
@@ -36,15 +33,11 @@ class SiteController extends Controller
             'categories' => $this->categories(),
         ]);
     }
-    
-    public function carrousel(): void
-    {
-        $posts = (new PostModel())->find("status = 1");
-        echo $this->template->render('carousel.html.twig', [
-           
-        ]);     
-    }
-    
+
+    /**
+     * Busca posts 
+     * @return void
+     */
     public function find(): void
     {
         $find = filter_input(INPUT_POST, 'search', FILTER_DEFAULT);
@@ -52,17 +45,15 @@ class SiteController extends Controller
             $posts = (new PostModel())->find("status = 1 AND title LIKE '%{$find}%'")->result(true);
             if ($posts) {
                 foreach ($posts as $post) {
-                    echo "<li class='list-group-item fw-bold'><a href=" . Helpers::url('post/') . $post->id . ">$post->title</a></li>";
+                    echo "<li class='list-group-item fw-bold'><a href=" . Helpers::url('post/') . $post->slug . ">$post->title</a></li>";
                 }
             }
         }
     }
 
-      
     /**
-     * post
-     *
-     * @param  mixed $slug
+     * Busca post por ID
+     * @param string $slug
      * @return void
      */
     public function post(string $slug): void
@@ -71,9 +62,7 @@ class SiteController extends Controller
         if (!$post) {
             Helpers::redirect('404');
         }
-        $post->views = $post->views + 1;
-        $post->last_views = date('Y-m-d H:i:s');
-        $post->save();
+        $post->saveViews();
 
         echo $this->template->render('post.html.twig', [
             'post' => $post,
@@ -81,42 +70,44 @@ class SiteController extends Controller
         ]);
     }
 
-      
     /**
-     * categories
-     *
+     * Categorias
      * @return array
      */
     public function categories(): array
     {
         return (new CategoryModel())->find("status = 1")->result(true);
     }
-    
+
     /**
-     * category
-     *
-     * @param  mixed $slug
+     * Lista posts por categoria
+     * @param string $slug
      * @return void
      */
-    public function category(string $slug): void
+    public function category(string $slug, int $pager = null): void
     {
         $category = (new CategoryModel())->findBySlug($slug);
         if (!$category) {
             Helpers::redirect('404');
         }
+        $category->saveViews();
 
-
+        $posts = new PostModel();
+        $count = $posts->find('category_id = :c', "c={$category->id} COUNT(id)", 'id')->count();
+        var_dump($posts->find()->result(true)); // erro ta aqui
+        die();
+        $pager = new Pager(Helpers::url('category/' . $slug), ($pager ?? 1), 6, 3, $count);
 
         echo $this->template->render('category.html.twig', [
-            'posts' => (new CategoryModel)->posts($category->id),
+            'posts' => $posts->find("category_id = {$category->id}")->limit($pager->limit())->offset($pager->offset())->result(true),
+            'pageraction' => $pager->render(),
+            'pageractionInfo' => $pager->info(),
             'categories' => $this->categories(),
         ]);
     }
 
-      
     /**
-     * about
-     *
+     * Sobre
      * @return void
      */
     public function about(): void
@@ -137,4 +128,5 @@ class SiteController extends Controller
             'title' => 'Página não encontrada'
         ]);
     }
+
 }

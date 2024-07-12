@@ -8,148 +8,133 @@ use system\Model\PostModel;
 
 class AdminCategories extends AdminController
 {    
-    /**
-     * lists
-     *
-     * @return void
-     */
-    public function lists()
-    {
-        $categories = new CategoryModel();
 
-        echo $this->template->render(
-            'categories/categories.html.twig',
-            [
-                'categories' => $categories->find()->order('title ASC')->result(true),
-                'total'      => [
-                    'total'  => $categories->find()->count(),
-                    'active'  => $categories->find('status = 1')->count(),
-                    'inactive'  => $categories->find('status = 0')->count()
-                ]
-            ]
-        );
-    }
-    
     /**
-     * modalCategories
-     *
+     * Lista categorias
      * @return void
      */
-    public function modalCategories()
+    public function lists(): void
     {
-        echo $this->template->render(
-            'categories/modal_categories.html.twig',[]
-        );
+        $categorias = new CategoryModel();
+
+        echo $this->template->render('categories/listar.html.twig', [
+            'categorias' => $categorias->find()->order('title ASC')->result(true),
+            'count' => [
+                'categorias' => $categorias->count(),
+                'categoriasAtiva' => $categorias->find('status = 1')->count(),
+                'categoriasInativa' => $categorias->find('status = 0')->count(),
+            ]
+        ]);
     }
-    
+
     /**
-     * add
-     *
+     * Cadastra uma categoria
      * @return void
      */
-    public function add()
+    public function add(): void
     {
         $data = filter_input_array(INPUT_POST, FILTER_DEFAULT);
         if (isset($data)) {
             if ($this->validateData($data)) {
-                $category = new CategoryModel();
+                $categoria = new CategoryModel();
 
-                $category->title = $data['title'];
-                $category->text  = $data['text'];
-                $category->slug  = Helpers::slug($data['title']) .'-'. uniqid();
-                $category->status  = $data['status'];
+                $categoria->user_id = $this->user->id;
+                $categoria->slug = Helpers::slug($data['title']);
+                $categoria->title = $data['title'];
+                $categoria->text = $data['text'];
+                $categoria->status = $data['status'];
 
-                if ($category->save()) {
-                    $this->message->success('Categoria cadastrada com sucesso')->flash();
-                    Helpers::redirect('admin/categories/categories');
+                if ($categoria->save()) {
+                    $this->message->success('Categoria cadastrada com success')->flash();
+                    Helpers::redirect('admin/categories/lists');
                 } else {
-                    $this->message->error($category->error())->flash();
-                    Helpers::redirect('admin/categories/categories');
+                    $this->message->error($categoria->error())->flash();
+                    Helpers::redirect('admin/categories/lists');
                 }
             }
         }
 
-        echo $this->template->render('categories/forms_categories.html.twig', []);
+        echo $this->template->render('categories/formulario.html.twig', [
+            'categoria' => $data
+        ]);
     }
-    
+
     /**
-     * edit
-     *
-     * @param  mixed $id
+     * Edita uma categoria pelo ID
+     * @param int $id
      * @return void
      */
     public function edit(int $id): void
     {
-        $category = (new CategoryModel())->findByID($id);
+        $categoria = (new CategoryModel())->findByID($id);
 
         $data = filter_input_array(INPUT_POST, FILTER_DEFAULT);
         if (isset($data)) {
             if ($this->validateData($data)) {
-                $category->title = $data['title'];
-                $category->text  = $data['text'];
-                $category->slug  = Helpers::slug($data['title']) .'-'. uniqid();
-                $category->status  = $data['status'];
-                $category->update_at = date('Y-m-d H:i:s');
+                $categoria = (new CategoryModel())->findByID($categoria->id);
 
-                if ($category->save()) {
-                    $this->message->success('Categoria cadastrada com sucesso')->flash();
-                    Helpers::redirect('admin/categories/categories');
+                $categoria->user_id = $this->user->id;
+                $categoria->slug = Helpers::slug($data['title']);
+                $categoria->title = $data['title'];
+                $categoria->text = $data['text'];
+                $categoria->status = $data['status'];
+                $categoria->update_at = date('Y-m-d H:i:s');
+
+                if ($categoria->save()) {
+                    $this->message->success('Categoria atualizada com success')->flash();
+                    Helpers::redirect('admin/categories/lists');
                 } else {
-                    $this->message->error($category->error())->flash();
-                    Helpers::redirect('admin/categories/categories');
+                    $this->message->error($categoria->error())->flash();
+                    Helpers::redirect('admin/categories/lists');
                 }
             }
         }
 
-        echo $this->template->render('categories/forms_categories.html.twig', [
-            'categories'    => $category
+        echo $this->template->render('categories/formulario.html.twig', [
+            'categoria' => $categoria
         ]);
     }
-    
-    /**
-     * delete
-     *
-     * @param  mixed $id
-     * @return void
-     */
-    public function delete(int $id): void
-    {
-        if (is_int($id)) {
-            $category = (new CategoryModel())->findByID($id);
 
-            // $posts = (new PostModel())->find('category_id = {$category->id}')->result();
-
-            if (!$category) {
-                $this->message->alert('A categoria que você esta tentando deletar não existe')->flash();
-                Helpers::redirect('admin/categories/categories');
-            }elseif($category->posts($category->id)){
-                $this->message->alert("A categoria {$category->title } possui posts vinculados")->flash();
-                Helpers::redirect('admin/categories/categories');
-            }else {
-                if ($category->destroy()) {
-                    $this->message->success('Categoria deletada com sucesso!')->flash();
-                    Helpers::redirect('admin/categories/categories');
-                } else {
-                    $this->message->error($category->error())->flash();
-                    Helpers::redirect('admin/categories/categories');
-                }
-            }
-        }
-    }
-    
     /**
-     * validateData
-     *
-     * @param  mixed $data
+     * Valida os data do formulário
+     * @param array $data
      * @return bool
      */
     private function validateData(array $data): bool
     {
         if (empty($data['title'])) {
-            $this->message->alert('Escreva um título para o categoria!')->flash();
+            $this->message->alert('Escreva um título para a Categoria!')->flash();
             return false;
         }
-
         return true;
     }
+
+    /**
+     * Deleta uma categoria pelo ID
+     * @param int $id
+     * @return void
+     */
+    public function delete(int $id): void
+    {
+        if (is_int($id)) {
+            $categoria = (new CategoryModel())->findByID($id);
+
+            if (!$categoria) {
+                $this->message->alert('O categoria que você está tentando deletar não existe!')->flash();
+                Helpers::redirect('admin/categories/lists');
+            } elseif ($categoria->posts($categoria->id)) {
+                $this->message->alert("A categoria {$categoria->title} tem posts cadastrados, delete ou altere os posts antes de deletar!")->flash();
+                Helpers::redirect('admin/categories/lists');
+            } else {
+                if ($categoria->beforeDelete()) {
+                    $this->message->success('Categoria deletada com successo!')->flash();
+                    Helpers::redirect('admin/categories/lists');
+                } else {
+                    $this->message->error($categoria->error())->flash();
+                    Helpers::redirect('admin/categories/lists');
+                }
+            }
+        }
+    }
+
 }

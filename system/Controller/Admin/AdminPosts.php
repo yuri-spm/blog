@@ -9,6 +9,7 @@ use Verot\Upload\Upload;
 
 class AdminPosts extends AdminController
 {
+
     private string $cover;
 
     /**
@@ -19,12 +20,12 @@ class AdminPosts extends AdminController
     {
         $post = new PostModel();
 
-        echo $this->template->render('posts/posts.html.twig', [
+        echo $this->template->render('posts/listar.html.twig', [
             'posts' => $post->find()->order('status ASC, id DESC')->result(true),
-            'total' => [
+            'count' => [
                 'posts' => $post->count(),
-                'postsActive' => $post->find('status = 1')->count(),
-                'postsInactive' => $post->find('status = 0')->count()
+                'postsAtivo' => $post->find('status = 1')->count(),
+                'postsInativo' => $post->find('status = 0')->count()
             ]
         ]);
     }
@@ -51,16 +52,16 @@ class AdminPosts extends AdminController
 
                 if ($post->save()) {
                     $this->message->success('Post cadastrado com success')->flash();
-                    Helpers::redirect('admin/posts/posts');
+                    Helpers::redirect('admin/posts/listar');
                 } else {
-                    $this->message->erro($post->erro())->flash();
-                    Helpers::redirect('admin/posts/posts');
+                    $this->message->error($post->error())->flash();
+                    Helpers::redirect('admin/posts/lists');
                 }
             }
         }
 
-        echo $this->template->render('posts/forms_post.html.twig', [
-            'categories' => (new CategoryModel())->find('status = 1')->result(true),
+        echo $this->template->render('posts/formulario.html.twig', [
+            'categorias' => (new CategoryModel())->find('status = 1')->result(true),
             'post' => $data
         ]);
     }
@@ -72,13 +73,13 @@ class AdminPosts extends AdminController
      */
     public function edit(int $id): void
     {
-        $post = (new PostModel())->findById($id);
+        $post = (new PostModel())->findByID($id);
 
         $data = filter_input_array(INPUT_POST, FILTER_DEFAULT);
         if (isset($data)) {
 
             if ($this->validateData($data)) {
-                $post = (new PostModel())->findById($id);
+                $post = (new PostModel())->findByID($id);
 
                 $post->user_id = $this->user->id;
                 $post->category_id = $data['category_id'];
@@ -89,26 +90,26 @@ class AdminPosts extends AdminController
                 $post->update_at = date('Y-m-d H:i:s');
 
                 if (!empty($_FILES['cover'])) {
-                    if ($post->cover && file_exists("uploads/files/{$post->cover}")) {
-                        unlink("uploads/files/{$post->cover}");
-                        unlink("uploads/files/thumbs/{$post->cover}");
+                    if ($post->cover && file_exists("uploads/imagens/{$post->cover}")) {
+                        unlink("uploads/imagens/{$post->cover}");
+                        unlink("uploads/imagens/thumbs/{$post->cover}");
                     }
                     $post->cover = $this->cover ?? null;
                 }
 
                 if ($post->save()) {
                     $this->message->success('Post atualizado com success')->flash();
-                    Helpers::redirect('admin/posts/posts');
+                    Helpers::redirect('admin/posts/lists');
                 } else {
-                    $this->message->erro($post->erro())->flash();
-                    Helpers::redirect('admin/posts/posts');
+                    $this->message->error($post->error())->flash();
+                    Helpers::redirect('admin/posts/lists');
                 }
             }
         }
 
-        echo $this->template->render('posts/forms_posts.html.twig', [
+        echo $this->template->render('posts/formulario.html.twig', [
             'post' => $post,
-            'categories' => (new CategoryModel())->find('status = 1')->result(true)
+            'categorias' => (new CategoryModel())->find('status = 1')->result(true)
         ]);
     }
 
@@ -125,30 +126,30 @@ class AdminPosts extends AdminController
             return false;
         }
         if (empty($data['text'])) {
-            $this->message->alert('Escreva um texto para o Post!')->flash();
+            $this->message->alert('Escreva um text para o Post!')->flash();
             return false;
         }
 
         if (!empty($_FILES['cover'])) {
             $upload = new Upload($_FILES['cover'], 'pt_BR');
             if ($upload->uploaded) {
-                $title = $upload->file_new_name_body = Helpers::slug($data['title']);
+                $titulo = $upload->file_new_name_body = Helpers::slug($data['title']);
                 $upload->jpeg_quality = 90;
                 $upload->image_convert = 'jpg';
-                $upload->process('uploads/files/');
+                $upload->process('uploads/imagens/');
 
                 if ($upload->processed) {
                     $this->cover = $upload->file_dst_name;
-                    $upload->file_new_name_body = $title;
+                    $upload->file_new_name_body = $titulo;
                     $upload->image_resize = true;
                     $upload->image_x = 540;
                     $upload->image_y = 304;
                     $upload->jpeg_quality = 70;
                     $upload->image_convert = 'jpg';
-                    $upload->process('uploads/files/thumbs/');
+                    $upload->process('uploads/imagens/thumbs/');
                     $upload->clean();
                 } else {
-                    $this->message->alert($upload->error)->flash();
+                    $this->message->alert($upload->errorr)->flash();
                     return false;
                 }
             }
@@ -165,23 +166,23 @@ class AdminPosts extends AdminController
     public function delete(int $id): void
     {
         if (is_int($id)) {
-            $post = (new PostModel())->findById($id);
+            $post = (new PostModel())->findByID($id);
             if (!$post) {
                 $this->message->alert('O post que você está tentando deletar não existe!')->flash();
-                Helpers::redirect('admin/posts/posts');
+                Helpers::redirect('admin/posts/listar');
             } else {
-                if ($post->destroy()) {
+                if ($post->beforeDelete()) {
 
-                    if ($post->cover && file_exists("uploads/files/{$post->cover}")) {
-                        unlink("uploads/files/{$post->cover}");
-                        unlink("uploads/files/thumbs/{$post->cover}");
+                    if ($post->cover && file_exists("uploads/imagens/{$post->cover}")) {
+                        unlink("uploads/imagens/{$post->cover}");
+                        unlink("uploads/imagens/thumbs/{$post->cover}");
                     }
 
-                    $this->message->success('Post deletado com sucesso!')->flash();
-                    Helpers::redirect('admin/posts/posts');
+                    $this->message->success('Post deletado com success!')->flash();
+                    Helpers::redirect('admin/posts/listar');
                 } else {
                     $this->message->error($post->error())->flash();
-                    Helpers::redirect('admin/posts/posts');
+                    Helpers::redirect('admin/posts/lists');
                 }
             }
         }

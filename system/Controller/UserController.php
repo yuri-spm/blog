@@ -3,38 +3,29 @@
 namespace system\Controller;
 
 use system\Core\Controller;
-use system\Core\Helpers;
 use system\Core\Session;
 use system\Model\UserModel;
 
 class UserController extends Controller
-{    
-    /**
-     * __construct
-     *
-     * @return void
-     */
+{
+
     public function __construct()
     {
         parent::__construct('templates/site/views');
     }
-    
+
     /**
-     * user
-     *
-     * @return void
+     * Busca usuário pela sessão
+     * @return UserModel|null
      */
     public static function user(): ?UserModel
     {
-        $session = new Session();
-
-        if(!$session->check('userId')){
+        $sessao = new Session();
+        if(!$sessao->check('userId')){
             return null;
         }
         
-        return (new UserModel())->findByID($session->userId);
-
-
+        return (new UserModel())->findByID($sessao->userId);
     }
 
 }

@@ -7,17 +7,12 @@ use system\Controller\UserController;
 use system\Core\Controller;
 use system\Core\Helpers;
 use system\Core\Session;
-use system\Model\UserModel;
+
 
 class AdminController extends Controller
 {
     protected $user;
-    
-    /**
-     * __construct
-     *
-     * @return void
-     */
+
     public function __construct()
     {
         parent::__construct('templates/admin/views');
