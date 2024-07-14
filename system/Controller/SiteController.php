@@ -105,7 +105,7 @@ class SiteController extends Controller
             'categories' => $this->categories(),
         ]);
     }
-
+    
     /**
      * Sobre
      * @return void
