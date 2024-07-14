@@ -54,3 +54,27 @@ a:hover {
 
 .logo {
     margin-right: 20px; 
+}
+
+
+.pagination .page-link {
+    color: #333; 
+    background-color: transparent; 
+    border: none; 
+}
+
+.pagination .page-link:hover {
+    color: #666; 
+}
+
+.pagination .page-item.active .page-link {
+    color: #fff; 
+    background-color: #007bff; 
+    border-color: #007bff; 
+}
+
+.pagination .page-item.disabled .page-link {
+    color: #ccc; 
+    background-color: transparent;
+    border: none;
+}
