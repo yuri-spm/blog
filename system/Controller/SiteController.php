@@ -105,7 +105,7 @@ class SiteController extends Controller
         echo $this->template->render('category.html.twig', [
             'posts' => $paginatedPosts,
             'pageraction' => $pager->render(),
-            'pageractionInfo' => $pager->info(),
+            // 'pageractionInfo' => $pager->info(),
             'categories' => $this->categories(),
         ]);
     }
