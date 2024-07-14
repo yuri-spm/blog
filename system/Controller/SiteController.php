@@ -91,21 +91,26 @@ class SiteController extends Controller
             Helpers::redirect('404');
         }
         $category->saveViews();
-
+    
         $posts = new PostModel();
-        $count = $posts->find('category_id = :c', "c={$category->id} COUNT(id)", 'id')->count();
-        var_dump($posts->find()->result(true)); // erro ta aqui
-        die();
+        $count = $posts->find('category_id = :c AND status = 1', "c={$category->id} COUNT(id)", 'id')->count();
+    
         $pager = new Pager(Helpers::url('category/' . $slug), ($pager ?? 1), 6, 3, $count);
+        
+        $paginatedPosts = $posts->find('category_id = :c AND status = 1', "c={$category->id}")
+            ->limit($pager->limit())
+            ->offset($pager->offset())
+            ->result(true);
 
         echo $this->template->render('category.html.twig', [
-            'posts' => $posts->find("category_id = {$category->id}")->limit($pager->limit())->offset($pager->offset())->result(true),
+            'posts' => $paginatedPosts,
             'pageraction' => $pager->render(),
             'pageractionInfo' => $pager->info(),
             'categories' => $this->categories(),
         ]);
     }
     
+
     /**
      * Sobre
      * @return void
