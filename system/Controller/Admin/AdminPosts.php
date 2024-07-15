@@ -12,6 +12,41 @@ class AdminPosts extends AdminController
 
     private string $cover;
 
+    public function datatable(): void
+    {
+        $dataTable = $_REQUEST;
+        $dataTable = filter_var_array($dataTable, FILTER_SANITIZE_SPECIAL_CHARS);
+        $limit = $dataTable['length'];
+        $offset = $dataTable['start'];
+    
+        $postModel = new PostModel();
+        $posts = $postModel->find()->limit($limit)->offset($offset)->result(true);
+        $total = $postModel->find(null, 'COUNT(id)', 'id')->count();
+    
+        $data = [];
+        foreach ($posts as $post) {
+            $data[] = [
+                $post->id,
+                $post->cover,
+                $post->title,
+                $post->category_id, 
+                $post->views,
+                $post->status, 
+                // '<a href="edit/'.$post->id.'">Edit</a>' // Ação
+            ];
+        }
+    
+        $return = [
+            "draw" => intval($dataTable['draw']),
+            "recordsTotal" => intval($total),
+            "recordsFiltered" => intval($total),
+            "data" => $data
+        ];
+    
+        echo json_encode($return);
+    }
+    
+
     /**
      * Lista posts
      * @return void
@@ -21,11 +56,11 @@ class AdminPosts extends AdminController
         $post = new PostModel();
 
         echo $this->template->render('posts/listar.html.twig', [
-            'posts' => $post->find()->order('status ASC, id DESC')->result(true),
+            // 'posts' => $post->find()->order('status ASC, id DESC')->result(true),
             'count' => [
-                'posts' => $post->count(),
-                'postsAtivo' => $post->find('status = 1')->count(),
-                'postsInativo' => $post->find('status = 0')->count()
+                'posts' => 0,
+                'postsAtivo' => 0,
+                'postsInativo' => 0,
             ]
         ]);
     }
@@ -149,7 +184,7 @@ class AdminPosts extends AdminController
                     $upload->process('uploads/imagens/thumbs/');
                     $upload->clean();
                 } else {
-                    $this->message->alert($upload->errorr)->flash();
+                    $this->message->alert($upload->error)->flash();
                     return false;
                 }
             }

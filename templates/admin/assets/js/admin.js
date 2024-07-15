@@ -1,9 +1,10 @@
 $(document).ready(function () {
-    $('.entity').DataTable({
-        "pageLength": 5,
-        "lengthMenu": [5, 10, 25, 50, 75, 100],
+    $('#tabela').DataTable({
         language: {
-            url: '//cdn.datatables.net/plug-ins/2.0.8/i18n/pt-BR.json',
-        }
+            url: '//cdn.datatables.net/plug-ins/1.13.3/i18n/pt-BR.json'
+        },
+        processing: true,
+        serverSide: true,
+        ajax: 'http://localhost/blog/admin/posts/datatable'
     });
 });
