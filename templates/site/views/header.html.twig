@@ -9,23 +9,23 @@
                 <li>
                     <a href="{{ url('/')}}" class="nav-link px-2" tooltip="tooltip" title="Página Inicial">Home</a>
                 </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Categorias
-                    </a>
-                    <ul class="dropdown-menu">
-                        {% for category in categories %}
-                        <li>
-                            <a class="dropdown-item" href="{{url('category/'~category.slug)}}" tooltip="tooltip" title="{{category.title}}">
-                                {{category.title}}
-                            </a>
-                        </li>
-                        {% endfor %}
-                    </ul>
-                </li>
                 <li>
                     <a href="{{ url('sobre') }}" class="nav-link px-2 text-white" tooltip="tooltip" title="Sobre Nós">Sobre nós</a>
                 </li>
+                <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Categorias
+                </a>
+                <ul class="dropdown-menu">
+                    {% for category in categories %}
+                    <li>
+                        <a class="dropdown-item" href="{{url('category/'~category.slug)}}" tooltip="tooltip" title="{{category.title}}">
+                            {{category.title}}
+                        </a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </li>
             </ul>
 
             <form data-url-search="{{ url('search') }}" class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
