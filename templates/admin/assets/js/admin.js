@@ -14,11 +14,15 @@ $(document).ready(function () {
             null,
             {
                 data: null,
-                render: function(data,type,row){
+                render: function (data, type, row) {
                     var html = '';
-                    html += ' <a href=" '+url+'/posts/edit/' +row[0]+  ' " tooltip="tooltip" title="Editar"> <i class="fa-solid fa-chart-simple"></i></a>';
-                    return $html;
-                }    
+
+                    html += ' <a href=" ' + url + '/posts/editar/' + row[0] + ' " tooltip="tooltip" title="Editar"><i class="fa-solid fa-pen m-1"></i></a> ';
+
+                    html += '<a href=" ' + url + '/posts/deletar/' + row[0] + ' "><i class="fa-solid fa-trash m-1"></i></a>';
+
+                    return html;
+                }
             }
         ]
     });
