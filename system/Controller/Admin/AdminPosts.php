@@ -16,33 +16,46 @@ class AdminPosts extends AdminController
     {
         $dataTable = $_REQUEST;
         $dataTable = filter_var_array($dataTable, FILTER_SANITIZE_SPECIAL_CHARS);
+
         $limit = $dataTable['length'];
         $offset = $dataTable['start'];
-    
-        $postModel = new PostModel();
-        $posts = $postModel->find()->limit($limit)->offset($offset)->result(true);
-        $total = $postModel->find(null, 'COUNT(id)', 'id')->count();
-    
+        $find = $dataTable['search']['value'];
+        $columms = [
+            0 => 'id',
+            1 => 'title'
+        ];
+
+        $order = " ".$columms[$dataTable['order'][0]['column']]." ";
+        $order .= " ".$dataTable['order'][0]['dir']. " ";
+
+        
+
+        $posts = new PostModel();
+
+        if (empty($find)) {
+            $posts->find()->order($order)->limit($limit)->offset($offset);
+            $total = (new PostModel())->find(null, 'COUNT(id)', 'id')->count();
+        } else {
+            $posts->find("id LIKE '%{$find}%' OR title LIKE '%{$find}%' ")->limit($limit)->offset($offset);
+            $total = $posts->count();
+        }
+
         $data = [];
-        foreach ($posts as $post) {
+
+        foreach ($posts->result(true) as $post) {
             $data[] = [
                 $post->id,
-                $post->cover,
-                $post->title,
-                $post->category_id, 
-                $post->views,
-                $post->status, 
-                // '<a href="edit/'.$post->id.'">Edit</a>' // Ação
+                $post->title
             ];
         }
-    
+
         $return = [
-            "draw" => intval($dataTable['draw']),
-            "recordsTotal" => intval($total),
-            "recordsFiltered" => intval($total),
+            "draw" => $dataTable['draw'],
+            "recordsTotal" => $total,
+            "recordsFiltered" => $total,
             "data" => $data
         ];
-    
+
         echo json_encode($return);
     }
     
