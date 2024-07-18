@@ -32,21 +32,21 @@
                     inativo
                 </span>
             </div>
-            <a href="{{ url('admin/posts/cadastrar') }}" class="btn btn-dark" tooltip="tooltip" title="Cadastrar Post">
+            <a href="{{ url('admin/posts/add') }}" class="btn btn-dark" tooltip="tooltip" title="Cadastrar Post">
                 Cadastrar
             </a>
         </div>
         <div class="card-body">
             <div class="table-responsive">
-                <table  url="{{url('/')}}" class="table table-striped" style="width:100%" id="tabela">
+                <table url="{{url('/')}}" class="table table-striped" style="width:100%" id="entityPost">
                     <thead>
-                    <th>id</th>
-                    <th>Capa</th>
-                    <th class="text-center">Título</th>
-                    <th>Categoria</th>
-                    <th>Visitas</th>
-                    <th>Status</th>
-                    {# <th>Ação</th> #}
+                        <th>id</th>
+                        <th>Capa</th>
+                        <th>Título</th>
+                        <th>Categoria</th>
+                        <th>Visitas</th>
+                        <th>Status</th>
+                        <th>Ação</th>
                     </thead>
                 </table>
             </div>

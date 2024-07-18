@@ -4,6 +4,7 @@ namespace system\Model;
 
 
 use system\Core\Model;
+
 class PostModel extends Model
 {
 
@@ -13,13 +14,14 @@ class PostModel extends Model
     }
 
     /**
-     * Busca a categoria pelo ID
-     * @return CategoryModel|null
+     * Busca o nome da categoria pelo ID
+     * @return string|null
      */
-    public function categoria(): ?CategoryModel
+    public function categories(): ?string
     {
         if ($this->category_id) {
-            return (new CategoryModel())->findByID($this->category_id);
+            $category = (new CategoryModel())->findByID($this->category_id);
+            return $category ? $category->title : null;
         }
         return null;
     }
@@ -35,7 +37,7 @@ class PostModel extends Model
         }
         return null;
     }
-    
+
     /**
      * Salva o post com slug
      * @return bool
@@ -45,5 +47,4 @@ class PostModel extends Model
         $this->slug();
         return parent::save();
     }
-
 }

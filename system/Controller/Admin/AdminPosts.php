@@ -22,7 +22,10 @@ class AdminPosts extends AdminController
         $find = $dataTable['search']['value'];
         $columms = [
             0 => 'id',
-            1 => 'title'
+            2 => 'title',
+            3 => 'category_id',
+            4 => 'views',
+            5 => 'status',
         ];
 
         $order = " ".$columms[$dataTable['order'][0]['column']]." ";
@@ -45,7 +48,12 @@ class AdminPosts extends AdminController
         foreach ($posts->result(true) as $post) {
             $data[] = [
                 $post->id,
-                $post->title
+                $post->cover,
+                $post->title,
+                $post->categories(),
+                $post->views,
+                $post->status
+
             ];
         }
 
@@ -59,7 +67,6 @@ class AdminPosts extends AdminController
         echo json_encode($return);
     }
     
-
     /**
      * Lista posts
      * @return void
@@ -71,9 +78,9 @@ class AdminPosts extends AdminController
         echo $this->template->render('posts/listar.html.twig', [
             // 'posts' => $post->find()->order('status ASC, id DESC')->result(true),
             'count' => [
-                'posts' => 0,
-                'postsAtivo' => 0,
-                'postsInativo' => 0,
+                'posts' => $post->find(null, 'COUNT(id)', 'id')->count(),
+                'postsAtivo' => $post->find('status = :s', 's=1 COUNT(status))', 'status')->count(),
+                'postsInativo' => $post->find('status = :s', 's=0 COUNT(status)', 'status')->count(),
             ]
         ]);
     }
@@ -100,7 +107,7 @@ class AdminPosts extends AdminController
 
                 if ($post->save()) {
                     $this->message->success('Post cadastrado com success')->flash();
-                    Helpers::redirect('admin/posts/listar');
+                    Helpers::redirect('admin/posts/lists');
                 } else {
                     $this->message->error($post->error())->flash();
                     Helpers::redirect('admin/posts/lists');
@@ -217,7 +224,7 @@ class AdminPosts extends AdminController
             $post = (new PostModel())->findByID($id);
             if (!$post) {
                 $this->message->alert('O post que você está tentando deletar não existe!')->flash();
-                Helpers::redirect('admin/posts/listar');
+                Helpers::redirect('admin/posts/lists');
             } else {
                 if ($post->beforeDelete()) {
 
@@ -227,7 +234,7 @@ class AdminPosts extends AdminController
                     }
 
                     $this->message->success('Post deletado com success!')->flash();
-                    Helpers::redirect('admin/posts/listar');
+                    Helpers::redirect('admin/posts/lists');
                 } else {
                     $this->message->error($post->error())->flash();
                     Helpers::redirect('admin/posts/lists');
