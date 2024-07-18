@@ -3,7 +3,7 @@
 body {
     font-family: "Inter", "Helvetica Neue", Arial;
 }
-.greetings {
+.saudacao {
     font-size: .7em
 }
 .sidebar {
@@ -182,9 +182,20 @@ main {
     font-size: .8em;
 }
 
-.cover {
+.capa {
     max-width: 80px
 }
+
+.pagination a{
+    color: black;
+    background: #eee
+}
+.active>.page-link {
+    background: black;
+    border-color: black
+}
+
+
 
 @media screen and (max-width: 1200px) {
     .sidebar {
@@ -269,4 +280,12 @@ main {
 
 @media screen and (max-width: 576px) {
 
+}
+
+.cover-img {
+    max-width: 100px; 
+    height: auto; 
+    display: block;
+    margin: auto;
+    margin-left: -10px;
 }
