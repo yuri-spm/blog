@@ -13,59 +13,58 @@ class AdminPosts extends AdminController
     private string $cover;
 
     public function datatable(): void
-    {
-        $dataTable = $_REQUEST;
-        $dataTable = filter_var_array($dataTable, FILTER_SANITIZE_SPECIAL_CHARS);
+{
+    $dataTable = $_REQUEST;
+    $dataTable = filter_var_array($dataTable, FILTER_SANITIZE_SPECIAL_CHARS);
 
-        $limit = $dataTable['length'];
-        $offset = $dataTable['start'];
-        $find = $dataTable['search']['value'];
-        $columms = [
-            0 => 'id',
-            2 => 'title',
-            3 => 'category_id',
-            4 => 'views',
-            5 => 'status',
-        ];
+    $limit = $dataTable['length'];
+    $offset = $dataTable['start'];
+    $find = $dataTable['search']['value'];
+    $columms = [
+        0 => 'id',
+        2 => 'title',
+        3 => 'category_id',
+        4 => 'views',
+        5 => 'status',
+    ];
 
-        $order = " ".$columms[$dataTable['order'][0]['column']]." ";
-        $order .= " ".$dataTable['order'][0]['dir']. " ";
+    $order = " ".$columms[$dataTable['order'][0]['column']]." ";
+    $order .= " ".$dataTable['order'][0]['dir']. " ";
 
-        
+    $posts = new PostModel();
 
-        $posts = new PostModel();
-
-        if (empty($find)) {
-            $posts->find()->order($order)->limit($limit)->offset($offset);
-            $total = (new PostModel())->find(null, 'COUNT(id)', 'id')->count();
-        } else {
-            $posts->find("id LIKE '%{$find}%' OR title LIKE '%{$find}%' ")->limit($limit)->offset($offset);
-            $total = $posts->count();
-        }
-
-        $data = [];
-
-        foreach ($posts->result(true) as $post) {
-            $data[] = [
-                $post->id,
-                $post->cover,
-                $post->title,
-                $post->categories(),
-                $post->views,
-                $post->status
-
-            ];
-        }
-
-        $return = [
-            "draw" => $dataTable['draw'],
-            "recordsTotal" => $total,
-            "recordsFiltered" => $total,
-            "data" => $data
-        ];
-
-        echo json_encode($return);
+    if (empty($find)) {
+        $posts->find()->order($order)->limit($limit)->offset($offset);
+        $total = (new PostModel())->find(null, 'COUNT(id)', 'id')->count();
+    } else {
+        $posts->find("id LIKE '%{$find}%' OR title LIKE '%{$find}%' ")->limit($limit)->offset($offset);
+        $total = $posts->count();
     }
+
+    $data = [];
+
+    foreach ($posts->result(true) as $post) {
+        $data[] = [
+            $post->id,
+            $post->cover,
+            $post->title,
+            $post->categories()->title ?? "--------",
+            $post->views,
+            $post->status
+        ];
+    }
+
+    
+    $return = [
+        "draw" => intval($dataTable['draw']),
+        "recordsTotal" => intval($total),
+        "recordsFiltered" => intval($total),
+        "data" => $data
+    ];
+    header('Content-Type: application/json');
+    echo json_encode($return);
+}
+
     
     /**
      * Lista posts
