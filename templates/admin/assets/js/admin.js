@@ -1,20 +1,28 @@
 $(document).ready(function () {
+    var url = $('table').attr('url');
     $.extend($.fn.dataTable.defaults, {
         language: {
-            url: '//cdn.datatables.net/plug-ins/1.13.3/i18n/pt-BR.json'
-        }
+            url: '//cdn.datatables.net/plug-ins/1.13.3/i18n/pt-BR.json',
+        },
     });
-    var url = 'http://localhost/blog/';
 
     $('#entityPost').DataTable({
-        language: {
-            url: '//cdn.datatables.net/plug-ins/1.13.3/i18n/pt-BR.json'
-        },
+        dom: 'Bfrtip',
+        buttons: [
+            'copyHtml5',
+            'excelHtml5',
+            'csvHtml5',
+            'pdfHtml5'
+        ],
         order: [[0, 'desc']],
         processing: true,
         serverSide: true,
         ajax: {
             url: url + 'admin/posts/datatable',
+            type: 'POST',
+            error: function (xhr, resp, text) {
+                console.log(xhr, resp, text);
+            }
         },
         columns: [
             null,
@@ -50,6 +58,52 @@ $(document).ready(function () {
                     return html;
                 }
             }
+        ],
+         columnDefs: [
+            {
+                className: 'dt-body-left',
+                targets: [2]
+            },
+            {
+                className: 'dt-center',
+                targets: [0, 1, 3, 4, 5, 6]
+            },
+            {
+                orderable: false,
+                targets: [1, -1]
+            }
+
         ]
     });
+
+    $('#entityCategories').DataTable({
+        dom: 'Bfrtip',
+        buttons: [
+            'copyHtml5',
+            'excelHtml5',
+            'csvHtml5',
+            'pdfHtml5'
+        ],
+        
+        paging: false,
+        columnDefs: [
+            {
+                targets: [-1, -2],
+                orderable: false
+            }
+        ],
+        order: [[1, 'asc']]
+    });
+
+    $('#entityUsers').DataTable({
+        paging: false,
+        columnDefs: [
+            {
+                targets: [-1, -2],
+                orderable: false
+            }
+        ],
+        order: [[1, 'asc']]
+    });
+
 });
