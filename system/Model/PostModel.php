@@ -13,19 +13,17 @@ class PostModel extends Model
         parent::__construct('posts');
     }
 
-    /**
-     * Busca o nome da categoria pelo ID
-     * @return string|null
+     /**
+     * Busca a categoria pelo ID
+     * @return CategoryModel|null
      */
-    public function categories(): ?string
+    public function categories(): ?CategoryModel
     {
         if ($this->category_id) {
-            $category = (new CategoryModel())->findByID($this->category_id);
-            return $category ? $category->title : null;
+            return (new CategoryModel())->findByID($this->category_id);
         }
         return null;
     }
-
     /**
      * Busca o usuário pelo ID
      * @return UserModel|null
