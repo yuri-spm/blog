@@ -48,6 +48,9 @@ try {
         SimpleRouter::match(['get','post'], URL_ADMIN.'users/add', 'AdminUser@add');
         SimpleRouter::match(['get','post'], URL_ADMIN.'users/edit/{id}', 'AdminUser@edit');
         SimpleRouter::get(URL_ADMIN.'users/delete/{id}', 'AdminUser@delete');
+
+        //Admin Config
+        SimpleRouter::get(URL_ADMIN.'mail', 'AdminConfig@configEmail');
     });
 
     SimpleRouter::start();
