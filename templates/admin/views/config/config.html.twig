@@ -1,5 +1,93 @@
 {% extends "dashboard.html.twig" %}
-
 {% block content %}
-
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="{{ url('admin/dashboard') }}">
+                    Home
+                </a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">
+                <a href="">
+                    Config
+                </a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">
+                Cadastrar Email
+            </li>
+        </ol>
+    </nav>
+    {{ flash() }}
+    <div class="card border-0 shadow-sm">
+        <div class="card-body">
+            <form action="{{ url('admin/config/add') }}" method="post">
+                <div class="row mb-3">
+                    <div class="col">
+                        <label for="adminEmail" class="form-label">
+                            Endereço de email do administrador
+                        </label>
+                        <input type="email" class="form-control" id="adminEmail" placeholder="Endereço de email do administrador" name="admin_email" value="{{ email.admin_email }}">
+                    </div>
+                    <div class="col">
+                        <label for="senderEmail" class="form-label">
+                            Endereço de remetente
+                        </label>
+                        <input type="email" class="form-control" id="senderEmail" placeholder="Endereço de remetente" name="sender_email" value="{{ email.sender_email }}">
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col">
+                        <label for="smtpServer" class="form-label">
+                            Servidor do SMTP
+                        </label>
+                        <input type="text" class="form-control" id="smtpServer" placeholder="Servidor do SMTP" name="smtp_server" value="{{ email.smtp_server }}">
+                    </div>
+                    <div class="col">
+                        <label for="smtpLogin" class="form-label">
+                            Login do SMTP (opcional)
+                        </label>
+                        <input type="text" class="form-control" id="smtpLogin" placeholder="Login do SMTP (opcional)" name="smtp_login" value="{{ email.smtp_login }}">
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col">
+                        <label for="smtpPort" class="form-label">
+                            Porta
+                        </label>
+                        <input type="number" class="form-control" id="smtpPort" placeholder="Porta" min="1" max="65535" name="smtp_port" value="{{ email.smtp_port }}">
+                    </div>
+                    <div class="col">
+                        <label for="smtpPassword" class="form-label">
+                            Password
+                        </label>
+                        <input type="password" class="form-control" id="smtpPassword" placeholder="Password" name="smtp_password" value="{{ email.smtp_password }}">
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="comments" class="form-label">
+                        Comentários
+                    </label>
+                    <textarea class="form-control" id="comments" rows="3" placeholder="Comentários" name="comments">{{ email.comments }}</textarea>
+                </div>
+                <div class="mb-3">
+                    <select class="form-select" name="status">
+                        <option value="1" {% if email.status == '1' %} selected {% endif %}>
+                            Ativo
+                        </option>
+                        <option value="0" {% if email.status == '0' %} selected {% endif %}>
+                            Inativo
+                        </option>
+                    </select>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <input type="submit" class="btn btn-primary" value="{% if email.id %}Atualizar{% else %}Cadastrar{% endif %}">
+                    </div>
+                    <div class="col text-end">
+                        <button type="button" href="{{ url('admin/config/sendTeste')}}" class="btn btn-primary">Enviar e-mail de teste</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
 {% endblock %}
