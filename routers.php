@@ -13,10 +13,13 @@ try {
     SimpleRouter::get(URL_SITE.'sobre', 'SiteController@about');
     SimpleRouter::get(URL_SITE.'post/{slug}', 'SiteController@post');
     SimpleRouter::get(URL_SITE.'category/{slug}/{page?}', 'SiteController@category'); 
+    SimpleRouter::match(['get','post'],URL_SITE.'contato', 'SiteController@contact');
   
     SimpleRouter::post(URL_SITE.'search', 'SiteController@find');
 
     SimpleRouter::get(URL_SITE.'404', 'SiteController@errorr404');
+
+    
 
 
     //admin
@@ -50,9 +53,10 @@ try {
         SimpleRouter::get(URL_ADMIN.'users/delete/{id}', 'AdminUser@delete');
 
         //Admin Config
-        SimpleRouter::get(URL_ADMIN.'config', 'AdminConfig@configEmail');
-        SimpleRouter::match(['get','post'], URL_ADMIN.'config/add', 'AdminConfig@add');
-        SimpleRouter::match(['get','post'], URL_ADMIN.'config/edit/{id}', 'AdminConfig@edit');
+        SimpleRouter::get(URL_ADMIN.'config', 'AdminConfigEmail@configEmail');
+        SimpleRouter::match(['get','post'], URL_ADMIN.'config/add', 'AdminConfigEmail@add');
+        SimpleRouter::match(['get','post'], URL_ADMIN.'config/edit/{id}', 'AdminConfigEmail@edit');
+        SimpleRouter::match(['get','post'], URL_ADMIN.'config/sendTeste', 'AdminConfigEmail@sendTeste');
     });
 
     SimpleRouter::start();
