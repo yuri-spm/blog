@@ -78,3 +78,8 @@ a:hover {
     background-color: transparent;
     border: none;
 }
+
+.iconeEmail {
+    font-size: 10em;
+    color: #999
+}
