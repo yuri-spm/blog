@@ -2,10 +2,13 @@
 
 namespace system\Controller;
 
+use Exception;
+use PHPMailer\PHPMailer\PHPMailer;
 use system\Core\Controller;
 use system\Core\Helpers;
 use system\Model\PostModel;
 use system\Model\CategoryModel;
+use system\Support\Email;
 use system\Support\Pager;
 
 class SiteController extends Controller
@@ -120,6 +123,52 @@ class SiteController extends Controller
         echo $this->template->render('about.html.twig', [
             'title' => 'Sobre nós',
             'categories' => $this->categories(),
+        ]);
+    }
+
+    public function contact():void
+    {
+        $data = filter_input_array(INPUT_POST, FILTER_SANITIZE_SPECIAL_CHARS);
+       
+        if(isset($data)){
+            if(in_array('', $data)){
+                $this->message->alert('Preencha todos os campos')->flash();
+            }else{
+                try{
+                    $email = new Email();
+                   
+                    $email->create(
+                        $data['assunto'],
+                        $data['mensagem'],
+                        'yspm.developer@gmail.com',
+                        'Helpx',
+                        $data['email'],
+                        $data['nome']
+                    );
+
+                    $attachments = $_FILES['anexos'];
+
+                    foreach($attachments['tmp_name'] as $key => $attachment){
+                        if(!$attachment == UPLOAD_ERR_OK){
+                            $email->attachment($attachment, $attachments['name'][$key]);
+                        }
+                    }
+
+                    $email->send(
+                       'yspm.developer@gmail.com',
+                      'Helpx',
+                    );
+                    $this->message->success('Email enviado com sucesso.')->flash();
+                    Helpers::redirect('/');
+                    
+
+                }catch(\PHPMailer\PHPMailer\Exception $ex){
+                    $this->message->alert($ex->getMessage())->flash();                    
+                }
+            }
+        }
+        echo $this->template->render('contact.html.twig',[
+
         ]);
     }
 
