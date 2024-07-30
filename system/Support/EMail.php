@@ -4,8 +4,7 @@ namespace system\Support;
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
-
-
+use system\Model\EmailModel;
 
 final class Email
 {
@@ -14,16 +13,19 @@ final class Email
 
     public function __construct()
     {
+        $email = (new EmailModel())->find()->result();
+
         $this->mail = new PHPMailer(true);
+        
 
         $this->mail->isSMTP();
-        $this->mail->Host = 'smtp.gmail.com';
+        $this->mail->Host = $email->smtp_server;
         $this->mail->SMTPAuth = true;
-        $this->mail->Username = "yspm.developer@gmail.com";
-        $this->mail->Password = "puoeqevbizqeqwhd";
+        $this->mail->Username = $email->admin_email;
+        $this->mail->Password =  "";
         $this->mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
         $this->mail->setLanguage('pt_br');
-        $this->mail->Port = 465;
+        $this->mail->Port = $email->smtp_port;
 
         $this->mail->CharSet = 'uft-8';
         $this->mail->isHTML(true);
