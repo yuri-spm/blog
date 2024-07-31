@@ -43,10 +43,17 @@ class AdminCategories extends AdminController
                 $categoria->title = $data['title'];
                 $categoria->text = $data['text'];
                 $categoria->status = $data['status'];
+                // var_dump($data);
+                // die();
 
                 if ($categoria->save()) {
-                    $this->message->success('Categoria cadastrada com success')->flash();
-                    Helpers::redirect('admin/categories/lists');
+                    $this->message->success('Categoria cadastrada com successo')->flash();
+                    if(!isset($data['modal'])){
+                        Helpers::redirect('admin/categories/lists');
+                    }else{
+                        Helpers::redirect('admin/posts/add');
+                    }
+                    
                 } else {
                     $this->message->error($categoria->error())->flash();
                     Helpers::redirect('admin/categories/lists');
