@@ -79,3 +79,8 @@ CREATE TABLE IF NOT EXISTS `mail` (
 COLLATE='utf8mb4_general_ci'
 ENGINE=InnoDB
 ;
+
+-- passowrd = 1234567
+
+INSERT INTO `user` (`id`, `level`, `name`, `email`, `password`, `status`) 
+VALUES (1, 3, 'Administrador Sistema', 'administrador@admin.com.br', '$2y$12$VR7nKPzaBF27DLLGNXYFX.UzIfZ5SS8U7S/n.imcH6vuiA38FJ9we', 1,);
