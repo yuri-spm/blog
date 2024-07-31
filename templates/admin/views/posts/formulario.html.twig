@@ -1,4 +1,5 @@
 {% extends "dashboard.html.twig" %}
+
 {% block content %}
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
@@ -20,59 +21,86 @@
     {{ flash() }}
     <div class="card border-1 shadow-sm">
         <div class="card-body">    
-            <form action="{% if post.id %}{{ url('admin/posts/edit/'~post.id) }}{% else %} {{ url('admin/posts/add') }}{% endif %}" method="post" enctype='multipart/form-data'>
-            <div class="mb-3">
-                <label class="form-label">Capa</label>
-                <input class="form-control" name="cover" type="file" id="cover" multiple>
-            </div>
+            <form action="{% if post.id %}{{ url('admin/posts/edit/'~post.id) }}{% else %}{{ url('admin/posts/add') }}{% endif %}" method="post" enctype='multipart/form-data'>
                 <div class="mb-3">
-                    <label for="titulo" class="form-label">
-                        Título
-                    </label>
-                    <input type="text" class="form-control" id="title" name="title" value="{{ post.title }}"></div>
-                    <div class="mb-3">
-                        <label class="form-label"></label>
-                        <textarea name='text' class="form-control autoResizeTextarea ckeditor" id="autoResizeTextarea" id="text" rows="1">
-                            {{ post.text }}
-                        </textarea>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label for="category_id" class="form-label">
-                                    Categoria
-                                </label>
-                                <a href="{{ url('admin/categories/modal_categories') }}">
-                                    <i class="fa-solid fa-circle-plus"></i>
-                                </a>
-                                <select class="form-select" name="category_id" id="category_id">
-                                    {% for category in categorias %}
-                                        <option value="{{ category.id }}" {% if post.category_id == category.id %} selected{% endif %}>
-                                            {{ category.title }}
-                                        </option>
-                                    {% endfor %}
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label for="status" class="form-label">
-                                    Status
-                                </label>
-                                <select class="form-select" name="status">
-                                    <option value="1" {% if post.status == '1' %} selected{% endif %}>
-                                        Ativo
-                                    </option>
-                                    <option value="0" {% if post.status == '0' %} selected{% endif %}>
-                                        Inativo
-                                    </option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <input type="submit" class="btn btn-primary" value="{% if post.id %} Atualizar {% else %} Cadastrar{% endif %}"></form>
+                    <label class="form-label">Capa</label>
+                    <input class="form-control" name="cover" type="file" id="cover" multiple>
                 </div>
-            </div>
+                <div class="mb-3">
+                    <label for="titulo" class="form-label">Título</label>
+                    <input type="text" class="form-control" id="title" name="title" value="{{ post.title }}">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label"></label>
+                    <textarea name='text' class="form-control autoResizeTextarea ckeditor" id="autoResizeTextarea" rows="1">{{ post.text }}</textarea>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="category_id" class="form-label">Categoria</label>
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#categoriesModal">
+                                <i class="fa-solid fa-circle-plus"></i>
+                            </a>
+                            <select class="form-select" name="category_id" id="category_id">
+                                {% for category in categorias %}
+                                    <option value="{{ category.id }}" {% if post.category_id == category.id %} selected{% endif %}>
+                                        {{ category.title }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="status" class="form-label">Status</label>
+                            <select class="form-select" name="status">
+                                <option value="1" {% if post.status == '1' %} selected{% endif %}>Ativo</option>
+                                <option value="0" {% if post.status == '0' %} selected{% endif %}>Inativo</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <input type="submit" class="btn btn-primary" value="{% if post.id %} Atualizar {% else %} Cadastrar{% endif %}">
+            </form>
         </div>
-    {% endblock %}
+    </div>
+
+    <!-- Categories Modal -->
+<div class="modal fade" id="categoriesModal" tabindex="-1" aria-labelledby="categoriesModalLabel" aria-hidden="true">
+<div class="modal-dialog">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h1 class="modal-title fs-5" id="categoriesModalLabel">Cadastrar Categoria</h1>
+      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+    <div class="card border-0 shadow-sm">
+        <div class="card-body">
+            <form action="{% if categoria.id %}{{url('admin/categories/edit/'~categoria.id)}}{%else%}{{url('admin/categories/add')}}{%endif%}" method="post">
+                <div class="mb-3">
+                    <label for="titulo" class="form-label">Título</label>
+                    <input type="text" name="title" id="title" value="{{categoria.title}}" class="form-control">
+                </div>
+                <div class="mb-3">
+                    <label for="texto" class="form-label">Texto</label>
+                    <textarea name="text" id="text" class="form-control" rows="3">{{categoria.text}}</textarea>
+                </div>
     
+                <div class="mb-3">
+                    <select class="form-select" name="status">
+                    <option value="1" {% if categoria.status == '1' %}selected{%endif%}>Ativo</option>
+                    <option value="0" {% if categoria.status == '0' %}selected{%endif%}>Inativo</option>
+                </select>
+                </div>
+                <input type="text" hidden name="modal" id="modal" value="modal" class="form-control">
+                <input type="submit" class="btn btn-primary" value="{% if categoria.id %}Atualizar{%else%}Cadastrar{%endif%}">
+            </form>
+        </div>    
+    </div>
+    </div>
+    </div>
+  </div>
+</div>
+</div>
+
+{% endblock %}

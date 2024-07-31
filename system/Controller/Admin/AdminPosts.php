@@ -144,7 +144,7 @@ class AdminPosts extends AdminController
                 $post->update_at = date('Y-m-d H:i:s');
 
                 if (!empty($_FILES['cover'])) {
-                    if ($post->cover && !file_exists("uploads/imagens/{$post->cover}")) {
+                    if ($post->cover && file_exists("uploads/imagens/{$post->cover}")) {
                         unlink("uploads/imagens/{$post->cover}");
                         unlink("uploads/imagens/thumbs/{$post->cover}");
                     }
