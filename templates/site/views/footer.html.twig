@@ -1,6 +1,8 @@
+{% if user().level == 3 %}
 <div class="alert alert-warning" role="alert">
     Executado em {{timeStart()}}
   </div>
+{% endif %}
 <footer class="bg-dark">
     <div class="container d-flex flex-wrap justify-content-between align-items-center py-3">
 

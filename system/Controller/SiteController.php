@@ -133,6 +133,11 @@ class SiteController extends Controller
         if(isset($data)){
             if(in_array('', $data)){
                 $this->message->alert('Preencha todos os campos')->flash();
+                Helpers::json('erro', 'Preencha todos os campos!');
+                return;
+            }elseif(!Helpers::validateEmail($data['email'])){
+                Helpers::json('erro', 'Preencha o e-mail corretamente');
+                return;
             }else{
                 try{
                     $email = new Email();
@@ -159,7 +164,10 @@ class SiteController extends Controller
                       'Helpx',
                     );
                     $this->message->success('Email enviado com sucesso.')->flash();
-                    Helpers::redirect('/');
+                    $json = ['redirect' =>  Helpers::url('/contato')];
+                    Helpers::json('redirect', Helpers::url('/contato'));
+                    return;
+          
                     
 
                 }catch(\PHPMailer\PHPMailer\Exception $ex){

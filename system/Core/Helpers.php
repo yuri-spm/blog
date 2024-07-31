@@ -6,6 +6,14 @@ use Exception;
 
 class Helpers
 {
+
+    public static function json(string $key, string $value)
+    {
+        header('Content-Type: application/json');
+        $json[$key] = $value;
+        echo json_encode($json);
+        exit;
+    }
     
     /**
      * validadePassword
