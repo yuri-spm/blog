@@ -129,10 +129,9 @@ class SiteController extends Controller
     public function contact():void
     {
         $data = filter_input_array(INPUT_POST, FILTER_SANITIZE_SPECIAL_CHARS);
-       
+
         if(isset($data)){
             if(in_array('', $data)){
-                $this->message->alert('Preencha todos os campos')->flash();
                 Helpers::json('erro', 'Preencha todos os campos!');
                 return;
             }elseif(!Helpers::validateEmail($data['email'])){
@@ -143,14 +142,14 @@ class SiteController extends Controller
                     $email = new Email();
                    
                     $email->create(
-                        $data['assunto'],
+                       'Contato via Site - ' . SITE_NOME,
                         $data['mensagem'],
+                        $data['email'],
+                        $data['nome'],
                         'yspm.developer@gmail.com',
                         'Helpx',
-                        $data['email'],
-                        $data['nome']
+                       
                     );
-
                     $attachments = $_FILES['anexos'];
 
                     foreach($attachments['tmp_name'] as $key => $attachment){
@@ -160,8 +159,8 @@ class SiteController extends Controller
                     }
 
                     $email->send(
-                       'yspm.developer@gmail.com',
-                      'Helpx',
+                        $data['email'],
+                        $data['nome'],
                     );
                     $this->message->success('Email enviado com sucesso.')->flash();
                     $json = ['redirect' =>  Helpers::url('/contato')];
