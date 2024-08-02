@@ -9,6 +9,7 @@
                 <a href="{{url('category/'~categoria.slug)}}" class="fw-bold" tooltip="tooltip" title="{{categoria.title}}">
                     {{categoria.title}}
                 </a>
+                {% if user().level == 3 %}
                 <div class="fw-normal">
                     <a href="{{ url('admin/categories/edit/'~categoria.id) }}" tooltip="tooltip" title="Editar">
                         <i class="fa-solid fa-pen m-1"></i>
@@ -17,6 +18,7 @@
                         <i class="fa-solid fa-trash m-1"></i>
                     </a>
                 </div>
+            {% endif %}
             </li>
             {% endfor %}
         </ul>
