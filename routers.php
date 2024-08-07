@@ -19,7 +19,8 @@ try {
 
     SimpleRouter::get(URL_SITE.'404', 'SiteController@errorr404');
 
-    
+    //usuario
+    SimpleRouter::match(['get','post'],URL_SITE.'cadastro', 'UserController@register');
 
 
     //admin
