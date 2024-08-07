@@ -1,0 +1,20 @@
+{% if user().level == 3 %}
+<div class="alert alert-warning" role="alert">
+    Executado em {{timeStart()}}
+  </div>
+{% endif %}
+<footer class="bg-dark">
+    <div class="container d-flex flex-wrap justify-content-between align-items-center py-3">
+
+        <p class="col-md-4 mb-0 text-muted">&copy; 2022-{{ "now"|date("Y") }} {{constant('SITE_NOME')}}</p>
+
+        <ul class="nav col-md-4 justify-content-end">
+            <li class="nav-item">
+                <a href="{{ url('/') }}" class="nav-link px-2 text-muted" tooltip="tooltip" title="Página Inicial">Home</a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ url('/sobre') }}" class="nav-link px-2 text-muted" tooltip="tooltip" title="Sobre Nós">Sobre nós</a>
+            </li>            
+        </ul>
+    </div>
+</footer>

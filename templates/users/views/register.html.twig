@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %} 
+
+{% block content %}
+    {{flash()}}
+
+    <div class="container my-5">
+    <div class="col-md-6 col-sm-12 mx-auto border rounded p-3 mb-4">
+        <div class="my-3">
+            {{flash()}}
+        </div>
+        <div style="text-align: center;"><h1>CADASTRE-SE</h1></div>
+       
+        
+        <form action="{{url('cadastro')}}" method="post">
+
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-floating mb-3">
+                        <input type="text" name="name" id="name" value="{{user.name}}" class="form-control" placeholder="Nome">
+                        <label for="nome">Nome</label>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-floating mb-3">
+                        <input type="email" name="email" id="email" value="{{user.email}}" class="form-control" placeholder="E-mail">
+                        <label for="email">E-mail</label>
+                    </div> 
+                </div>
+   
+            </div>
+
+            <div class="d-grid gap-2">
+                <input type="submit" class="btn btn-dark" value="Cadastrar">
+            </div>
+        </form>
+        
+    </div>
+    <div class="text-center">
+        <p class="fw-bold">Já possui cadastro no {{constant('SITE_NOME')}}?</p>
+        <a href="" class="btn btn-outline-success">Faça seu login</a>
+    </div>
+</div>
+{% endblock %}

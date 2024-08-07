@@ -1,0 +1,96 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+}
+.content-wrapper {
+    flex: 1;
+}
+
+body {
+    background: #f9f9f9
+}
+
+a {
+    color: #222
+}
+a:hover {
+    color: #666
+}
+.texto {
+    font-weight: 400;
+    font-size: 14pt;
+    color: #555;
+    line-height: 30px;
+}
+.coverGrande {
+    max-width: 540px
+}
+.coverMedia {
+    max-width: 270px
+}
+.coverPequena {
+    max-width: 135px
+}
+.timeStart {
+    font-size: .7em;
+    float: right
+}
+
+.overflow {
+    position: relative;
+    overflow: hidden;
+}
+
+.zoom img {
+    transition: all 0.2s linear;
+}
+
+.zoom:hover img {
+    -webkit-transform: scale(1.1);
+    transform: scale(1.1);
+}
+
+.pagertion>li>a,
+.pagertion>li>span {
+  color: #333
+}
+.pagertion span.active {
+  background: #555;
+  color: #fff;
+  border: none
+}
+
+.logo {
+    margin-right: 20px; 
+}
+
+
+.pagination .page-link {
+    color: #333; 
+    background-color: transparent; 
+    border: none; 
+}
+
+.pagination .page-link:hover {
+    color: #666; 
+}
+
+.pagination .page-item.active .page-link {
+    color: #fff; 
+    background-color: #007bff; 
+    border-color: #007bff; 
+}
+
+.pagination .page-item.disabled .page-link {
+    color: #ccc; 
+    background-color: transparent;
+    border: none;
+}
+
+.iconeEmail {
+    font-size: 10em;
+    color: #999
+}
+

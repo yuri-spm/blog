@@ -175,7 +175,7 @@ class SiteController extends Controller
             }
         }
         echo $this->template->render('contact.html.twig',[
-
+            'categories' => $this->categories(),
         ]);
     }
 
