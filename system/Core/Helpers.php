@@ -7,6 +7,11 @@ use Exception;
 class Helpers
 {
 
+    public static function generateToken(int $size = 20): string
+    {
+       return bin2hex(random_bytes($size));
+    }
+
     public static function json(string $key, string $value)
     {
         header('Content-Type: application/json');
