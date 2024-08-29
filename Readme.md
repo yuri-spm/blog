@@ -1,14 +1,14 @@
-# Curso da Udemy para criação de blog com PHP 🚀
-# Link do curso: https://www.udemy.com/course/curso-de-php-8-do-zero/?couponCode=KEEPLEARNING
+# Udemy course for creating a blog with PHP 🚀
+# Course link: https://www.udemy.com/course/curso-de-php-8-do-zero/?couponCode=KEEPLEARNING
 
 
-## ➡️ Funcionalidades do Código
+## ➡️ Code Features
 
-1. **CRUD de  Usuario, Postagens, Categoria:** 
-2. **Condições de validações:** 
+1. **CRUD of User, Posts, Category:** 
+2. **Validation conditions:** 
 
 
-## ➡️ Telas da Aplicação
+## ➡️ Application Screens
 
 ![alt text](image.png)
 
